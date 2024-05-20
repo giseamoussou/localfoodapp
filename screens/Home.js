@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native'
 import React from 'react'
-import { COLORS } from '../database/items'
+import { COLORS } from '../asset/items'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const Home = () => {

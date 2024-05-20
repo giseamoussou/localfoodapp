@@ -8,8 +8,8 @@
 import React from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import{createNativeStackNavigator} from "@react-navigation/native-stack";
-import Home from './src/components/Home';
-import Details from './src/components/Details';
+import Home from './screens/Home';
+import Details from './screens/Details';
 
 
 const App = () => {

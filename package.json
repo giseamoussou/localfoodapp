@@ -5,6 +5,9 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "android:dev": "react-native run-android --mode=developmentdebug --appId=com.localfoodapp.development",
+    "android:staging": "react-native run-android --mode=stagingrelease --appId=com.localfoodapp.staging",
+    "android:prod": "react-native run-android --mode=productionrelease --appId=com.localfoodapp",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
