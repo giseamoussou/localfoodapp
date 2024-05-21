@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const  Details = () => {
+function ProductDetails() {
   return (
     <View>
-      <Text>This is details</Text>
+      <Text>Details Page</Text>
     </View>
   )
 }
-export default Details
+export default ProductDetails
