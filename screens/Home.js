@@ -1,7 +1,17 @@
-import { View, Text, ScrollView, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native'
-import React from 'react'
-import { COLORS } from '../asset/items'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { 
+  View, 
+  Text, 
+  ScrollView, 
+  StatusBar, 
+  Image, 
+  TouchableOpacity, 
+  TextInput,  
+} from 'react-native';
+import React from 'react';
+import { COLORS } from '../asset/items';
+//import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Material from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Home = () => {
   return (
@@ -20,8 +30,9 @@ const Home = () => {
               position: 'relative',
             }}>
               <StatusBar backgroundColor={COLORS.white} barStyle="dark-content"/>
-              <Image source={require['apply../database/images/bg4.png']} 
-              style={{position: 'absolute', top:0, left: -100}}
+              <Image 
+              source={require('../asset/images/bg4.jpg')} 
+              style={{position: 'absolute', top:10, left: -100}}
               />
               <View style={{
                 flexDirection: 'row',
@@ -34,7 +45,7 @@ const Home = () => {
                     height: '40'
                   }}>
                   <Image 
-                    source={require('../database/images/man.png')}
+                    source={require('../asset/images/man.png')}
                     style= {{
                       width:'100',
                       height:'100',
@@ -66,9 +77,9 @@ const Home = () => {
               <View style={{
               paddingHorizontal: 20, paddingVertical:10
               }}>
-              <Ionicons
-                name="Search"
-                style={{fontSize: 20, color:COLORS.black, opacity:0.8}}
+              <Ionicons 
+                name="search" 
+                style={{fontSize: 20, color:COLORS.white, opacity:0.8}}
               />
               <TextInput placeholder="Search"/>
               </View>

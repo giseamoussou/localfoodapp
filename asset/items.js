@@ -11,7 +11,7 @@ export const COLORS ={
 }
 export const Categories ={
     name:'Burger',
-    image: require('../database/images/ice_cream.png'),
+    image: require('./images/ice_cream.png'),
     items:[
         {
             name:'Classic Burguer',
@@ -19,7 +19,7 @@ export const Categories ={
             rating:'4.5',
             price: 99,
             isTopOfTheWeek:false,
-            image:require('../database/images/burger/burger2.jpg'),
+            image:require('./images/burger/burger2.jpg'),
             size : 'Large 12"',
             crust: 'Thick Crust',
             delivery:25,
@@ -33,7 +33,7 @@ export const Categories ={
         rating:'4.2',
         price:99,
         isTopOfTheWeek:false,
-        image:require('../database/images/pizza/pizza1.jpg'),
+        image:require('./images/pizza/pizza1.jpg'),
         size : 'Large Glass"',
         crust: 'Small ice',
         delivery: 5,
