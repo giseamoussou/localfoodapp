@@ -23,7 +23,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
             <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
 
                 <View style={{ display: 'flex', flexDirection: 'column', width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: 'teal', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
+                    <View style={{ backgroundColor: '#ac6cf6', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
                         <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
                     </View>
 
