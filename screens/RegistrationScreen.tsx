@@ -1,18 +1,27 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
+<<<<<<< HEAD
 import { View, Text, TextInput,Image, Button, ScrollView, ImageBackground,StyleSheet, Dimensions } from 'react-native';
 import { StackNavigationParams } from '../App';
 import { TouchableOpacity } from "react-native";
 import MaCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+=======
+import { View, Text, TextInput, Button, ScrollView, ImageBackground, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { StackNavigationParams } from '../App';
+import { styles } from '../constants/Styles';
+>>>>>>> c17c476 (Updated Registration screenn)
 
 const windowHeight = Dimensions.get('window').height;
 
 type RegistrationScreenProps = NativeStackScreenProps<StackNavigationParams, 'registration'>
 
+
+const windowWidth = Dimensions.get('window').width
+
 const RegistrationScreen = (props: RegistrationScreenProps) => {
 
 
-    function goToLogin() {  
+    function goToLogin() {
         props.navigation.navigate('login')
     }
 
@@ -21,6 +30,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
         <ScrollView>
             <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
 
+<<<<<<< HEAD
                 <View style={ styles.content}>
                     <Text style={{color:"#ff5353", fontSize: 36, fontWeight: 'bold', marginBottom: 40, textAlign:"center" }}>Local Food App</Text>
                     <View style={{ marginTop: 40,  }}>
@@ -75,6 +85,45 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                 </View>
 
 
+=======
+                <View style={{ display: 'flex', flexDirection: 'column', width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'teal', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
+                        <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
+                    </View>
+
+                    <View style={{ display: 'flex', flex: 1, width: '100%', paddingHorizontal: 20 }}>
+                        <View style={{ marginVertical: 15, marginBottom: 25 }}>
+                            <Text style={{ textAlign: 'center', color: 'black', fontSize: 18, fontWeight: '500' }}>LocalFood App</Text>
+                        </View>
+                        <View style={{}}>
+                            <View style={{}}>
+                                <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Email</Text>
+                                <TextInput style={[styles.inputText]} keyboardType='email-address' inputMode='email' />
+                            </View>
+
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Mot de passe</Text>
+                                <TextInput style={[styles.inputText]} secureTextEntry={true} />
+                            </View>
+
+                            <View style={{ marginTop: 25 }}>
+                                <TouchableOpacity activeOpacity={0.85} style={styles.primaryBtn}>
+                                    <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={{ marginTop: 25, }}>
+                                <Text style={{ textAlign: 'center', color: 'black', marginBottom: -10 }}>Ou</Text>
+                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <View style={{ borderColor: 'black', width: '40%', borderWidth: 1, backgroundColor: 'red' }}></View>
+                                    <View style={{ borderColor: 'black', width: '40%', borderWidth: 1, backgroundColor: 'blue' }}></View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+
+>>>>>>> c17c476 (Updated Registration screenn)
             </ImageBackground>
         </ScrollView>
     )
@@ -189,3 +238,7 @@ const styles = StyleSheet.create({
 
 
 export default RegistrationScreen;
+
+const localStyles = StyleSheet.create({
+
+})

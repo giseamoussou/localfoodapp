@@ -3,6 +3,7 @@ import { View, Text, Dimensions, ImageBackground, Touchable, TouchableOpacity, S
 import MaCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackNavigationParams } from '../App';
+import { styles } from '../constants/Styles';
 
 const windowHeight = Dimensions.get('window').height
 
@@ -54,15 +55,4 @@ function ShowcaseScreen(props: ShowcaseScreenNavigationProps) {
 };
 
 export default ShowcaseScreen;
-
-const styles = StyleSheet.create({
-    primaryBtn: {
-        backgroundColor: 'tomato',
-        width: 'auto',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 15,
-        elevation: 2
-    }
-});
 
