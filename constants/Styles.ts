@@ -14,6 +14,20 @@ export const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         width: "100%",
+        color:"black",
+
+        backgroundColor:"#fff",
         paddingHorizontal: 15
+    },
+    googleButton:{
+        
+        borderRadius: 15,
+        borderColor: 'black',
+        borderWidth: 1,
+        width: "100%",
+        padding: 8,
+        backgroundColor:"#fff",
+        paddingHorizontal: 15,
+        marginBottom:10
     }
 });
