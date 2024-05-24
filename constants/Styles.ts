@@ -14,20 +14,22 @@ export const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         width: "100%",
-        color:"black",
+        color: "black",
 
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
         paddingHorizontal: 15
     },
-    googleButton:{
-        
+    googleButton: {
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: 'center',
         borderRadius: 15,
         borderColor: 'black',
         borderWidth: 1,
         width: "100%",
         padding: 8,
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
         paddingHorizontal: 15,
-        marginBottom:10
+        marginBottom: 10
     }
 });

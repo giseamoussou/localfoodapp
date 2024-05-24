@@ -4,6 +4,7 @@ import { View, Text, TextInput, Button,Image, ScrollView, ImageBackground, Dimen
 import { StackNavigationParams } from '../App';
 import { styles } from '../constants/Styles';
 
+
 const windowHeight = Dimensions.get('window').height;
 
 type RegistrationScreenProps = NativeStackScreenProps<StackNavigationParams, 'registration'>
@@ -43,7 +44,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                             </View>
 
                             <View style={{ marginTop: 25 }}>
-                                <TouchableOpacity activeOpacity={0.85} style={styles.primaryBtn}>
+                                <TouchableOpacity onPress={goToLogin} activeOpacity={0.85} style={styles.primaryBtn}>
                                     <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
                                 </TouchableOpacity>
                             </View>

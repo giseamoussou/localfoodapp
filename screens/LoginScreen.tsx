@@ -5,7 +5,7 @@ import { StackNavigationParams } from "../App";
 import { TouchableOpacity } from "react-native";
 import React from "react";
 import { styles } from '../constants/Styles'
-import RegistrationScreen from "./RegistrationScreen";
+
 
 
 const windowHeight = Dimensions.get('window').height;
@@ -46,8 +46,8 @@ const LoginScreen =(props: LoginScreenProps) => {
                             </View>
 
                             <View style={{ marginTop: 25 }}>
-                                <TouchableOpacity activeOpacity={0.85} style={styles.primaryBtn}>
-                                    <Text onPress={goRegister} style={{ color: 'white', textAlign: 'center' }}>Se connecter</Text>
+                                <TouchableOpacity onPress={goRegister} activeOpacity={0.85} style={styles.primaryBtn}>
+                                    <Text  style={{ color: 'white', textAlign: 'center' }}>Se connecter</Text>
                                 </TouchableOpacity>
                             </View>
 
