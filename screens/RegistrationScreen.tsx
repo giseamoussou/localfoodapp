@@ -59,12 +59,12 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                             
                         </View>
                         <TouchableOpacity style={styles.googleButton}>
-                                <Image style={{ width:20.03,height:20.44,position: "absolute",left:14 }} source={require('../assets/images/face.png')}/>
-                                <Text style={{color: "black", fontSize: 16, fontWeight: "500", textAlign:"center" }}>Se connecter Via Facebook</Text>
+                                <Image style={{ width:20.03,height:20.44,left:14 }} source={require('../assets/images/face.png')}/>
+                                <Text style={{color: "black", fontSize: 16,flex:1, fontWeight: "500", textAlign:"center" }}>Se connecter Via Facebook</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.googleButton}>
-                                <Image style={{ width:20.03,height:20.44,position: "absolute",left:14}} source={require('../assets/images/google.png')}/>
-                                <Text style={{ color: "black", fontSize: 16, fontWeight: "500", textAlign:"center"}}>Se connecter Via Google</Text>
+                                <Image style={{ width:20.03,height:20.44,left:14}} source={require('../assets/images/google.png')}/>
+                                <Text style={{ color: "black", fontSize: 16, flex:1, fontWeight: "500", textAlign:"center"}}>Se connecter Via Google</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{alignSelf:"center", marginTop:40,}}>
                             <Text style={{ fontSize: 16, color:"#7C8080"}}>
