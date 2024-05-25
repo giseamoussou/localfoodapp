@@ -3,80 +3,94 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import { StackNavigationParams } from '../App';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 type MenuScreensProps = NativeStackScreenProps<StackNavigationParams, 'menu'>
 
 const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 const MenuScreens = (props: MenuScreensProps) => {
-  
-    const categories = ['Fast Food', 'BreakFast', 'Dessert'];
-    const menuItems = [
-      {
-        id: '1',
-        name: 'Cheese Burger',
-        price: 199,
-        discount: 19,
-        category: 'Fast Food',
-        isTrending: false,
-        isChefPick: false,
-        isTopSelling: true,
-        image: '',
-      },
-      {
-        id: '2',
-        name: 'Pepper Pizza',
-        price: 299,
-        discount: 14,
-        category: 'Fast Food',
-        isTrending: false,
-        isChefPick: true,
-        isTopSelling: false,
-        image: '',
-      },
-      {
-        id: '3',
-        name: 'Pepper and Cheese Pizza',
-        price: 399,
-        discount: 14,
-        category: 'Fast Food',
-        isTrending: true,
-        isChefPick: false,
-        isTopSelling: false,
-        image: 'sourec',
-      },
-    ];
 
-  
-  
+  const categories = ['Fast Food', 'BreakFast', 'Dessert', 'Dinner', 'New Flavors', 'Spicy', 'Salty', 'Food Jam'];
+  const menuItems = [
+    {
+      id: '1',
+      name: 'Cheese Burger',
+      price: 199,
+      discount: 19,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: false,
+      isTopSelling: true,
+      image: require("../assets/images/ice_cream.png"),
+    },
+    {
+      id: '2',
+      name: 'Pepper Pizza',
+      price: 299,
+      discount: 14,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: true,
+      isTopSelling: false,
+      image: require("../assets/images/pizza/pizza2.jpg"),
+    },
+    {
+      id: '3',
+      name: 'Pepper and Cheese Pizza',
+      price: 399,
+      discount: 14,
+      category: 'Fast Food',
+      isTrending: true,
+      isChefPick: false,
+      isTopSelling: false,
+      image: require("../assets/images/sandwich/sandwich2.jpg"),
+    },
+  ];
+
+
+
 
   return (
-    
-    <ScrollView>
+
+    <View style={{ height: windowHeight }}>
+
       <View style={{ backgroundColor: '#eee', height: 'auto', width: windowWidth, paddingVertical: 25 }} >
-        <View style={{borderColor:"blue"}}>
-            <Icon name="chevron-back" size={22}  color={"blue"}/ >
+        <View style={{ borderColor: "blue" }}>
+          <Icon name="chevron-back" size={22} color={"blue"} />
         </View>
-        <Text style={{ color:"black", fontSize: 40, flex:1, textAlign:'center'}}>Menu</Text>
+        <Text style={{ color: "black", fontSize: 40, flex: 1, textAlign: 'center' }}>Menu</Text>
       </View>
+
       <View style={styles.container}>
-        <Icon name="search" size={22}  color={"blue"}/ >
-        <TextInput style={styles.searchInput} placeholder="Search in menu" />
-        <Text style={styles.categoryTitle}>Select Category</Text>
-        <View style={styles.categoryContainer}>
+
+        <View style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
+          <Icon name="search" size={22} color={"blue"} style={{ marginEnd: 15 }} />
+          <TextInput style={styles.searchInput} placeholderTextColor='lightgray' placeholder="Search in menu" />
+        </View>
+
+        <View style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'flex-start', alignItems: 'center', paddingVertical: 15 }}>
+          <MaterialComIcon color='gold' name='star-circle' size={35} style={{ marginBottom: 6 }} />
+          <Text style={styles.categoryTitle}> Select Category </Text>
+        </View>
+
+        <ScrollView horizontal style={styles.categoryContainer}>
           {categories.map((category) => (
-            <TouchableOpacity key={category} style={styles.categoryButton}>
+            <TouchableOpacity activeOpacity={0.80} key={category} style={styles.categoryButton}>
               <Text style={styles.categoryButtonText}>{category}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
+
         <FlatList
           data={menuItems}
           renderItem={({ item }) => (
             <View style={styles.menuItemContainer}>
-              <Image source={{ uri: item.image }} style={styles.menuItemImage} />
+
+              <Image source={item.image} style={styles.menuItemImage} />
+
               <View style={styles.menuItemDetails}>
                 <Text style={styles.menuItemName}>{item.name}</Text>
                 <Text style={styles.menuItemPrice}>${item.price / 100}</Text>
@@ -98,16 +112,17 @@ const MenuScreens = (props: MenuScreensProps) => {
                   )}
                 </View>
               </View>
-                <TouchableOpacity style={styles.addToCartButton}>
+              <TouchableOpacity style={styles.addToCartButton}>
                 <Text style={styles.addToCartButtonText}>Add to cart</Text>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
-    </ScrollView>
-    
+
+    </View>
+
   )
 }
 
@@ -123,8 +138,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   searchInput: {
-    backgroundColor: "#ff5353",
-    color:'black',
+    backgroundColor: 'white',
+    color: 'black',
     flex: 1,
     height: 40,
     borderWidth: 2,
@@ -135,9 +150,12 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   categoryTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
+    color: 'black',
+    textAlign: 'center',
+    textAlignVertical: 'center'
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -147,6 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#a855f7',
     paddingVertical: 8,
     paddingHorizontal: 16,
+    height: 40,
     borderRadius: 20,
     marginRight: 8,
   },
