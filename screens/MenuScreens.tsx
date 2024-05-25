@@ -10,9 +10,9 @@ type MenuScreensProps = NativeStackScreenProps<StackNavigationParams, 'menu'>
 
 const windowWidth = Dimensions.get('window').width
 
-const MenuScreens = (props: MenuScreensProps) => {
-  
-    const categories = ['Fast Food', 'BreakFast', 'Dessert'];
+const MenuScreens = (props: MenuScreensProps) => { 
+
+  const categories = ['Fast Food', 'BreakFast', 'Dessert'];
     const menuItems = [
       {
         id: '1',
@@ -110,6 +110,9 @@ const MenuScreens = (props: MenuScreensProps) => {
     
   )
 }
+  
+    
+
 
 const styles = StyleSheet.create({
   container: {
