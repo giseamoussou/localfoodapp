@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, ImageBackground, Touchable, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { View, Text, Dimensions, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import MaCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackNavigationParams } from '../App';
 import { styles } from '../constants/Styles';
-import Config from 'react-native-config';
 
 const windowHeight = Dimensions.get('window').height
 
@@ -44,7 +43,7 @@ function ShowcaseScreen(props: ShowcaseScreenNavigationProps) {
 
                 <TouchableOpacity onPress={goToLogin} activeOpacity={0.85} style={[styles.primaryBtn, { display: 'flex', flexDirection: 'row', alignItems: 'center' }]}>
                     <Image source={require('../assets/images/fried_potatoes.png')} style={{ width: 25, height: 25, marginEnd: 10 }} />
-                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 18, textAlign: 'center' }}>Commencer {Config.ENV}</Text>
+                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 18, textAlign: 'center' }}>Commencer</Text>
                 </TouchableOpacity>
 
                 {isfakeLoading && <ActivityIndicator color='white' size={25} style={{ marginTop: 30 }} />}
