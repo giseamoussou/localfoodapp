@@ -50,7 +50,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
                             <View style={{ marginTop: 25 }}>
                                 <TouchableOpacity onPress={()=>{
-                                    props.navigation.navigate('home')
+                                    props.navigation.navigate('menu')
                                 }} activeOpacity={0.85} style={styles.primaryBtn}>
                                     <Text style={{ color: 'white', textAlign: 'center' }}>Se connecter</Text>
                                 </TouchableOpacity>

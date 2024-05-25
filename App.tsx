@@ -14,6 +14,7 @@ import { useAnimatedValue } from 'react-native';
 import ShowcaseScreen from './screens/ShowcaseScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
+import MenuScreens from './screens/MenuScreens';
 
 export type StackNavigationParams = {
   home: undefined,
@@ -22,7 +23,8 @@ export type StackNavigationParams = {
   details: undefined,
   showcase: undefined,
   pinValidation: undefined,
-  infos: undefined
+  infos: undefined,
+  menu: undefined
 }
 
 
@@ -42,6 +44,12 @@ const App = () => {
         <AppMainStack.Screen name="login" component={LoginScreen} />
         <AppMainStack.Screen name="registration" component={RegistrationScreen} />
         <AppMainStack.Screen name="details" component={ProductDetails} />
+        <AppMainStack.Screen name="menu" component={MenuScreens} />
+
+        
+
+        
+        
 
       </AppMainStack.Navigator>
 
