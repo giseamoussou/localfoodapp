@@ -1,96 +1,144 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import { StackNavigationParams } from '../App';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+type MenuScreensProps = NativeStackScreenProps<StackNavigationParams, 'menu'>;
 
-type MenuScreensProps = NativeStackScreenProps<StackNavigationParams, 'menu'>
-
-const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const MenuScreens = (props: MenuScreensProps) => {
-  
-    const categories = ['Fast Food', 'BreakFast', 'Dessert'];
-    const menuItems = [
-      {
-        id: '1',
-        name: 'Cheese Burger',
-        price: 199,
-        discount: 19,
-        category: 'Fast Food',
-        isTrending: false,
-        isChefPick: false,
-        isTopSelling: true,
-        image: '',
-      },
-      {
-        id: '2',
-        name: 'Pepper Pizza',
-        price: 299,
-        discount: 14,
-        category: 'Fast Food',
-        isTrending: false,
-        isChefPick: true,
-        isTopSelling: false,
-        image: '',
-      },
-      {
-        id: '3',
-        name: 'Pepper and Cheese Pizza',
-        price: 399,
-        discount: 14,
-        category: 'Fast Food',
-        isTrending: true,
-        isChefPick: false,
-        isTopSelling: false,
-        image: 'sourec',
-      },
-    ];
+  const [selectedCategory, setSelectedCategory] = React.useState('');
 
+  const categories = ['Fast Food', 'BreakFast', 'Dessert', 'Boissons'];
+  const menuItems = [
+    {
+      id: '1',
+      name: 'Cheese Burger',
+      price: 199,
+      discount: 19,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: false,
+      isTopSelling: true,
+      image: require('../assets/images/pizza/pizza2.jpg'),
+    },
+    {
+      id: '1',
+      name: 'Cheese Burger',
+      price: 199,
+      discount: 19,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: false,
+      isTopSelling: true,
+      image: require('../assets/images/pizza/pizza2.jpg'),
+    },
+    {
+      id: '1',
+      name: 'Cheese Burger',
+      price: 199,
+      discount: 19,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: false,
+      isTopSelling: true,
+      image: require('../assets/images/pizza/pizza2.jpg'),
+    },
+    {
+      id: '1',
+      name: 'Cheese Burger',
+      price: 199,
+      discount: 19,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: false,
+      isTopSelling: true,
+      image: require('../assets/images/pizza/pizza2.jpg'),
+    },
+    {
+      id: '2',
+      name: 'Pepper Pizza',
+      price: 299,
+      discount: 14,
+      category: 'Fast Food',
+      isTrending: false,
+      isChefPick: true,
+      isTopSelling: false,
+      image: require('../assets/images/frittes/fries2.jpg'),
+    },
+    {
+      id: '3',
+      name: 'Pepper and Cheese Pizza',
+      price: 399,
+      discount: 14,
+      category: 'BreakFast',
+      isTrending: true,
+      isChefPick: false,
+      isTopSelling: false,
+      image: require('../assets/images/Cream/icecream2.jpg'),
+    },
+    {
+      id: '4',
+      name: 'Pepper and Cheese ',
+      price: 399,
+      discount: 14,
+      category: 'Dessert',
+      isTrending: true,
+      isChefPick: false,
+      isTopSelling: false,
+      image: require('../assets/images/Cream/icecream2.jpg'),
+    },
+  ];
 
-
+  const handleCategoryPress = (category: string) => {
+    setSelectedCategory(category);
+  };
 
   return (
-
     <View style={{ height: windowHeight }}>
-
-      <View style={{ backgroundColor: '#eee', height: 'auto', width: windowWidth, paddingVertical: 25 }} >
-        <View style={{ borderColor: "blue" }}>
-          <Icon name="chevron-back" size={22} color={"blue"} />
+      <View style={{ backgroundColor: '#eee', height: 'auto', width: windowWidth, paddingVertical: 25 }}>
+        <View style={{ borderColor: 'blue' }}>
+          <Icon name="chevron-back" size={22} color="blue" />
         </View>
-        <Text style={{ color: "black", fontSize: 40, flex: 1, textAlign: 'center' }}>Menu</Text>
+        <Text style={{ color: "black", textAlign: 'center', fontSize: 20 }}>Menu</Text>
       </View>
 
       <View style={styles.container}>
-
         <View style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <Icon name="search" size={22} color={"blue"} style={{ marginEnd: 15 }} />
-          <TextInput style={styles.searchInput} placeholderTextColor='lightgray' placeholder="Search in menu" />
+          <Icon name="search" size={22} color="blue" style={{ marginEnd: 15 }} />
+          <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Search in menu" />
         </View>
 
         <View style={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'flex-start', alignItems: 'center', paddingVertical: 15 }}>
-          <MaterialComIcon color='gold' name='star-circle' size={35} style={{ marginBottom: 6 }} />
+          <MaterialComIcon color="gold" name="star-circle" size={35} style={{ marginBottom: 6 }} />
           <Text style={styles.categoryTitle}> Select Category </Text>
         </View>
 
         <ScrollView horizontal style={styles.categoryContainer}>
           {categories.map((category) => (
-            <TouchableOpacity activeOpacity={0.80} key={category} style={styles.categoryButton}>
+            <TouchableOpacity
+              activeOpacity={0.80}
+              key={category}
+              style={[
+                styles.categoryButton,
+                category === selectedCategory && styles.selectedCategoryButton,
+              ]}
+              onPress={() => handleCategoryPress(category)}
+            >
               <Text style={styles.categoryButtonText}>{category}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
 
         <FlatList
-          data={menuItems}
+          data={menuItems.filter((item) => item.category === selectedCategory)}
           renderItem={({ item }) => (
             <View style={styles.menuItemContainer}>
-
               <Image source={item.image} style={styles.menuItemImage} />
-
               <View style={styles.menuItemDetails}>
                 <Text style={styles.menuItemName}>{item.name}</Text>
                 <Text style={styles.menuItemPrice}>${item.price / 100}</Text>
@@ -120,14 +168,9 @@ const MenuScreens = (props: MenuScreensProps) => {
           keyExtractor={(item) => item.id}
         />
       </View>
-
     </View>
-
-  )
-}
-  
-    
-
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -161,8 +204,14 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center'
   },
   categoryContainer: {
-    flexDirection: 'row',
-    marginBottom: 16,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    marginBottom: 10,
+    display: 'flex',
+    maxHeight: 60,
+    paddingHorizontal: 10,
+    paddingVertical: 10
+
   },
   categoryButton: {
     backgroundColor: '#a855f7',
@@ -171,6 +220,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginRight: 8,
+  },
+  selectedCategoryButton: {
+    backgroundColor: 'gray',
   },
   categoryButtonText: {
     color: '#fff',
@@ -191,6 +243,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuItemName: {
+    color: "black",
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
@@ -225,4 +278,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
 export default MenuScreens;

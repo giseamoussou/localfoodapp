@@ -13,6 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.1.17",
@@ -20,6 +21,7 @@
     "@supabase/supabase-js": "^2.43.4",
     "formik": "^2.4.6",
     "react": "18.2.0",
+    "react-hook-form": "^7.51.5",
     "react-native": "0.74.0",
     "react-native-blob-util": "^0.19.9",
     "react-native-config": "^1.5.1",
@@ -39,7 +41,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-uuid": "^2.0.2",
     "react-native-vector-icons": "^10.1.0",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
