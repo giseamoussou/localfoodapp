@@ -30,9 +30,16 @@ const registrationSchema = yup.object({
 
 const RegistrationScreen = (props: RegistrationScreenProps) => {
 
+    function goToLogin() {
+        props.navigation.navigate('login')
+    }
+
     const pwfFieldRef = useRef<TextInput>()
 
     async function Register (userData: { fullname: string, email:string, password: string, tel: string}){
+
+        console.log(userData)
+
         try {
 
             //register user
@@ -44,7 +51,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
 
             if (!error) {
                 if (!session) {
-                    props.navigation.replace('EmailVerificationPrompt', { email: userData.email, from: 'registration' });
+                    props.navigation.navigate('login');
                 }
             }
             else {
@@ -105,9 +112,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
     }
 
 
-    function goToLogin() {
-        props.navigation.navigate('login')
-    }
+    
 
     return (
         <ScrollView>
@@ -128,7 +133,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                         }}
                     >
                         {({ handleSubmit, handleBlur, handleChange, values, errors, touched, isValid, isSubmitting }) => (
-                            <View>
+                            <View  >
                                 <View style={{ backgroundColor: '#ac6cf6', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
                                     <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
                                 </View>
@@ -145,7 +150,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 style={[styles.inputText]} 
                                                 keyboardType='name-phone-pad'
                                                 placeholder="Nom et Prénom"
-                                                placeholderTextColor='lightgray'
+                                                placeholderTextColor='darkgray'
                                                 cursorColor='darkblue'
                                                 onBlur={handleBlur('fullname')}
                                                 onChangeText={handleChange('fullname')}
@@ -160,7 +165,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 value={values.email}
                                                 style={[styles.inputText]} 
                                                 placeholder="Adresse e-mail"
-                                                placeholderTextColor='lightgray'
+                                                placeholderTextColor='darkgray'
                                                 keyboardType='email-address'
                                                 cursorColor='darkblue' 
                                                 onBlur={handleBlur('email')}
@@ -177,7 +182,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 value={values.password}
                                                 style={[styles.inputText]} 
                                                 placeholder="Mot de passe"
-                                                placeholderTextColor='lightgray'
+                                                placeholderTextColor='darkgray'
                                                 cursorColor='darkblue'
                                                 secureTextEntry={true} 
                                                 onBlur={handleBlur('password')}
@@ -194,7 +199,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 style={[styles.inputText]} 
                                                 keyboardType='number-pad'
                                                 placeholder="Numéro de téléphone"
-                                                placeholderTextColor='lightgray'
+                                                placeholderTextColor='darkgray'
                                                 cursorColor='darkblue'
                                                 onBlur={handleBlur('tel')}
                                                 onChangeText={handleChange('tel')}
@@ -205,7 +210,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                         </View>
     
                                         <View style={{ marginTop: 25 }}>
-                                            <TouchableOpacity onPress={goToLogin} activeOpacity={0.85} style={styles.primaryBtn}>
+                                            <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.primaryBtn}>
                                                 <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
                                             </TouchableOpacity>
                                         </View>
