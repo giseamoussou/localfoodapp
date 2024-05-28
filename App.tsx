@@ -15,6 +15,7 @@ import ShowcaseScreen from './screens/ShowcaseScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import MenuScreens from './screens/MenuScreens';
+import ContactScreens from './screens/ContactScreens';
 
 export type StackNavigationParams = {
   home: undefined,
@@ -24,7 +25,8 @@ export type StackNavigationParams = {
   showcase: undefined,
   pinValidation: undefined,
   infos: undefined,
-  menu: undefined
+  menu: undefined,
+  contact: undefined
 }
 
 
@@ -45,6 +47,7 @@ const App = () => {
         <AppMainStack.Screen name="registration" component={RegistrationScreen} />
         <AppMainStack.Screen name="details" component={ProductDetails} />
         <AppMainStack.Screen name="menu" component={MenuScreens} />
+        <AppMainStack.Screen name="contact" component={ContactScreens} />
 
         
 
