@@ -5,8 +5,6 @@ import { StackNavigationParams } from '../App';
 import { styles } from '../constants/Styles';
 import { supabase } from '../services/supabase-client';
 import { Formik } from 'formik';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as yup from 'yup';
 import { useRef } from 'react';
 
