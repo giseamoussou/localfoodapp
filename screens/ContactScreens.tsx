@@ -30,7 +30,7 @@ const ContactUsScreen = (props: ContactScreensProps) => {
         </View>
         <View style={styles.infoItem}>
           <Icon name="clock-o" size={20} color="#FF8C00" />
-          <Text style={styles.infoText}>08-00 to 22-00, All days of week</Text>
+          <Text style={styles.infoText}>08-00 to 22-00,  days of week</Text>
         </View>
         <View style={styles.infoItem}>
           <Icon name="phone" size={20} color="#FF8C00" />

@@ -26,7 +26,8 @@ export type StackNavigationParams = {
   pinValidation: undefined,
   infos: undefined,
   menu: undefined,
-  contact: undefined
+  contact: undefined,
+
 }
 
 

@@ -138,10 +138,10 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
     
                                 <View style={{ display: 'flex', flex: 1, width: '100%', paddingHorizontal: 20 }}>
                                     <View style={{ marginVertical: 15, marginBottom: 50 }}>
-                                        <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold' }}>Local <Text style={{color:"black"}}>Food</Text>  App</Text>
+                                        <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold', marginBottom: -20 }}>Local <Text style={{color:"black"}}>Food</Text>  App</Text>
                                     </View>
-                                    <View style={{}}>
-                                        <View style={{}}>
+                                    <View style={{ }}>
+                                        <View style={{ marginBottom: -20}}>
                                             <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Nom complet</Text>
                                             <TextInput 
                                                 value={values.fullname}
@@ -157,7 +157,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             {touched.fullname && errors.fullname ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.fullname}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
-                                        <View style={{ marginTop: 5 }}>
+                                        <View style={{ marginTop: 5, marginBottom: -20 }}>
                                             <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Email</Text>
                                             <TextInput 
                                                 value={values.email}
@@ -174,7 +174,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             {touched.email && errors.email ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.email}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
-                                        <View style={{ marginTop: 5 }}>
+                                        <View style={{ marginTop: 5, marginBottom: -20 }}>
                                             <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Mot de passe</Text>
                                             <TextInput 
                                                 value={values.password}
@@ -202,6 +202,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 onBlur={handleBlur('tel')}
                                                 onChangeText={handleChange('tel')}
                                                 editable={!isSubmitting}
+                                                
 
                                             />
                                             {touched.tel && errors.tel ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.tel}</Text> : <View style={{ marginBottom: 20 }}></View>}
@@ -213,7 +214,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             </TouchableOpacity>
                                         </View>
     
-                                        <View style={{ marginTop: 25, marginBottom:90 }}>
+                                        <View style={{ marginTop: 25, marginBottom:20 }}>
                                             <Text style={{ textAlign: 'center', color: 'black', marginBottom: -10 }}>Ou</Text>
                                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                                 <View style={{ borderColor: 'black', width: '40%', borderWidth: 1, backgroundColor: 'red' }}></View>
