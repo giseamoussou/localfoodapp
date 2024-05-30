@@ -5,4 +5,7 @@
     export let data: LayoutData;
 </script>
 
-<slot />
+
+<main class="w-screen h-screen bg-[#eceef1]">
+    <slot />
+</main>
