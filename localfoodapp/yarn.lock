@@ -901,6 +901,11 @@
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
 
+"@devvie/bottom-sheet@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@devvie/bottom-sheet/-/bottom-sheet-0.3.0.tgz"
+  integrity sha512-Cchl99PwSh+O/keyKHqXLfe+EqWwDIkMjPw50f4tlMrpaNE0PV7egQC5cTPZK6GRgj27mB4ZqsIZbeacwZkw+w==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz"

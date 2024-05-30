@@ -73,7 +73,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.googleButton}>
                             <Image style={{ width: 20.03, height: 20.44, left: 14 }} source={require('../assets/images/google.png')} />
-                            <Text style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>Se connecter Via Google</Text>
+                            <Text onPress={goHome} style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>Se connecter Via Google</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ alignSelf: "center", marginTop: 40, }}>
                             <Text style={{ fontSize: 16, color: "#7C8080" }}>
