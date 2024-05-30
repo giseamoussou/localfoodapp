@@ -29,8 +29,8 @@ import type { PageData } from './$types';
             </div>
 
 
-            <div class="flex flex-col w-full space-y-1 px-7 h-full">
-                <Button class="bg-[tomato] hover:bg-red-600 transition-colors duration-300 py-6 mt-auto mb-0">
+            <div class="flex flex-col w-full space-y-1 px-10 h-full">
+                <Button class="bg-[tomato] hover:bg-red-600 transition-colors duration-300 py-5 mt-auto mb-0">
                     <div class="flex flex-row space-x-2 items-start content-center justify-center">                        
                         <Icon icon="solar:shield-user-broken" class="text-white" width={30} height={30} />
                         <span class="text-xl">Connexion Sécurisée</span>
