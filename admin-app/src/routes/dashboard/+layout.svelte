@@ -13,7 +13,7 @@ import type { LayoutData } from './$types';
         <div class="w-full h-full py-6 px-2">
             <div class="shadow-sm rounded-lg border-gray-300 bg-yellow-50 h-full w-full p-3 space-y-2">
                 
-                <DashboardMenuItem iconName="material-symbols:dashboard-customize-rounded" title="Dashboard" />
+                <DashboardMenuItem iconName="mage:dashboard-bar-notification" title="Dashboard" />
                 
                 <DashboardMenuItem iconName="ion:fast-food-sharp" title="Plats" />
                 
@@ -28,7 +28,7 @@ import type { LayoutData } from './$types';
     </div>
     
     <main class="flex flex-1 h-full p-5">
-        <div class="flex h-full w-full border border-slate-300 content-center items-center justify-center shadow-sm">
+        <div class="flex h-full w-full border border-slate-300 shadow-sm">
             <slot />
         </div>
     </main>
