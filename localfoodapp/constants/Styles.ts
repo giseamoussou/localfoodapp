@@ -7,17 +7,20 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 15,
-        elevation: 2
+        elevation: 2,
+        marginTop: -10,
+        
     },
     inputText: {
         borderRadius: 15,
-        borderColor: 'black',
+        borderColor: 'darkgray',
         borderWidth: 1,
         width: "100%",
-        height: 39,
-
+        height: 49,
+        color: "black",
         backgroundColor: "#fff",
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        marginBottom: 10
     },
     googleButton: {
         display: 'flex',
@@ -30,6 +33,7 @@ export const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: "#fff",
         paddingHorizontal: 15,
-        marginBottom: 10
+        marginBottom: 10,
+        marginTop: -5
     }
 });

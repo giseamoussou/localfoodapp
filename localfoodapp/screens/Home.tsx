@@ -44,19 +44,19 @@ const HomeScreen = () => {
       <View style={styles.categoryRow}>
         <TouchableOpacity style={styles.categoryItem}>
           <Image source={require('../assets/images/African/Okra.jpeg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>Nago</Text>
+          <Text style={styles.categoryText}>Gombo</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryItem}>
           <Image source={require('../assets/images/African/akpa.jpeg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>south indian</Text>
+          <Text style={styles.categoryText}>Monyo</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/sandwich/sandwich3.jpg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>chinese</Text>
+          <Image source={require('../assets/images/African/gnonmli.jpg')} style={styles.categoryImage} />
+          <Text style={styles.categoryText}>Haricot</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/burger/burger2.jpg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>burger</Text>
+          <Image source={require('../assets/images/African/porc.jpeg')} style={styles.categoryImage} />
+          <Text style={styles.categoryText}>Viande de Porc</Text>
         </TouchableOpacity>
       </View>
 

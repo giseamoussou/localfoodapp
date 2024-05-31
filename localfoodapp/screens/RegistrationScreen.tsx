@@ -144,8 +144,8 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                         <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold', marginBottom: -20 }}>Local <Text style={{color:"black"}}>Food</Text>  App</Text>
                                     </View>
                                     <View style={{ }}>
-                                        <View style={{ marginBottom: -20}}>
-                                            <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Nom complet</Text>
+                                        <View style={{ marginBottom: 1}}>
+                                            
                                             <TextInput 
                                                 value={values.fullname}
                                                 style={[styles.inputText]} 
@@ -161,11 +161,9 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             {touched.fullname && errors.fullname ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.fullname}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
-                                        <View style={{ marginTop: 5, marginBottom: -20 }}>
-                                            <TouchableOpacity onPress={() => { }}>
-                                                <Icon name='lock-closed' style={{ width: 20, height: 20, left: 10 }}  />
-                                            </TouchableOpacity>   
-                                            <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Email</Text>
+                                        <View style={{ marginTop: 5, marginBottom: 1 }}>
+                                              
+                                            
                                             <TextInput 
                                                 value={values.email}
                                                 style={[styles.inputText]} 
@@ -181,8 +179,8 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             {touched.email && errors.email ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.email}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
-                                        <View style={{ marginTop: 5, marginBottom: -20 }}>
-                                            <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Mot de passe</Text>
+                                        <View style={{ marginTop: 5, marginBottom: 5 }}>
+                                            
                                             <TextInput 
                                                 value={values.password}
                                                 style={[styles.inputText]} 
@@ -193,12 +191,13 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 onBlur={handleBlur('password')}
                                                 onChangeText={handleChange('password')}
                                                 editable={!isSubmitting}
+                                                
                                             />
                                             {touched.password && errors.password ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.password}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
                                         <View style={{ marginTop: 5 }}>
-                                            <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Telephone</Text>
+                                            
                                             <TextInput
                                                 value={values.tel} 
                                                 style={[styles.inputText]} 
@@ -215,31 +214,31 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                             {touched.tel && errors.tel ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.tel}</Text> : <View style={{ marginBottom: 20 }}></View>}
                                         </View>
     
-                                        <View style={{ marginTop: 25 }}>
+                                        <View style={{ marginTop: 15 }}>
                                             <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.primaryBtn}>
                                                 <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
                                             </TouchableOpacity>
                                         </View>
     
-                                        <View style={{ marginTop: 25, marginBottom:20 }}>
+                                        <View style={{ marginTop: 15, marginBottom:40 }}>
                                             <Text style={{ textAlign: 'center', color: 'black', marginBottom: -10 }}>Ou</Text>
                                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 1, backgroundColor: 'red' }}></View>
-                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 1, backgroundColor: 'blue' }}></View>
+                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity:0.1 }}></View>
+                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity:0.1 }}></View>
                                             </View>
                                         </View>
                                 
                                     </View>
                                     <TouchableOpacity style={styles.googleButton}>
                                         <Image style={{ width:20.03,height:20.44,left:14 }} source={require('../assets/images/face.png')}/>
-                                        <Text style={{color: "black", fontSize: 16,flex:1, fontWeight: "500", textAlign:"center" }}>Se connecter Via Facebook</Text>
+                                        <Text style={{color: "black", fontSize: 16,flex:1, fontWeight: "500", textAlign:"center" }}>S'inscrire Via Facebook</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.googleButton}>
                                         <Image style={{ width:20.03,height:20.44,left:14}} source={require('../assets/images/google.png')}/>
-                                        <Text style={{ color: "black", fontSize: 16, flex:1, fontWeight: "500", textAlign:"center"}}>Se connecter Via Google</Text>
+                                        <Text style={{ color: "black", fontSize: 16, flex:1, fontWeight: "500", textAlign:"center"}}>S'inscrire Via Google</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={{alignSelf:"center", marginTop:40,}}>
-                                        <Text style={{ fontSize: 16, color:"#7C8080"}}>
+                                    <TouchableOpacity style={{alignSelf:"center", marginTop:1,}}>
+                                        <Text style={{ fontSize: 16, color:"black"}}>
                                             J'ai déja un compte? <Text onPress={goToLogin} style={{ fontSize: 16, color:"#3662AA", fontWeight:"500"}}>Connectez-vous?</Text> 
                                         </Text>
                                     </TouchableOpacity>

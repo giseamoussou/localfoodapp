@@ -13,7 +13,7 @@ const windowHeight = Dimensions.get('window').height;
 const MenuScreens = (props: MenuScreensProps) => {
   const [selectedCategory, setSelectedCategory] = React.useState('');
 
-  const categories = ['Fast Food', 'BreakFast', 'Dessert', 'Boissons'];
+  const categories = ['Fast Food', 'Sauces', 'Dessert', 'Boissons'];
   const menuItems = [
     {
       id: '1',
@@ -35,62 +35,62 @@ const MenuScreens = (props: MenuScreensProps) => {
       isTrending: false,
       isChefPick: false,
       isTopSelling: true,
-      image: require('../assets/images/pizza/pizza2.jpg'),
+      image: require('../assets/images/African/Okra.jpeg'),
     },
     {
       id: '1',
-      name: 'Cheese Burger',
+      name: 'Sauce',
       price: 199,
       discount: 19,
-      category: 'Fast Food',
+      category: 'Sauces',
       isTrending: false,
       isChefPick: false,
       isTopSelling: true,
-      image: require('../assets/images/pizza/pizza2.jpg'),
+      image: require('../assets/images/African/Orak.jpeg'),
     },
     {
       id: '1',
-      name: 'Cheese Burger',
+      name: 'Sauce Crin-crin',
       price: 199,
       discount: 19,
-      category: 'Fast Food',
+      category: 'Sauces',
       isTrending: false,
       isChefPick: false,
       isTopSelling: true,
-      image: require('../assets/images/pizza/pizza2.jpg'),
+      image: require('../assets/images/African/Yumceetee.jpeg'),
     },
     {
       id: '2',
-      name: 'Pepper Pizza',
+      name: 'Sauce Gombo',
       price: 299,
       discount: 14,
-      category: 'Fast Food',
+      category: 'Sauces',
       isTrending: false,
       isChefPick: true,
       isTopSelling: false,
-      image: require('../assets/images/frittes/fries2.jpg'),
+      image: require('../assets/images/African/Okra.jpeg'),
     },
     {
       id: '3',
-      name: 'Pepper and Cheese Pizza',
+      name: 'Sauce Adidon',
       price: 399,
       discount: 14,
-      category: 'BreakFast',
+      category: 'Sauces',
       isTrending: true,
       isChefPick: false,
       isTopSelling: false,
-      image: require('../assets/images/Cream/icecream2.jpg'),
+      image: require('../assets/images/African/adidon.jpg'),
     },
     {
       id: '4',
       name: 'Bissap ',
       price: 399,
       discount: 14,
-      category: 'Boissons',
+      category: 'Sauces',
       isTrending: true,
       isChefPick: false,
       isTopSelling: false,
-      image: require('../assets/images/Boissons/jus.jpg'),
+      image: require('../assets/images/Boisssons/jus.jpg')
     },
   ];
 
@@ -134,14 +134,14 @@ const MenuScreens = (props: MenuScreensProps) => {
           ))}
         </ScrollView>
 
-        <FlatList
+        <FlatList style={{ marginBottom:-72}}
           data={menuItems.filter((item) => item.category === selectedCategory)}
           renderItem={({ item }) => (
             <View style={styles.menuItemContainer}>
               <Image source={item.image} style={styles.menuItemImage} />
               <View style={styles.menuItemDetails}>
                 <Text style={styles.menuItemName}>{item.name}</Text>
-                <Text style={styles.menuItemPrice}>${item.price / 100}</Text>
+                <Text style={styles.menuItemPrice}>{item.price / 1} Fcfa</Text>
                 {item.discount > 0 && (
                   <Text style={styles.menuItemDiscount}>{item.discount}% OFF</Text>
                 )}
@@ -161,7 +161,7 @@ const MenuScreens = (props: MenuScreensProps) => {
                 </View>
               </View>
               <TouchableOpacity style={styles.addToCartButton}>
-                <Text style={styles.addToCartButtonText}>Add to cart</Text>
+                <Text style={styles.addToCartButtonText}>Add cart</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -198,15 +198,15 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 18,
     color: 'black',
     textAlign: 'center',
     textAlignVertical: 'center'
   },
   categoryContainer: {
-    borderBottomColor: 'gray',
+    borderBottomColor: 'transparent',
     borderBottomWidth: 0.5,
-    marginBottom: 10,
+    marginBottom: -10,
     display: 'flex',
     maxHeight: 60,
     paddingHorizontal: 10,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   menuItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 6,
   },
   menuItemImage: {
     width: 80,
