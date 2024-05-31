@@ -83,14 +83,14 @@ const MenuScreens = (props: MenuScreensProps) => {
     },
     {
       id: '4',
-      name: 'Pepper and Cheese ',
+      name: 'Bissap ',
       price: 399,
       discount: 14,
-      category: 'Dessert',
+      category: 'Boissons',
       isTrending: true,
       isChefPick: false,
       isTopSelling: false,
-      image: require('../assets/images/Cream/icecream2.jpg'),
+      image: require('../assets/images/Boissons/jus.jpg'),
     },
   ];
 

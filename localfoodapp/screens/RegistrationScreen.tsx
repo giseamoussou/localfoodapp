@@ -7,6 +7,9 @@ import { supabase } from '../services/supabase-client';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useRef } from 'react';
+import { Icon } from 'react-native-vector-icons/Icon';
+import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 
@@ -149,6 +152,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                                 keyboardType='name-phone-pad'
                                                 placeholder="Nom et Prénom"
                                                 placeholderTextColor='darkgray'
+                                                
                                                 cursorColor='darkblue'
                                                 onBlur={handleBlur('fullname')}
                                                 onChangeText={handleChange('fullname')}
@@ -158,6 +162,9 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                                         </View>
     
                                         <View style={{ marginTop: 5, marginBottom: -20 }}>
+                                            <TouchableOpacity onPress={() => { }}>
+                                                <Icon name='lock-closed' style={{ width: 20, height: 20, left: 10 }}  />
+                                            </TouchableOpacity>   
                                             <Text style={{ fontWeight: '600', color: 'black', marginBottom: 2, marginStart: 3 }}>Email</Text>
                                             <TextInput 
                                                 value={values.email}
