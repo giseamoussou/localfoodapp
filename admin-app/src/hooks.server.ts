@@ -3,22 +3,18 @@ import { type Handle, redirect } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from "$env/static/public";
 import { createClient } from '@supabase/supabase-js';
+import { env } from '$env/dynamic/private';
 
 
+// console.log(PUBLIC_SUPABASE_URL, env.SUPABASE_SECRET_KEY)
 
 async function createAdminUser() {
 
-    const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY, {
-        auth: {
-            persistSession: false,
-            autoRefreshToken: false,
-            detectSessionInUrl: false,
-        }
-    })
+    const supabaseAdmin = createClient("https://mxotxniwobxgsyjqdgqk.supabase.co", "iYp/6xvkRgcWot8aWPTOlZk1KK8mJTSR6OonXn/88La9zr/oQOZL8w+Qzngk+maF56s7Nrzmh4PstiZ5uIp+6Q==")
 
     try {
 
-        const signinResult = await supabase.auth.admin.createUser({
+        const signinResult = await supabaseAdmin.auth.admin.createUser({
             email: 'admin@gmail.com',
             password: "admin",
             email_confirm: true,
