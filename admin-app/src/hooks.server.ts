@@ -1,5 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
-import { type Handle, redirect } from '@sveltejs/kit'
+import { error, type Handle, redirect } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from "$env/static/public";
 import { createClient } from '@supabase/supabase-js';
@@ -10,7 +10,13 @@ import { env } from '$env/dynamic/private';
 
 async function createAdminUser() {
 
-    const supabaseAdmin = createClient("https://mxotxniwobxgsyjqdgqk.supabase.co", "iYp/6xvkRgcWot8aWPTOlZk1KK8mJTSR6OonXn/88La9zr/oQOZL8w+Qzngk+maF56s7Nrzmh4PstiZ5uIp+6Q==")
+    const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, env.SUPABASE_SECRET_KEY, {
+
+        auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+        }
+    })
 
     try {
 
@@ -25,7 +31,13 @@ async function createAdminUser() {
         })
 
         if (signinResult.error) {
-            console.log("Unable to create Admin: ", signinResult.error)
+            if(signinResult.error.code == "email_exists"){
+                console.log("Admin already created Successfully")
+            }
+            else {
+
+                console.log("Unable to create Admin: ", signinResult.error)
+            }
         }
 
         if (signinResult.data.user) {
