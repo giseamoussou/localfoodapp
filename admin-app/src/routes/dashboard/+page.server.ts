@@ -1,11 +1,11 @@
 import { supabaseAdmin } from '$lib/supabase-client';
 import type { PageServerLoad } from './$types';
 
-export const load = (async () => {
-    
+export const load = (async ({ parent }) => {
+
     // counting users required admin rights
     const usersCountTask = supabaseAdmin.auth.admin.listUsers();
-    
+
     return {
         usersCountTask
     };

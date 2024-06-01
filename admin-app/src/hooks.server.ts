@@ -31,7 +31,7 @@ async function createAdminUser() {
         })
 
         if (signinResult.error) {
-            if(signinResult.error.code == "email_exists"){
+            if (signinResult.error.code == "email_exists") {
                 console.log("Admin already created Successfully")
             }
             else {

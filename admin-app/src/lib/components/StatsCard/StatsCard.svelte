@@ -1,5 +1,6 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
+    import { scale } from "svelte/transition";
 
     export let total: number | null = 0;
     export let title: string;
@@ -10,7 +11,7 @@
 </script>
 
 
-<div class="w-full h-full flex flex-row shadow-md border rounded-sm border-[tomato] bg-slate-300-200 transition-all hover:scale-110 cursor-pointer">
+<div in:scale={{ delay: 250, duration: 750,  }} class="w-full h-full flex flex-row shadow-md border rounded-sm border-[tomato] bg-slate-300-200 transition-all hover:scale-110 cursor-pointer">
 
     <div class="flex-1 flex-col h-full p-3 content-evenly justify-evenly">
         <div class="text-left">
