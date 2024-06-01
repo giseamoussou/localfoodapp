@@ -2,27 +2,10 @@
     import StatsCard from '$lib/components/StatsCard/StatsCard.svelte';
     import type { PageData } from './$types';
     import { Line } from 'svelte-chartjs';
+    import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, } from 'chart.js';
+    ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale );
 
-    import {
-        Chart as ChartJS,
-        Title,
-        Tooltip,
-        Legend,
-        LineElement,
-        LinearScale,
-        PointElement,
-        CategoryScale,
-    } from 'chart.js';
 
-    ChartJS.register(
-        Title,
-        Tooltip,
-        Legend,
-        LineElement,
-        LinearScale,
-        PointElement,
-        CategoryScale
-    );
 
     export let data: PageData;
 </script>
@@ -85,6 +68,18 @@
                     }}
                 />
             </div>
+        </div>
+
+    </div>
+
+    <div class="flex flex-col">
+
+        <div class="">
+            <span class="block text-xl"><span class="text-slate-700"> ⚫ Commandes Récentes</span></span>
+        </div>
+
+        <div class="flex-1">
+
         </div>
 
     </div>
