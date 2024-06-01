@@ -1,13 +1,42 @@
 <script lang="ts">
     import StatsCard from '$lib/components/StatsCard/StatsCard.svelte';
     import type { PageData } from './$types';
-    import { Line } from 'svelte-chartjs';
-    import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, } from 'chart.js';
-    ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale );
+    import * as Table from "$lib/components/ui/table"
+    import { Line, Pie } from 'svelte-chartjs';
+    import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement } from 'chart.js';
+    import Badge from '$lib/components/ui/badge/badge.svelte';
+    ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement );
 
 
 
     export let data: PageData;
+
+
+    const pieData = {
+        labels: ['Consistance', 'Pizza', 'Riz (*)', 'Légumes', 'Plats Européens'],
+        datasets: [
+            {
+            data: [300, 50, 100, 40, 120],
+            backgroundColor: [
+                '#F7464A',
+                '#46BFBD',
+                '#FDB45C',
+                '#949FB1',
+                '#4D5360',
+                '#AC64AD',
+            ],
+            hoverBackgroundColor: [
+                '#FF5A5E',
+                '#5AD3D1',
+                '#FFC870',
+                '#A8B3C5',
+                '#616774',
+                '#DA92DB',
+            ],
+            },
+        ],
+    };
+
 </script>
 
 
@@ -49,7 +78,7 @@
                     data={{
                         labels: ['Ja', 'F', 'M', 'Av', 'M', 'Jn', 'Jl', 'Ao', 'S', 'O', 'N', 'D'],
                         datasets: [{
-                            label: 'Nombre de commandes',
+                            label: 'Nombre de commandes / mois',
                             data: [20, 30, 120, 80, 165, 122, 180, 88, 170, 150, 103, 309],
                             borderColor: 'tomato',
                             tension: 0.4
@@ -72,13 +101,89 @@
 
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col space-y-5">
 
-        <div class="">
-            <span class="block text-xl"><span class="text-slate-700"> ⚫ Commandes Récentes</span></span>
+        <div class="bg-[tomato] text-white w-full py-2 px-4 rounded-sm text-center">
+            <span class="block text-xl"><span class=""> ⚪ Commandes Récentes</span></span>
         </div>
 
-        <div class="flex-1">
+        <div class="flex-1 flex flex-row space-x-4">
+
+            <div class="flex w-1/3">
+                <Pie data={pieData} options={{ responsive: true }} label="Commandes par Catégories" />
+            </div>
+
+            <div class="flex-1 border-s border-s-slate-500 ps-3">
+                <Table.Root>
+                  <Table.Caption>Liste des Commandes Récentes</Table.Caption>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.Head class="w-[80px]">Référence</Table.Head>
+                      <Table.Head>Statut</Table.Head>
+                      <Table.Head>Methode</Table.Head>
+                      <Table.Head class="text-right">Montant</Table.Head>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell class="font-medium">CMD0162</Table.Cell>
+                      <Table.Cell>
+                        <Badge class="bg-green-500">Payé</Badge>
+                      </Table.Cell>
+                      <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                      <Table.Cell class="text-right italic">1235.00</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell class="font-medium">CMD0168</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-gray-500">Non Payé</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">3100.00</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell class="font-medium">CMD0170</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-red-500">Rejeté</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">850.00</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell class="font-medium">CMD0165</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-green-500">Payé</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">2100.00</Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell class="font-medium">CMD0179</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-green-500">Payé</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">22175.00</Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell class="font-medium">CMD0166</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-green-500">Payé</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">6220.00</Table.Cell>
+                      </Table.Row>
+                      <Table.Row>
+                        <Table.Cell class="font-medium">CMD0201</Table.Cell>
+                        <Table.Cell>
+                          <Badge class="bg-green-500">Payé</Badge>
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
+                        <Table.Cell class="text-right italic">9300.00</Table.Cell>
+                      </Table.Row>
+                  </Table.Body>
+                </Table.Root>
+            </div>
 
         </div>
 

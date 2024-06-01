@@ -29,8 +29,8 @@ import type { LayoutData } from './$types';
         </div>
     </div>
     
-    <main class="flex flex-1 h-full p-5">
-        <div class="flex h-full w-full border border-slate-300 shadow-sm">
+    <main class="flex flex-1 p-5 h-auto overflow-y-scroll">
+        <div class="flex h-fit w-full border border-slate-300 shadow-sm">
             <slot />
         </div>
     </main>
