@@ -52,10 +52,10 @@
            
             <div class="w-full h-28">
                 <!-- stats card -->
-                <StatsCard title="Plats" total={98} cardIcon="emojione-monotone:pot-of-food" cardIconColor="darkslateblue" variationPercentage={2.6}/>
+                <StatsCard title="Plats" total={data.platsCount} cardIcon="emojione-monotone:pot-of-food" cardIconColor="darkslateblue" variationPercentage={2.6}/>
             </div>
             <div class="w-full h-28">
-                <StatsCard title="Commandes" total={181} cardIcon="arcticons:zoho-invoice" cardIconColor="crimson" variationPercentage={-0.71}/>
+                <StatsCard title="Commandes" total={data.commandesCount} cardIcon="arcticons:zoho-invoice" cardIconColor="crimson" variationPercentage={-0.71}/>
             </div>
 
         </div>
@@ -64,7 +64,7 @@
            
             <div class="w-full h-28">
                 <!-- stats card -->
-                <StatsCard title="Utilisateurs" total={703} cardIcon="solar:users-group-rounded-broken" cardIconColor="darkslategray" variationPercentage={+2.02}/>
+                <StatsCard title="Utilisateurs" total={data.usersCount} cardIcon="solar:users-group-rounded-broken" cardIconColor="darkslategray" variationPercentage={+2.02}/>
             </div>
             <div class="w-full h-28">
                 <StatsCard title="Restaurants" total={68} cardIcon="maki:restaurant-bbq" cardIconColor="purple"/>

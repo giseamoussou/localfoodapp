@@ -1,7 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
 
-    export let total: number = 25;
+    export let total: number | null = 0;
     export let title: string;
     export let cardIcon: string;
     export let cardIconColor: string = "black";
@@ -17,7 +17,11 @@
             <span class="text-slate-700 text-xl">{title}</span>
         </div>
         <div class="text-[tomato] text-2xl py-1">
-            {total}
+            {#if total != null && total != undefined}
+                <span>{total}</span>
+            {:else}
+                <span>N/A</span>
+            {/if}
         </div>
         <div class=" text-teal-800">
             Variation: <span class="{variationPercentage > 0 ? 'text-green-600' : 'text-red-600'}">{variationPercentage}%</span>
