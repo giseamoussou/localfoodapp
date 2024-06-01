@@ -11,24 +11,28 @@ import type { LayoutData } from './$types';
 
     <div class="h-full w-36">
         <div class="w-full h-full py-6 px-2">
-            <div class="shadow-sm rounded-lg border-gray-300 bg-yellow-50 h-full w-full p-3 space-y-2">
+            <div class="shadow-sm rounded-lg border-gray-300 bg-gray-50 h-full w-full p-3 space-y-2">
                 
-                <DashboardMenuItem iconName="mage:dashboard-bar-notification" title="Dashboard" />
+                <DashboardMenuItem link="/dashboard" iconName="mage:dashboard-bar-notification" title="Dashboard" />
                 
-                <DashboardMenuItem iconName="ion:fast-food-sharp" title="Plats" />
+                <DashboardMenuItem link="/dashboard/plats" iconName="ion:fast-food-sharp" title="Plats" />
                 
-                <DashboardMenuItem iconName="arcticons:foodora" title="Commandes" />
+                <DashboardMenuItem link="/dashboard/commandes" iconName="arcticons:foodora" title="Commandes" />
                 
-                <DashboardMenuItem iconName="fa-solid:users-cog" title="Utilisateurs" />
+                <DashboardMenuItem link="/dashboard/restaurants" iconName="maki:restaurant-bbq" title="Restaurants" />
                 
-                <DashboardMenuItem iconName="material-symbols:admin-panel-settings-rounded" title="Admins" />
+                <DashboardMenuItem link="/dashboard/utilisateurs" iconName="fa-solid:users-cog" title="Utilisateurs" />
+                
+                <DashboardMenuItem link="/dashboard/admins" iconName="material-symbols:admin-panel-settings-rounded" title="Admins" />
+                
+                <DashboardMenuItem link="/dashboard/settings" iconName="ri:settings-4-fill" title="Configuration" />
             
             </div>
         </div>
     </div>
     
-    <main class="flex flex-1 h-full p-5">
-        <div class="flex h-full w-full border border-slate-300 shadow-sm">
+    <main class="flex flex-1 p-5 h-auto overflow-y-scroll">
+        <div class="flex h-fit w-full border border-slate-300 shadow-sm">
             <slot />
         </div>
     </main>
