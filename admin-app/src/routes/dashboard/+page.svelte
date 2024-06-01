@@ -5,8 +5,9 @@
     import { Line, Pie } from 'svelte-chartjs';
     import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement } from 'chart.js';
     import Badge from '$lib/components/ui/badge/badge.svelte';
-    ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement );
+    
 
+    ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement );
 
 
     export let data: PageData;
