@@ -107,7 +107,7 @@
             <span class="block text-xl"><span class=""> ⚪ Commandes Récentes</span></span>
         </div>
 
-        <div class="flex-1 flex flex-row space-x-4">
+        <div class="flex-1 flex flex-row space-x-4 w-full">
 
             <div class="flex w-1/3">
                 <Pie data={pieData} options={{ responsive: true }} label="Commandes par Catégories" />

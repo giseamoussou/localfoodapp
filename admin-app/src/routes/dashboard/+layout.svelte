@@ -11,7 +11,7 @@ import type { LayoutData } from './$types';
 
     <div class="h-full w-36">
         <div class="w-full h-full py-6 px-2">
-            <div class="shadow-sm rounded-lg border-gray-300 bg-yellow-50 h-full w-full p-3 space-y-2">
+            <div class="shadow-sm rounded-lg border-gray-300 bg-gray-50 h-full w-full p-3 space-y-2">
                 
                 <DashboardMenuItem link="/dashboard" iconName="mage:dashboard-bar-notification" title="Dashboard" />
                 
