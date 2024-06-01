@@ -1,7 +1,28 @@
 <script lang="ts">
     import StatsCard from '$lib/components/StatsCard/StatsCard.svelte';
     import type { PageData } from './$types';
-    import { Bar, Pie, Line } from 'svelte-chartjs';
+    import { Line } from 'svelte-chartjs';
+
+    import {
+        Chart as ChartJS,
+        Title,
+        Tooltip,
+        Legend,
+        LineElement,
+        LinearScale,
+        PointElement,
+        CategoryScale,
+    } from 'chart.js';
+
+    ChartJS.register(
+        Title,
+        Tooltip,
+        Legend,
+        LineElement,
+        LinearScale,
+        PointElement,
+        CategoryScale
+    );
 
     export let data: PageData;
 </script>
@@ -15,7 +36,7 @@
 
     <div class="w-full flex flex-row h-auto space-x-4">
 
-        <div class="flex flex-col space-y-4 p-1 flex-wrap w-80 justify-evenly items-center content-evenly">
+        <div class="flex flex-col space-y-4 p-1 flex-wrap w-72 justify-evenly items-center content-evenly">
            
             <div class="w-full h-28">
                 <!-- stats card -->
@@ -27,7 +48,7 @@
 
         </div>
 
-        <div class="flex flex-col space-y-4 p-1 flex-wrap w-80 justify-evenly items-center content-evenly">
+        <div class="flex flex-col space-y-4 p-1 flex-wrap w-72 justify-evenly items-center content-evenly">
            
             <div class="w-full h-28">
                 <!-- stats card -->
@@ -43,11 +64,11 @@
             <div class="w-full h-full shadow-md border rounded-sm border-gray-400 bg-gray-200">
                 <Line 
                     data={{
-                        labels: ['Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                        labels: ['Ja', 'F', 'M', 'Av', 'M', 'Jn', 'Jl', 'Ao', 'S', 'O', 'N', 'D'],
                         datasets: [{
                             label: 'Nombre de commandes',
-                            data: [50, 70, 100, 120, 140, 160, 180],
-                            borderColor: 'rgb(255, 99, 132)',
+                            data: [20, 30, 120, 80, 165, 122, 180, 88, 170, 150, 103, 309],
+                            borderColor: 'tomato',
                             tension: 0.4
                         }]
                     }}
@@ -56,7 +77,11 @@
                             y: {
                                 beginAtZero: true
                             }
-                        }
+                        },
+                        locale: 'FR-Fr',
+                        backgroundColor: "darkslateblue",
+                        responsive: true,
+                        color: "darkblue"
                     }}
                 />
             </div>
