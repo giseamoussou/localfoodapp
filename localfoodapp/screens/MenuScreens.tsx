@@ -100,11 +100,11 @@ const MenuScreens = (props: MenuScreensProps) => {
 
   return (
     <View style={{ height: windowHeight }}>
-      <View style={{ backgroundColor: '#eee', height: 'auto', width: windowWidth, paddingVertical: 25 }}>
+      <View style={{ backgroundColor: '#fef', height: 'auto', width: windowWidth, paddingVertical: 25 }}>
         <View style={{ borderColor: 'blue' }}>
           <Icon name="chevron-back" size={22} color="blue" />
         </View>
-        <Text style={{ color: "black", textAlign: 'center', fontSize: 20 }}>Menu</Text>
+        <Text style={{ color: "black", textAlign: 'center', fontSize: 40 }}>Menu</Text>
       </View>
 
       <View style={styles.container}>
@@ -150,13 +150,13 @@ const MenuScreens = (props: MenuScreensProps) => {
                     <Text style={styles.menuItemTag}>{item.category}</Text>
                   )}
                   {item.isTopSelling && (
-                    <Text style={styles.menuItemTag}>TOP SELLING</Text>
+                    <Text style={styles.menuItemTag}>TOP VENDUE</Text>
                   )}
                   {item.isChefPick && (
                     <Text style={styles.menuItemTag}>CHEF PICK</Text>
                   )}
                   {item.isTrending && (
-                    <Text style={styles.menuItemTag}>TRENDING</Text>
+                    <Text style={styles.menuItemTag}>TENDANCE</Text>
                   )}
                 </View>
               </View>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   },
   menuItemDiscount: {
     fontSize: 12,
-    color: '#2ecc71',
+    color: 'white',
     marginBottom: 4,
   },
   menuItemTagsContainer: {

@@ -46,11 +46,11 @@ const FastFood = () => {
         <TouchableOpacity style={styles.backButton}>
           <Text style={styles.backButtonText}>{'<'}</Text>
         </TouchableOpacity>
-        <Text style={styles.headerText}>Fast food</Text>
+        <Text style={styles.headerText}>Dejeuner</Text>
       </View>
       <View style={styles.pizzaImageContainer}>
         <Image
-          source={require('../assets/images/sandwich.png')}
+          source={require('../assets/images/African/banane.jpeg')}
           style={styles.pizzaImage}
         />
         <TouchableOpacity style={styles.heartIcon}>
@@ -59,10 +59,9 @@ const FastFood = () => {
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.bestsellerText}>BESTSELLER</Text>
-        <Text style={styles.pizzaName}>Pepper Pizza</Text>   
+        <Text style={styles.pizzaName}>Bannane</Text>   
         <Text style={styles.pizzaDescription}>
-          Amet minim mollit non deserunt ullamco est sit
-          aliqua dolor do amet sint... {' '}    
+          Un met absolument exellent pour un repas de l'après-midi... {' '}    
           {showMore? (
             <Text>
               read less{' '}
@@ -93,16 +92,16 @@ const FastFood = () => {
         <View style={styles.ratingContainer}>
         <MaterialComIcon color="#ff5353" name="star-outline" size={35} style={{ marginBottom: 6 }} />
           <Text style={styles.rating}>5.0(34)</Text>
-          <Text style={styles.ratingLabel}>Main Course</Text>
+          <Text style={styles.ratingLabel}>Plat principal</Text>
           <View style={styles.chefPickContainer}>
-            <Text style={styles.chefPickText}>CHEF PICK</Text>
+            <Text style={styles.chefPickText}></Text>
           </View>
         </View>
         <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
         <View style={styles.addOnsContainer}>
-          <Text style={styles.addOnsTitle}>AddOn</Text>
+          <Text style={styles.addOnsTitle}>Ajouter</Text>
           <View style={styles.addOnItemContainer}>
-            <Text style={styles.addOnItemText}>French fries</Text>
+            <Text style={styles.addOnItemText}>Jus de bissap</Text>
             <TouchableOpacity
               style={styles.addOnCheckboxContainer}
               onPress={() => setFrenchFries(!frenchFries)}
@@ -114,10 +113,10 @@ const FastFood = () => {
                 ]}
               />
             </TouchableOpacity>
-            <Text style={styles.addOnItemPrice}>$99</Text>
+            <Text style={styles.addOnItemPrice}>500Fcfa</Text>
           </View>
           <View style={styles.addOnItemContainer}>
-            <Text style={styles.addOnItemText}>Burger</Text>
+            <Text style={styles.addOnItemText}>Riz au gras   </Text>
             <TouchableOpacity
               style={styles.addOnCheckboxContainer}
               onPress={() => setBurger(!burger)}
@@ -129,7 +128,7 @@ const FastFood = () => {
                 ]}
               />
             </TouchableOpacity>
-            <Text style={styles.addOnItemPrice}>$199</Text>
+            <Text style={styles.addOnItemPrice}>500 Fcfa</Text>
           </View>
         </View>
         <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 30 }}></View>
@@ -150,7 +149,7 @@ const FastFood = () => {
           <TouchableOpacity style={styles.addToCartButton}>
           <Text style={styles.addToCartButtonText}>
             <Icon name="bag-handle-outline" style={styles.bagIcon} />
-            Add Card ${calculateTotal()}
+            Add Card  
           </Text>
         </TouchableOpacity>
         </View>
