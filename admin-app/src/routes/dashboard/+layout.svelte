@@ -24,6 +24,8 @@ import type { LayoutData } from './$types';
                 <DashboardMenuItem link="/dashboard/utilisateurs" iconName="fa-solid:users-cog" title="Utilisateurs" />
                 
                 <DashboardMenuItem link="/dashboard/admins" iconName="material-symbols:admin-panel-settings-rounded" title="Admins" />
+                
+                <DashboardMenuItem link="/dashboard/settings" iconName="ri:settings-4-fill" title="Configuration" />
             
             </div>
         </div>
