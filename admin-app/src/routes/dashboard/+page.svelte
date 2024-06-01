@@ -51,11 +51,14 @@
         <div class="flex flex-col space-y-4 p-1 flex-wrap w-72 justify-evenly items-center content-evenly">
            
             <div class="w-full h-28">
-                <!-- stats card -->
-                <StatsCard title="Plats" total={data.platsCount} cardIcon="emojione-monotone:pot-of-food" cardIconColor="darkslateblue" variationPercentage={2.6}/>
+              {#await data.platsCountTask then value}
+                <StatsCard title="Plats" total={value.count} cardIcon="emojione-monotone:pot-of-food" cardIconColor="darkslateblue" variationPercentage={2.6}/>
+              {/await}
             </div>
             <div class="w-full h-28">
-                <StatsCard title="Commandes" total={data.commandesCount} cardIcon="arcticons:zoho-invoice" cardIconColor="crimson" variationPercentage={-0.71}/>
+              {#await data.commandesCountTask then value}
+                <StatsCard title="Commandes" total={value.count} cardIcon="arcticons:zoho-invoice" cardIconColor="crimson" variationPercentage={-0.71}/>
+              {/await}
             </div>
 
         </div>
@@ -63,11 +66,14 @@
         <div class="flex flex-col space-y-4 p-1 flex-wrap w-72 justify-evenly items-center content-evenly">
            
             <div class="w-full h-28">
-                <!-- stats card -->
-                <StatsCard title="Utilisateurs" total={data.usersCount} cardIcon="solar:users-group-rounded-broken" cardIconColor="darkslategray" variationPercentage={+2.02}/>
+                {#await data.usersCountTask then value}
+                  <StatsCard title="Utilisateurs" total={value.data.users.length} cardIcon="solar:users-group-rounded-broken" cardIconColor="darkslategray" variationPercentage={+2.02}/>
+                {/await}
             </div>
             <div class="w-full h-28">
-                <StatsCard title="Restaurants" total={68} cardIcon="maki:restaurant-bbq" cardIconColor="purple"/>
+              {#await data.restaurantsCountTask then value}
+                <StatsCard title="Restaurants" total={value.count} cardIcon="maki:restaurant-bbq" cardIconColor="purple"/>
+              {/await}
             </div>
 
         </div>

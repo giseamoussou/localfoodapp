@@ -100,7 +100,10 @@ const supabase: Handle = async ({ event, resolve }) => {
             return { session: null, user: null }
         }
 
-        return { session, user }
+        //@ts-ignore
+        delete session.user;
+
+        return { session: Object.assign({}, session, { user }), user }
     }
 
     return resolve(event, {

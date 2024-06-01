@@ -1,18 +1,17 @@
 import type { PageLoad } from './$types';
 
-export const load = (async ({ parent }) => {
+export const load = (async ({ parent, data }) => {
 
     const { supabase } = await parent()
 
-    const { count: platsCount } = await supabase.from('plat').select('*');
-    const { count: commandesCount } = await supabase.from('commande').select('*');
-    const { count: restaurantsCount } = await supabase.from('restauratrice').select('*');
-    const { data: { users: { length: usersCount } } } = await supabase.auth.admin.listUsers({ perPage: Number.MAX_VALUE - 1, page: 1 })
+    const platsCountTask  = supabase.from('plat').select('*', { count: 'estimated' });
+    const commandesCountTask = supabase.from('commande').select('*', { count: 'estimated' });
+    const restaurantsCountTask = supabase.from('restauratrice').select('*', { count: 'estimated' });
 
     return {
-        platsCount,
-        commandesCount,
-        usersCount,
-        restaurantsCount
+        platsCountTask,
+        commandesCountTask,
+        restaurantsCountTask,
+        usersCountTask: data.usersCountTask
     };
 }) satisfies PageLoad;
