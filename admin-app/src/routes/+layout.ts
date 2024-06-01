@@ -3,6 +3,7 @@ import { createBrowserClient, createServerClient, isBrowser, parse } from '@supa
 import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
 
 import type { LayoutLoad } from './$types'
+import type { Database } from '$lib/supabase'
 
 export const load: LayoutLoad = async ({ data, depends, fetch }) => {
     /**
@@ -12,7 +13,7 @@ export const load: LayoutLoad = async ({ data, depends, fetch }) => {
     depends('supabase:auth')
 
     const supabase = isBrowser()
-        ? createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY, {
+        ? createBrowserClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY, {
             global: {
                 fetch,
             },

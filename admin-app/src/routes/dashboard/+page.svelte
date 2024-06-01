@@ -11,7 +11,6 @@
 
     export let data: PageData;
 
-
     const pieData = {
         labels: ['Consistance', 'Pizza', 'Riz (*)', 'Légumes', 'Plats Européens'],
         datasets: [
