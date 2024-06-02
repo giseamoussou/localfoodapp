@@ -11,7 +11,7 @@ import CardScreen from '../screens/CardScreen';
 import detail from '../screens/ProductDetails';
 
 const homeName = 'Home';
-const MenuName ='menu';
+const MenuName = 'menu';
 const CardName = 'card';
 const DetailName = 'details';
 
@@ -19,29 +19,30 @@ const Tab = createBottomTabNavigator();
 
 
 export default function MainContainer() {
-  return(
+  return (
     <NavigationContainer>
       <Tab.Navigator
-      initialRouteName={homeName}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName, iconColor;
-          let rn = route.name;
+        initialRouteName={homeName}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName = "home";
+            let iconColor = "darkslategray";
+            let rn = route.name;
 
-          if ( rn ===homeName){
-            iconName = focused ? 'home' : 'home-outline'
-          }else if (rn===DetailName){
-            iconName = focused ? 'list' : 'list-outline'
-          }else if(rn===CardName){
-            iconName = focused ? 'card' : 'card-outline'
-          }
-          return <Ionicons name="iconName" size={size} color={color} />
-        },
-      })}>
+            if (rn == homeName) {
+              iconName = focused ? 'home' : 'home-outline'
+            } else if (rn === DetailName) {
+              iconName = focused ? 'list' : 'list-outline'
+            } else if (rn === CardName) {
+              iconName = focused ? 'card' : 'card-outline'
+            }
+            return <Ionicons name={iconName} size={size} color={color} />
+          },
+        })}>
 
-        <Tab.Screen name='homeName' component={HomeScreen}/>
-        <Tab.Screen name='CardName' component={CardScreen}/>
-        <Tab.Screen name='DetailName' component={detail}/>
+        <Tab.Screen name='homeName' component={HomeScreen} />
+        <Tab.Screen name='CardName' component={CardScreen} />
+        <Tab.Screen name='DetailName' component={detail} />
 
       </Tab.Navigator>
     </NavigationContainer>
