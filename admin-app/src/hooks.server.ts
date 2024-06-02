@@ -31,7 +31,7 @@ async function createAdminUser() {
         })
 
         if (signinResult.error) {
-            if(signinResult.error.code == "email_exists"){
+            if (signinResult.error.code == "email_exists") {
                 console.log("Admin already created Successfully")
             }
             else {
@@ -100,7 +100,10 @@ const supabase: Handle = async ({ event, resolve }) => {
             return { session: null, user: null }
         }
 
-        return { session, user }
+        //@ts-ignore
+        delete session.user;
+
+        return { session: Object.assign({}, session, { user }), user }
     }
 
     return resolve(event, {
