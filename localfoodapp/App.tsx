@@ -16,6 +16,8 @@ import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import MenuScreens from './screens/MenuScreens';
 import ContactScreens from './screens/ContactScreens';
+import MainContainer from './navigation/MainContainer';
+import CardScreen from './screens/CardScreen';
 
 export type StackNavigationParams = {
   home: undefined,
@@ -27,6 +29,7 @@ export type StackNavigationParams = {
   infos: undefined,
   menu: undefined,
   contact: undefined,
+  navigation: undefined,
 
 }
 
@@ -35,29 +38,31 @@ const AppMainStack = createNativeStackNavigator<StackNavigationParams>();
 
 const App = () => {
 
-  const [isSignedIn, setIsSignedIn] = useState(false)
+  //const [isSignedIn, setIsSignedIn] = useState(false)
 
 
   return (
-    <NavigationContainer>
-      <AppMainStack.Navigator initialRouteName='showcase' screenOptions={{ headerShown: false }}>
+    <MainContainer/>
 
-        <AppMainStack.Screen name="showcase" component={ShowcaseScreen} />
-        <AppMainStack.Screen name="home" component={Home} />
-        <AppMainStack.Screen name="login" component={LoginScreen} />
-        <AppMainStack.Screen name="registration" component={RegistrationScreen} />
-        <AppMainStack.Screen name="details" component={ProductDetails} />
-        <AppMainStack.Screen name="menu" component={MenuScreens} />
-        <AppMainStack.Screen name="contact" component={ContactScreens} />
+    // <NavigationContainer>
 
-        
+    //   <AppMainStack.Navigator initialRouteName='showcase' screenOptions={{ headerShown: false }}>
 
-        
-        
+    //     <AppMainStack.Screen name="showcase" component={ShowcaseScreen} />
+    //     <AppMainStack.Screen name="home" component={Home} />
+    //     <AppMainStack.Screen name="login" component={LoginScreen} />
+    //     <AppMainStack.Screen name="registration" component={RegistrationScreen} />
+    //     <AppMainStack.Screen name="details" component={ProductDetails} />
+    //     <AppMainStack.Screen name="menu" component={MenuScreens} />
+    //     <AppMainStack.Screen name="contact" component={ContactScreens} />
+    
+    //     
 
-      </AppMainStack.Navigator>
 
-    </NavigationContainer>
+    //   </AppMainStack.Navigator>
+
+    // </NavigationContainer>
+    
   )
 };
 
