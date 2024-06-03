@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from './screens/Home';
@@ -18,18 +18,20 @@ import MenuScreens from './screens/MenuScreens';
 import ContactScreens from './screens/ContactScreens';
 import MainContainer from './navigation/MainContainer';
 import CardScreen from './screens/CardScreen';
+import { appContextDefaultValues, localFoodAppContext, ILocalFoodAppContextData } from './contexts/Context'
+import { Session } from '@supabase/supabase-js';
+import { supabase } from './services/supabase-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type StackNavigationParams = {
   home: undefined,
   login: undefined,
   registration: undefined,
-  details: undefined,
   showcase: undefined,
-  pinValidation: undefined,
-  infos: undefined,
-  menu: undefined,
   contact: undefined,
-  navigation: undefined,
+  mainContainer: undefined,
+  productDetail: { id: any }
+
 
 }
 
@@ -37,33 +39,79 @@ export type StackNavigationParams = {
 const AppMainStack = createNativeStackNavigator<StackNavigationParams>();
 
 const App = () => {
+  const [session, setSession] = useState<Session | null>(null); 
 
-  //const [isSignedIn, setIsSignedIn] = useState(false)
+  const [appContext, setAppContext] = useState(appContextDefaultValues)
 
+  const [ authResolved, setAuthResolved] = useState(false) 
+
+  const defaultContext = useMemo(() => ({ appContext, setAppContext }), [appContext])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session }}) =>{
+      setSession(session)
+    })
+    supabase.auth.onAuthStateChange(( _event, session) =>{
+      setAuthResolved(true);
+      setSession(session)
+    })
+    checkIsFirstStart();
+    //fetchSettings();
+  }
+)
+
+const [ showCaseSeen, setShowCaseSeen] = useState (false)
+
+ async function checkIsFirstStart() {
+  try {
+    const showCase = await AsyncStorage.getItem('showCase')
+
+    if (showCase){
+      setShowCaseSeen(true)
+    }
+
+  } catch (error) {
+    setShowCaseSeen(true)
+  }
+}
 
   return (
-    <MainContainer/>
 
-    // <NavigationContainer>
-
-    //   <AppMainStack.Navigator initialRouteName='showcase' screenOptions={{ headerShown: false }}>
-
-    //     <AppMainStack.Screen name="showcase" component={ShowcaseScreen} />
-    //     <AppMainStack.Screen name="home" component={Home} />
-    //     <AppMainStack.Screen name="login" component={LoginScreen} />
-    //     <AppMainStack.Screen name="registration" component={RegistrationScreen} />
-    //     <AppMainStack.Screen name="details" component={ProductDetails} />
-    //     <AppMainStack.Screen name="menu" component={MenuScreens} />
-    //     <AppMainStack.Screen name="contact" component={ContactScreens} />
-    
-    //     
+    <localFoodAppContext.Provider value={defaultContext}>
 
 
-    //   </AppMainStack.Navigator>
+      <NavigationContainer>
 
-    // </NavigationContainer>
-    
+        <AppMainStack.Navigator initialRouteName={ 'showcase'} screenOptions={{ headerShown: false }}>
+          {
+            appContext.isSignedIn ?
+              (
+                <>
+                  <AppMainStack.Screen name="mainContainer" component={MainContainer} />
+                  <AppMainStack.Screen name="productDetail" component={ProductDetails} />
+                  <AppMainStack.Screen name="contact" component={ContactScreens} />
+                </>
+              )
+              :
+              (
+                <>
+                  { showCaseSeen &&  <AppMainStack.Screen name="showcase" component={ShowcaseScreen} /> }
+                 
+                  <AppMainStack.Screen name="home" component={Home} />
+                  <AppMainStack.Screen name="login" component={LoginScreen} />
+                  <AppMainStack.Screen name="registration" component={RegistrationScreen} />
+                </>
+              )
+          }
+        </AppMainStack.Navigator>
+
+      </NavigationContainer>
+
+    </localFoodAppContext.Provider>
+
   )
 };
 
 export default App;
+
+

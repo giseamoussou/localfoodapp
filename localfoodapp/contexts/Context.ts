@@ -1,15 +1,15 @@
 import { createContext } from "react";
 
 export interface ILocalFoodAppContextData {
-    darkMode: boolean
+    isSignedIn: boolean
     
 }
 
-const appContextDefaultValues: ILocalFoodAppContextData = {
-    darkMode: false,
+ export const appContextDefaultValues: ILocalFoodAppContextData = {
+    isSignedIn: false
 }
 
 export const localFoodAppContext = createContext({
     appContext: appContextDefaultValues,
-    setAppContext: () => { }
+    setAppContext: (state:ILocalFoodAppContextData) => { }
 })

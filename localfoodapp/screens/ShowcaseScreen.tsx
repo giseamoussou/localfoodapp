@@ -4,6 +4,7 @@ import MaCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackNavigationParams } from '../App';
 import { styles } from '../constants/Styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowHeight = Dimensions.get('window').height
 
@@ -21,6 +22,8 @@ function ShowcaseScreen(props: ShowcaseScreenNavigationProps) {
 
         return () => {
             clearTimeout(timeOut)
+
+            AsyncStorage.setItem('showCase', 'true')
         }
     }, [])
 

@@ -79,6 +79,11 @@ const HomeScreen = () => {
           <Image source={require('../assets/images/ice_cream.png')} style={styles.specialImage} />
         </TouchableOpacity>
       </View>
+      <View>
+        <TouchableOpacity >
+          <Text>Se connecter</Text>
+        </TouchableOpacity>
+      </View>
     </View>
 
 
