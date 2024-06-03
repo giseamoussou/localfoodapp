@@ -81,3 +81,8 @@
 .form-input {
     @apply border border-gray-200 bg-white h-11 focus:ring-0 focus:outline-1 focus:outline-[tomato] focus:border-[tomato] rounded-md focus:border px-3;
 }
+
+
+.btn {
+  @apply px-2 py-1.5 rounded-sm;
+}
