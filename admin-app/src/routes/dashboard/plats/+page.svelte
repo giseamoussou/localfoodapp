@@ -1,13 +1,38 @@
 <script lang="ts">
+	import ConfirmationPrompt from '$lib/components/ConfirmationPrompt/ConfirmationPrompt.svelte';
     import Icon from '@iconify/svelte';
     import type { PageData } from './$types';
     import Button from '$lib/components/ui/button/button.svelte';
     import * as Table from "$lib/components/ui/table"
+    import * as AlertDialog from "$lib/components/ui/alert-dialog"
     import { Badge } from "$lib/components/ui/badge"
     
 
     export let data: PageData;
+    let isDeletionAlertOpened = false;
+
+    async function deletePlat(id: number){
+
+        isDeletionAlertOpened = true;
+
+        // const deletionResponse = await data.supabase.from('plat').delete({
+        //     count: 'exact'
+        // }).eq('id', id);
+
+        // if(!deletionResponse.error){
+        //     if(deletionResponse){
+        //         if(deletionResponse.count! > 0){
+        //             alert('Plat Supprimé');   
+        //         }
+        //     }
+        // }
+    }
+
+    $: isDeletionAlertOpened = isDeletionAlertOpened;
 </script>
+
+<ConfirmationPrompt action={() => {  }} bind:isOpened={isDeletionAlertOpened} cancelText="Annuler" okText="Confirmer"
+    descriptionText="Voulez-vous vraiment supprimer ce Mémoire?" questionText="Supprimer ce mémoire" />
 
 <div class="flex flex-col w-full px-5 py-3">
 
@@ -55,7 +80,7 @@
                                     <Icon icon="uil:edit" height={20} width={20} class="text-blue-600" />
                                 </button>
                                 <button class="btn text-white text-xs hover:border focus:border border-red-600 transition-all">
-                                    <Icon icon="fluent:delete-32-filled" height={20} width={20} class="text-red-600" />
+                                    <Icon on:click={() => deletePlat(plat.id)} icon="fluent:delete-32-filled" height={20} width={20} class="text-red-600" />
                                 </button>
                             </div>
                         </div>
@@ -77,4 +102,3 @@
 
     </div>
 </div>
-
