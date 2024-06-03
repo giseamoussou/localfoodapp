@@ -1,95 +1,135 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StackNavigationParams } from '../App';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { localFoodAppContext } from '../contexts/Context';
 
-const HomeScreen = () => {
+
+type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
+
+const HomeScreen = (props: HomeScreenProps) => {
+
+
+  const { appContext, setAppContext } = useContext(localFoodAppContext)
+
+
+  function goToLogin() {
+    props.navigation.navigate('login')
+  }
+
+
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-      {/* Location and Profile */}
-      <View style={styles.header}>
-        <View style={styles.location}>
-          <Image source={require('../assets/images/loca.png')} style={styles.icon} />
-          <Text style={styles.locationText}>Porto-Novo</Text>
-        </View>
-        <TouchableOpacity>
-          <Image source={require('../assets/images/prof.png')} style={styles.profile} />
-        </TouchableOpacity>
-      </View>
+    <>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Location and Profile */}
+          {
+            appContext.isSignedIn == true ?
+              (
+                <View style={styles.header}>
+                  <View style={styles.location}>
+                    <Image source={require('../assets/images/loca.png')} style={styles.icon} />
+                    <Text style={styles.locationText}>Porto-Novo</Text>
+                  </View>
+                  <TouchableOpacity>
+                    <Image source={require('../assets/images/prof.png')} style={styles.profile} />
+                  </TouchableOpacity>
+                </View>
+              )
+              :
+              (
+                <>
+                </>
+              )
 
-      {/* Search Bar */}
-      <View style={styles.searchBar}>
-        <Icon name="search" size={22} color="blue" style={{ marginEnd: 15 }} />
-        <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Type a dish or cuisine" />
-      </View>
+          }
 
-      {/* Discount Banner */}
-      <View style={styles.discountBanner}>
-        <Text style={styles.discountText}>Jusqu'à 20% de réduction</Text>
-        <Text style={styles.discountSubtext}>SUR VOTRE PREMIÈRE COMMANDE</Text>
-        <TouchableOpacity style={styles.orderButton}>
-          <Text style={styles.orderButtonText}>Commander maintenant</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Popular Categories */}
-      <View style={styles.categories}>
-      <MaterialComIcon color="gold" name="star-circle" size={25} style={{ marginTop: 1  }} />
-        <Text style={styles.categoryTitle}>Catégories Populaires </Text>
-        <TouchableOpacity style={styles.seeAllButton}>
-          <Text style={styles.seeAllButtonText}>Voir tout</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.categoryRow}>
-        <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/African/Okra.jpeg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>Gombo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/African/akpa.jpeg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>Monyo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/African/gnonmli.jpg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>Haricot</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.categoryItem}>
-          <Image source={require('../assets/images/African/porc.jpeg')} style={styles.categoryImage} />
-          <Text style={styles.categoryText}>Viande de Porc</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Today's Special */}
-      <View style={styles.categories}>
-      <MaterialComIcon color="gold" name="star-circle" size={25} style={{ marginTop: 1 }} />
-        <Text style={styles.categoryTitle}>Spécialité d'aujourd'hui</Text>
-        <TouchableOpacity style={styles.seeAllButton}>
-          <Text style={styles.seeAllButtonText}>Voir tout</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.specialRow}>
-        <TouchableOpacity style={styles.specialItem}>
-          <Image source={require('../assets/images/frittes/fries3.jpg')} style={styles.specialImage} />
-          <View style={styles.heartIcon}>
-            <Image source={require('../assets/images/fried_potatoes.png')} style={styles.icon} />
+          {/* Search Bar */}
+          <View style={styles.searchBar}>
+            <Icon name="search" size={22} color="blue" style={{ marginEnd: 15 }} />
+            <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Type a dish or cuisine" />
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.specialItem}>
-          <Image source={require('../assets/images/ice_cream.png')} style={styles.specialImage} />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity >
-          <Text>Se connecter</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+
+          {/* Discount Banner */}
+          <View style={styles.discountBanner}>
+            <Text style={styles.discountText}>Jusqu'à 20% de réduction</Text>
+            <Text style={styles.discountSubtext}>SUR VOTRE PREMIÈRE COMMANDE</Text>
+            <TouchableOpacity style={styles.orderButton}>
+              <Text style={styles.orderButtonText}>Commander maintenant</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Popular Categories */}
+          <View style={styles.categories}>
+            <MaterialComIcon color="gold" name="star-circle" size={25} style={{ marginTop: 1 }} />
+            <Text style={styles.categoryTitle}>Catégories Populaires </Text>
+            <TouchableOpacity style={styles.seeAllButton}>
+              <Text style={styles.seeAllButtonText}>Voir tout</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.categoryRow}>
+            <TouchableOpacity style={styles.categoryItem}>
+              <Image source={require('../assets/images/African/Okra.jpeg')} style={styles.categoryImage} />
+              <Text style={styles.categoryText}>Gombo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.categoryItem}>
+              <Image source={require('../assets/images/African/akpa.jpeg')} style={styles.categoryImage} />
+              <Text style={styles.categoryText}>Monyo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.categoryItem}>
+              <Image source={require('../assets/images/African/gnonmli.jpg')} style={styles.categoryImage} />
+              <Text style={styles.categoryText}>Haricot</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.categoryItem}>
+              <Image source={require('../assets/images/African/porc.jpeg')} style={styles.categoryImage} />
+              <Text style={styles.categoryText}>Viande de Porc</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Today's Special */}
+          <View style={styles.categories}>
+            <MaterialComIcon color="gold" name="star-circle" size={25} style={{ marginTop: 1 }} />
+            <Text style={styles.categoryTitle}>Spécialité d'aujourd'hui</Text>
+            <TouchableOpacity style={styles.seeAllButton}>
+              <Text style={styles.seeAllButtonText}>Voir tout</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.specialRow}>
+            <TouchableOpacity style={styles.specialItem}>
+              <Image source={require('../assets/images/frittes/fries3.jpg')} style={styles.specialImage} />
+              <View style={styles.heartIcon}>
+                <Image source={require('../assets/images/fried_potatoes.png')} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.specialItem}>
+              <Image source={require('../assets/images/ice_cream.png')} style={styles.specialImage} />
+            </TouchableOpacity>
+          </View>
+
+        </View>
 
 
-    </ScrollView>
-    
+      </ScrollView>
+      {
+        !appContext.isSignedIn ?
+          (
+            <View style={{ paddingVertical: 16, paddingHorizontal: 30, backgroundColor: "transparent" }}>
+              <TouchableOpacity onPress={goToLogin} activeOpacity={0.85} style={styles.primary}>
+                <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }} >Se connecter</Text>
+              </TouchableOpacity>
+            </View>
+          ) :
+          (
+            <>
+            </>
+          )
+      }
+    </>
   );
+
 };
 
 const styles = StyleSheet.create({
@@ -113,7 +153,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   locationText: {
-    color:"black",
+    color: "black",
     marginLeft: 8,
     fontWeight: 'bold',
   },
@@ -142,9 +182,20 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 
+  primary: {
+    backgroundColor: 'tomato',
+    width: 'auto',
+    height: 50,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 15,
+    elevation: 2,
+    shadowColor: "green"
+  },
+
 
   searchText: {
-    
+
     marginLeft: 8,
     flex: 1,
   },
@@ -210,7 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   categoryText: {
-    color:"black",
+    color: "black",
     textAlign: 'center',
     marginTop: 8,
   },
