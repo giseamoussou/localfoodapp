@@ -44,20 +44,19 @@ const HomeScreen = (props: HomeScreenProps) => {
                                 <>
                                 </>
                             )
-
                     }
 
                     {/* Search Bar */}
                     <View style={styles.searchBar}>
-                        <Icon name="search" size={22} color="blue" style={{ marginEnd: 15 }} />
-                        <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Type a dish or cuisine" />
+                        <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Un plat ou une cuisine..." />
+                        <Icon name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                     </View>
 
                     {/* Discount Banner */}
                     <View style={styles.discountBanner}>
                         <Text style={styles.discountText}>Jusqu'à 20% de réduction</Text>
                         <Text style={styles.discountSubtext}>SUR VOTRE PREMIÈRE COMMANDE</Text>
-                        <TouchableOpacity style={styles.orderButton}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.orderButton}>
                             <Text style={styles.orderButtonText}>Commander maintenant</Text>
                         </TouchableOpacity>
                     </View>
@@ -152,8 +151,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     searchBar: {
+        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
         paddingHorizontal: 16,
         paddingVertical: 8,
         backgroundColor: '#FFFFFF',
@@ -197,12 +199,16 @@ const styles = StyleSheet.create({
     discountText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black',
+        textAlign: 'center',
+        color: 'darkslateblue',
     },
     discountSubtext: {
-        color: 'green',
+        textAlign: 'center',
+        color: 'white',
     },
     orderButton: {
+        textAlign: 'center',
+        alignSelf: 'center',
         backgroundColor: '#FFFFFF',
         padding: 12,
         borderRadius: 4,
@@ -211,6 +217,7 @@ const styles = StyleSheet.create({
     orderButtonText: {
         color: "darkgray",
         fontWeight: 'bold',
+        textAlign: 'center',
     },
     categories: {
         flexDirection: 'row',
@@ -239,20 +246,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
         paddingVertical: 8,
-    },
-    categoryItem: {
-        width: '48%',
-        marginBottom: 8,
-    },
-    categoryImage: {
-        width: '100%',
-        height: 150,
-        borderRadius: 15,
-    },
-    categoryText: {
-        color: "black",
-        textAlign: 'center',
-        marginTop: 8,
     },
     specialRow: {
         flexDirection: 'row',
