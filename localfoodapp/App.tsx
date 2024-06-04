@@ -22,6 +22,7 @@ import { appContextDefaultValues, localFoodAppContext, ILocalFoodAppContextData 
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './services/supabase-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import EmailConfirmationScreen from './screens/EmailConfirmationScreen';
 
 export type StackNavigationParams = {
   home: undefined,
@@ -31,8 +32,7 @@ export type StackNavigationParams = {
   contact: undefined,
   mainContainer: undefined,
   productDetail: { id: any }
-
-
+  emailConfirmation: { email: string, from: 'login' | 'registration'  }
 }
 
 
@@ -99,6 +99,7 @@ const [ showCaseSeen, setShowCaseSeen] = useState (false)
                  
                   <AppMainStack.Screen name="home" component={Home} />
                   <AppMainStack.Screen name="login" component={LoginScreen} />
+                  <AppMainStack.Screen name="emailConfirmation" component={EmailConfirmationScreen} />
                   <AppMainStack.Screen name="registration" component={RegistrationScreen} />
                 </>
               )
