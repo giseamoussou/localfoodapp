@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput 
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { localFoodAppContext } from '../contexts/Context';
+import { PlatCategoryDisplay } from '../components/PlatCategoryDisplay';
 
 
 type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
@@ -18,7 +19,6 @@ const HomeScreen = (props: HomeScreenProps) => {
     function goToLogin() {
         props.navigation.navigate('login')
     }
-
 
 
     return (
@@ -70,23 +70,12 @@ const HomeScreen = (props: HomeScreenProps) => {
                             <Text style={styles.seeAllButtonText}>Voir tout</Text>
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.categoryRow}>
-                        <TouchableOpacity style={styles.categoryItem}>
-                            <Image source={require('../assets/images/African/Okra.jpeg')} style={styles.categoryImage} />
-                            <Text style={styles.categoryText}>Gombo</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.categoryItem}>
-                            <Image source={require('../assets/images/African/akpa.jpeg')} style={styles.categoryImage} />
-                            <Text style={styles.categoryText}>Monyo</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.categoryItem}>
-                            <Image source={require('../assets/images/African/gnonmli.jpg')} style={styles.categoryImage} />
-                            <Text style={styles.categoryText}>Haricot</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.categoryItem}>
-                            <Image source={require('../assets/images/African/porc.jpeg')} style={styles.categoryImage} />
-                            <Text style={styles.categoryText}>Viande de Porc</Text>
-                        </TouchableOpacity>
+                        <PlatCategoryDisplay title='Gombo' imageSource={require('../assets/images/African/Okra.jpeg')} onPress={() => { }} />
+                        <PlatCategoryDisplay title='Monyo' imageSource={require('../assets/images/African/akpa.jpeg')} onPress={() => { }} />
+                        <PlatCategoryDisplay title='Haricot' imageSource={require('../assets/images/African/gnonmli.jpg')} onPress={() => { }} />
+                        <PlatCategoryDisplay title='Viande de Porc' imageSource={require('../assets/images/African/porc.jpeg')} onPress={() => { }} />
                     </View>
 
                     {/* Today's Special */}
