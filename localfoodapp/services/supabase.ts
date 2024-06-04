@@ -66,6 +66,30 @@ export type Database = {
         }
         Relationships: []
       }
+      parametre: {
+        Row: {
+          cleprive: string | null
+          clepublic: string | null
+          clesecret: string | null
+          created_at: string
+          id: number
+        }
+        Insert: {
+          cleprive?: string | null
+          clepublic?: string | null
+          clesecret?: string | null
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          cleprive?: string | null
+          clepublic?: string | null
+          clesecret?: string | null
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
       plat: {
         Row: {
           description: string | null
@@ -73,7 +97,7 @@ export type Database = {
           image: string | null
           nom: string | null
           prix: number | null
-          qte: number | null
+          restauratriceId: number | null
         }
         Insert: {
           description?: string | null
@@ -81,7 +105,7 @@ export type Database = {
           image?: string | null
           nom?: string | null
           prix?: number | null
-          qte?: number | null
+          restauratriceId?: number | null
         }
         Update: {
           description?: string | null
@@ -89,7 +113,7 @@ export type Database = {
           image?: string | null
           nom?: string | null
           prix?: number | null
-          qte?: number | null
+          restauratriceId?: number | null
         }
         Relationships: []
       }
@@ -101,6 +125,7 @@ export type Database = {
           nom: string
           prenom: string | null
           quartier: string | null
+          specialites: string[] | null
           ville: string | null
         }
         Insert: {
@@ -110,6 +135,7 @@ export type Database = {
           nom: string
           prenom?: string | null
           quartier?: string | null
+          specialites?: string[] | null
           ville?: string | null
         }
         Update: {
@@ -119,22 +145,8 @@ export type Database = {
           nom?: string
           prenom?: string | null
           quartier?: string | null
+          specialites?: string[] | null
           ville?: string | null
-        }
-        Relationships: []
-      }
-      specialite: {
-        Row: {
-          id: number
-          nom_spe: string
-        }
-        Insert: {
-          id?: number
-          nom_spe: string
-        }
-        Update: {
-          id?: number
-          nom_spe?: string
         }
         Relationships: []
       }

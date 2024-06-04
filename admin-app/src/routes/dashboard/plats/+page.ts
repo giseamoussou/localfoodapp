@@ -5,8 +5,10 @@ export const load = (async ({ parent }) => {
     const { supabase } = await parent();
 
     const platsTask = supabase.from('plat').select('*');
+    const restaurantsTask = supabase.from('restauratrice').select("*")
     
     return {
-        platsTask
+        platsTask,
+        restaurantsTask
     };
 }) satisfies PageLoad;

@@ -1,8 +1,10 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
-import type { LayoutData } from './$types';
-    import DashboardMenuItem from '$lib/components/DashboardMenuItem/DashboardMenuItem.svelte';
-    
+    import type { LayoutData } from './$types';
+    import DashboardMenuItem from '$lib/components/DashboardMenuItem/DashboardMenuItem.svelte';    
+    import { Toaster } from '$lib/components/ui/sonner';
+
+
     export let data: LayoutData;
 </script>
 
@@ -36,5 +38,7 @@ import type { LayoutData } from './$types';
             <slot />
         </div>
     </main>
+
+    <!-- <Toaster prop /> -->
 
 </div>
