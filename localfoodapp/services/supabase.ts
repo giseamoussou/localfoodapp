@@ -11,40 +11,49 @@ export type Database = {
     Tables: {
       commande: {
         Row: {
-          adresse_liv: string | null
-          date_com: string | null
+          createdAt: string
           id: number
-          status: string | null
+          livraisonId: number | null
+          paiementId: number | null
+          reference: string | null
+          userId: number | null
+          userName: string | null
         }
         Insert: {
-          adresse_liv?: string | null
-          date_com?: string | null
+          createdAt?: string
           id?: number
-          status?: string | null
+          livraisonId?: number | null
+          paiementId?: number | null
+          reference?: string | null
+          userId?: number | null
+          userName?: string | null
         }
         Update: {
-          adresse_liv?: string | null
-          date_com?: string | null
+          createdAt?: string
           id?: number
-          status?: string | null
+          livraisonId?: number | null
+          paiementId?: number | null
+          reference?: string | null
+          userId?: number | null
+          userName?: string | null
         }
         Relationships: []
       }
       livraison: {
         Row: {
-          date_liv: string | null
-          etat: Database["public"]["Enums"]["StatusLivraison"]
+          commandeId: number | null
           id: number
+          statut: Database["public"]["Enums"]["StatusLivraison"] | null
         }
         Insert: {
-          date_liv?: string | null
-          etat: Database["public"]["Enums"]["StatusLivraison"]
+          commandeId?: number | null
           id?: number
+          statut?: Database["public"]["Enums"]["StatusLivraison"] | null
         }
         Update: {
-          date_liv?: string | null
-          etat?: Database["public"]["Enums"]["StatusLivraison"]
+          commandeId?: number | null
           id?: number
+          statut?: Database["public"]["Enums"]["StatusLivraison"] | null
         }
         Relationships: []
       }
@@ -68,25 +77,25 @@ export type Database = {
       }
       parametre: {
         Row: {
-          cleprive: string | null
-          clepublic: string | null
-          clesecret: string | null
           created_at: string
           id: number
+          privateKey: string | null
+          publicKey: string | null
+          secretKey: string | null
         }
         Insert: {
-          cleprive?: string | null
-          clepublic?: string | null
-          clesecret?: string | null
           created_at?: string
           id?: number
+          privateKey?: string | null
+          publicKey?: string | null
+          secretKey?: string | null
         }
         Update: {
-          cleprive?: string | null
-          clepublic?: string | null
-          clesecret?: string | null
           created_at?: string
           id?: number
+          privateKey?: string | null
+          publicKey?: string | null
+          secretKey?: string | null
         }
         Relationships: []
       }
@@ -117,10 +126,37 @@ export type Database = {
         }
         Relationships: []
       }
+      "plat-commande": {
+        Row: {
+          commandeId: number | null
+          createdAt: string
+          id: number
+          platId: number | null
+          platName: string | null
+          Qte: number | null
+        }
+        Insert: {
+          commandeId?: number | null
+          createdAt?: string
+          id?: number
+          platId?: number | null
+          platName?: string | null
+          Qte?: number | null
+        }
+        Update: {
+          commandeId?: number | null
+          createdAt?: string
+          id?: number
+          platId?: number | null
+          platName?: string | null
+          Qte?: number | null
+        }
+        Relationships: []
+      }
       restauratrice: {
         Row: {
           adresse: string | null
-          contact: number | null
+          contact: string | null
           id: number
           nom: string
           prenom: string | null
@@ -130,7 +166,7 @@ export type Database = {
         }
         Insert: {
           adresse?: string | null
-          contact?: number | null
+          contact?: string | null
           id?: number
           nom: string
           prenom?: string | null
@@ -140,7 +176,7 @@ export type Database = {
         }
         Update: {
           adresse?: string | null
-          contact?: number | null
+          contact?: string | null
           id?: number
           nom?: string
           prenom?: string | null

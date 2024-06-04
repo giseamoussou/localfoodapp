@@ -47,7 +47,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
             const { data: { session }, error } = await supabase.auth.signUp({
                 email: userData.email,
                 password: userData.password,
-                options: { data: { fullname: userData.fullname, isPremium: false } }
+                options: { data: { fullname: userData.fullname, phone: userData.tel } }
             })
 
             if (!error) {

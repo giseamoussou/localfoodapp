@@ -2,9 +2,9 @@
     import StatsCard from '$lib/components/StatsCard/StatsCard.svelte';
     import type { PageData } from './$types';
     import * as Table from "$lib/components/ui/table"
+    import Badge from '$lib/components/ui/badge/badge.svelte';
     import { Line, Pie } from 'svelte-chartjs';
     import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement } from 'chart.js';
-    import Badge from '$lib/components/ui/badge/badge.svelte';
     
 
     ChartJS.register( Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale, ArcElement );
