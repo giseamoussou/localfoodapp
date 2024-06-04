@@ -1,43 +1,35 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
-import { View, Text, TextInput, Button,Image, ScrollView, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Image, ScrollView, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationParams } from '../App';
-import { styles } from '../constants/Styles';
+import { globalStyles } from '../constants/Styles';
 import { supabase } from '../services/supabase-client';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { useRef } from 'react';
-import { Icon } from 'react-native-vector-icons/Icon';
-import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import LoadingModal from '../components/LoadingModal';
 
 
 const windowHeight = Dimensions.get('window').height;
-
-
-
-type RegistrationScreenProps = NativeStackScreenProps<StackNavigationParams, 'registration'>
-
-
 const windowWidth = Dimensions.get('window').width
+type RegistrationScreenProps = NativeStackScreenProps<StackNavigationParams, 'registration'>
 
 const registrationSchema = yup.object({
     fullname: yup.string().required("Nom complet requis").min(4, (v) => `Au moins ${v.min} Caractères`).max(64, (v) => `Pas plus de ${v.max} Caractères`),
     email: yup.string().required("E-mail requis").email((v) => "E-mail invalide"),
     password: yup.string().required("Mot de passe requis").min(8, (v) => `Au moins ${v.min} Caractères.`).max(32, (v) => `Pas plus de ${v.max} Caractères.`),
-    tel: yup.string().required("Numéro de téléphone").min(8, (v) => `Au moins ${v.min} Caractères.`),
+    tel: yup.string().required("Numéro de téléphone requis").min(8, (v) => `Au moins ${v.min} Caractères.`),
 })
 
 const RegistrationScreen = (props: RegistrationScreenProps) => {
+
+    const [isRegistering, setIsRegistering] = useState(false);
 
     function goToLogin() {
         props.navigation.navigate('login')
     }
 
-    const pwfFieldRef = useRef<TextInput>()
 
-    async function Register (userData: { fullname: string, email:string, password: string, tel: string}){
+    async function Register(userData: { fullname: string, email: string, password: string, tel: string }) {
 
         console.log(userData)
 
@@ -52,7 +44,7 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
 
             if (!error) {
                 if (!session) {
-                    props.navigation.navigate('login');
+                    props.navigation.navigate('emailConfirmation', { email: userData.email, from: 'registration' });
                 }
             }
             else {
@@ -112,154 +104,141 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
         }
     }
 
-
-    
-
     return (
-        <ScrollView>
-            <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
+        <>
+            <LoadingModal displayMsg="Veuillez patienter" indicatorColor="tomato" visible={isRegistering} key="loader" />
 
-                <View style={{ display: 'flex', flexDirection: 'column', width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Formik 
-                        initialValues={{ fullname: '', email: '', password: '', tel: '' }}
-                        validateOnChange={true}
-                        validateOnBlur={true}
-                        validateOnMount={true}
-                        initialErrors={{ fullname: "Nom requis", email: "Email Invalide", password: "Veillez renseigner votre Mot de passe", tel: "Numéro de téléphone invalide" }}
-                        validationSchema={registrationSchema}
-                        onSubmit={async (values, { setSubmitting }) => {
-                            setSubmitting(true)
-                            await Register(values)
-                            setSubmitting(false)
-                        }}
-                    >
-                        {({ handleSubmit, handleBlur, handleChange, values, errors, touched, isValid, isSubmitting }) => (
-                            <View  >
-                                <View style={{ backgroundColor: '#ac6cf6', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
-                                    <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
-                                </View>
-    
-                                <View style={{ display: 'flex', flex: 1, width: '100%', paddingHorizontal: 20 }}>
-                                    <View style={{ marginVertical: 15, marginBottom: 50 }}>
-                                        <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold', marginBottom: -20 }}>Local <Text style={{color:"black"}}>Food</Text>  App</Text>
-                                    </View>
-                                    <View style={{ }}>
-                                        <View style={{ marginBottom: 1}}>
-                                            
-                                            <TextInput 
-                                                value={values.fullname}
-                                                style={[styles.inputText]} 
-                                                keyboardType='name-phone-pad'
-                                                placeholder="Nom et Prénom"
-                                                placeholderTextColor='darkgray'
-                                                
-                                                cursorColor='darkblue'
-                                                onBlur={handleBlur('fullname')}
-                                                onChangeText={handleChange('fullname')}
-                                                editable={!isSubmitting}
-                                            />
-                                            {touched.fullname && errors.fullname ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.fullname}</Text> : <View style={{ marginBottom: 20 }}></View>}
-                                        </View>
-    
-                                        <View style={{ marginTop: 5, marginBottom: 1 }}>
-                                              
-                                            
-                                            <TextInput 
-                                                value={values.email}
-                                                style={[styles.inputText]} 
-                                                placeholder="Adresse e-mail"
-                                                placeholderTextColor='darkgray'
-                                                keyboardType='email-address'
-                                                cursorColor='darkblue' 
-                                                onBlur={handleBlur('email')}
-                                                onChangeText={handleChange('email')}
-                                                inputMode='email' 
-                                                editable={!isSubmitting}
-                                            />
-                                            {touched.email && errors.email ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.email}</Text> : <View style={{ marginBottom: 20 }}></View>}
-                                        </View>
-    
-                                        <View style={{ marginTop: 5, marginBottom: 5 }}>
-                                            
-                                            <TextInput 
-                                                value={values.password}
-                                                style={[styles.inputText]} 
-                                                placeholder="Mot de passe"
-                                                placeholderTextColor='darkgray'
-                                                cursorColor='darkblue'
-                                                secureTextEntry={true} 
-                                                onBlur={handleBlur('password')}
-                                                onChangeText={handleChange('password')}
-                                                editable={!isSubmitting}
-                                                
-                                            />
-                                            {touched.password && errors.password ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.password}</Text> : <View style={{ marginBottom: 20 }}></View>}
-                                        </View>
-    
-                                        <View style={{ marginTop: 5 }}>
-                                            
-                                            <TextInput
-                                                value={values.tel} 
-                                                style={[styles.inputText]} 
-                                                keyboardType='number-pad'
-                                                placeholder="Numéro de téléphone"
-                                                placeholderTextColor='darkgray'
-                                                cursorColor='darkblue'
-                                                onBlur={handleBlur('tel')}
-                                                onChangeText={handleChange('tel')}
-                                                editable={!isSubmitting}
-                                                
+            <ScrollView>
+                <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
 
-                                            />
-                                            {touched.tel && errors.tel ? <Text style={[Styles.error, { marginBottom: 20 }]}>{errors.tel}</Text> : <View style={{ marginBottom: 20 }}></View>}
+                    <View style={{ display: 'flex', flexDirection: 'column', width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        
+                        <View style={{ backgroundColor: '#ac6cf6', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
+                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
+                        </View>
+
+                        <Formik
+                            initialValues={{ fullname: '', email: '', password: '', tel: '' }}
+                            validateOnChange={true}
+                            validateOnBlur={true}
+                            validateOnMount={true}
+                            initialErrors={{ fullname: "Nom requis", email: "Email Invalide", password: "Veillez renseigner votre Mot de passe", tel: "Numéro de téléphone invalide" }}
+                            validationSchema={registrationSchema}
+                            onSubmit={async (values, { setSubmitting }) => {
+                                setSubmitting(true); setIsRegistering(true)
+
+                                await Register(values)
+                                setSubmitting(false); setIsRegistering(false)
+                            }}
+                        >
+                            {({ handleSubmit, handleBlur, handleChange, values, errors, touched, isValid, isSubmitting }) => (
+                                <ScrollView>
+                                    <View style={{ display: 'flex', flex: 1, width: '100%', paddingHorizontal: 20 }}>
+                                        <View style={{ marginVertical: 15, marginBottom: 50 }}>
+                                            <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold', marginBottom: -20 }}>Local <Text style={{ color: "black" }}>Food</Text>  App</Text>
                                         </View>
-    
-                                        <View style={{ marginTop: 15 }}>
-                                            <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.primaryBtn}>
-                                                <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
-                                            </TouchableOpacity>
-                                        </View>
-    
-                                        <View style={{ marginTop: 15, marginBottom:40 }}>
-                                            <Text style={{ textAlign: 'center', color: 'black', marginBottom: -10 }}>Ou</Text>
-                                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity:0.1 }}></View>
-                                                <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity:0.1 }}></View>
+
+                                        <View>
+                                            <View style={{ marginBottom: 5 }}>
+                                                <TextInput
+                                                    value={values.fullname}
+                                                    style={[globalStyles.inputText]}
+                                                    keyboardType='name-phone-pad'
+                                                    placeholder="Nom et Prénom"
+                                                    placeholderTextColor='darkgray'
+                                                    cursorColor='darkblue'
+                                                    onBlur={handleBlur('fullname')}
+                                                    onChangeText={handleChange('fullname')}
+                                                    editable={!isSubmitting}
+                                                />
+                                                {touched.fullname && errors.fullname ? <Text style={globalStyles.errorLabel}>{errors.fullname}</Text> : <></>}
+                                            </View>
+
+                                            <View style={{ marginBottom: 5 }}>
+                                                <TextInput
+                                                    value={values.email}
+                                                    style={[globalStyles.inputText]}
+                                                    placeholder="Adresse e-mail"
+                                                    placeholderTextColor='darkgray'
+                                                    keyboardType='email-address'
+                                                    cursorColor='darkblue'
+                                                    onBlur={handleBlur('email')}
+                                                    onChangeText={handleChange('email')}
+                                                    inputMode='email'
+                                                    editable={!isSubmitting}
+                                                />
+                                                {touched.email && errors.email ? <Text style={globalStyles.errorLabel}>{errors.email}</Text> : <></>}
+                                            </View>
+
+                                            <View style={{ marginBottom: 5 }}>
+                                                <TextInput
+                                                    value={values.tel}
+                                                    style={[globalStyles.inputText]}
+                                                    keyboardType='number-pad'
+                                                    placeholder="Numéro de téléphone"
+                                                    placeholderTextColor='darkgray'
+                                                    cursorColor='darkblue'
+                                                    onBlur={handleBlur('tel')}
+                                                    onChangeText={handleChange('tel')}
+                                                    editable={!isSubmitting}
+                                                />
+                                                {touched.tel && errors.tel ? <Text style={globalStyles.errorLabel}>{errors.tel}</Text> : <></>}
+                                            </View>
+
+                                            <View style={{ marginBottom: 5 }}>
+
+                                                <TextInput
+                                                    value={values.password}
+                                                    style={[globalStyles.inputText]}
+                                                    placeholder="Mot de passe"
+                                                    placeholderTextColor='darkgray'
+                                                    cursorColor='darkblue'
+                                                    secureTextEntry={true}
+                                                    onBlur={handleBlur('password')}
+                                                    onChangeText={handleChange('password')}
+                                                    editable={!isSubmitting}
+                                                />
+                                                {touched.password && errors.password ? <Text style={globalStyles.errorLabel}>{errors.password}</Text> : <></>}
+                                            </View>
+
+                                            <View style={{ marginTop: 15 }}>
+                                                {/* @ts-ignore */}
+                                                <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={globalStyles.primaryBtn}>
+                                                    <Text style={{ color: 'white', textAlign: 'center' }}>S'inscrire</Text>
+                                                </TouchableOpacity>
+                                            </View>
+
+                                            <View style={{ marginTop: 15, marginBottom: 40 }}>
+                                                <Text style={{ textAlign: 'center', color: 'black', marginBottom: -10 }}>Ou</Text>
+                                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                    <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity: 0.1 }}></View>
+                                                    <View style={{ borderColor: 'black', width: '40%', borderWidth: 0.5, backgroundColor: 'red', opacity: 0.1 }}></View>
+                                                </View>
                                             </View>
                                         </View>
-                                
-                                    </View>
-                                    <TouchableOpacity style={styles.googleButton}>
-                                        <Image style={{ width:20.03,height:20.44,left:14 }} source={require('../assets/images/face.png')}/>
-                                        <Text style={{color: "black", fontSize: 16,flex:1, fontWeight: "500", textAlign:"center" }}>S'inscrire Via Facebook</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.googleButton}>
-                                        <Image style={{ width:20.03,height:20.44,left:14}} source={require('../assets/images/google.png')}/>
-                                        <Text style={{ color: "black", fontSize: 16, flex:1, fontWeight: "500", textAlign:"center"}}>S'inscrire Via Google</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{alignSelf:"center", marginTop:1,}}>
-                                        <Text style={{ fontSize: 16, color:"black"}}>
-                                            J'ai déja un compte? <Text onPress={goToLogin} style={{ fontSize: 16, color:"#3662AA", fontWeight:"500"}}>Connectez-vous?</Text> 
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>         
-                        )}
-                    
-                    </Formik>
-                    
-                </View>
 
-            </ImageBackground>
-        </ScrollView>
+                                        <TouchableOpacity style={globalStyles.oAuthButton}>
+                                            <Image style={{ width: 20.03, height: 20.44, left: 14 }} source={require('../assets/images/face.png')} />
+                                            <Text style={{ color: "black", fontSize: 16, flex: 1, fontWeight: "500", textAlign: "center" }}>S'inscrire Via Facebook</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={globalStyles.oAuthButton}>
+                                            <Image style={{ width: 20.03, height: 20.44, left: 14 }} source={require('../assets/images/google.png')} />
+                                            <Text style={{ color: "black", fontSize: 16, flex: 1, fontWeight: "500", textAlign: "center" }}>S'inscrire Via Google</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={{ alignSelf: "center", marginTop: 1, }}>
+                                            <Text style={{ fontSize: 16, color: "black" }}>
+                                                J'ai déja un compte? <Text onPress={goToLogin} style={{ fontSize: 16, color: "#3662AA", fontWeight: "500" }}>Connectez-vous?</Text>
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </ScrollView>
+                            )}
+                        </Formik>
+                    </View>
+                </ImageBackground>
+            </ScrollView>
+        </>
     );
 };
 
 export default RegistrationScreen;
-
-const Styles = StyleSheet.create({
-    error: {
-        color: 'red',
-    }
-
-})

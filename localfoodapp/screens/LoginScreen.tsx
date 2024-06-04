@@ -1,15 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Alert, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native"
-import MaCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Alert, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
 import { StackNavigationParams } from "../App";
 import { TouchableOpacity } from "react-native";
-import React, { useContext, useState } from "react";
-import { appContextDefaultValues, localFoodAppContext } from "../contexts/Context";
+import React, { useState } from "react";
 import * as yup from 'yup';
-import { useRef } from 'react';
 import { Formik } from 'formik';
 import { supabase } from '../services/supabase-client';
 import LoadingModal from "../components/LoadingModal";
+import { globalStyles } from "../constants/Styles";
 
 
 
@@ -28,22 +26,17 @@ const registrationSchema = yup.object({
 
 const LoginScreen = (props: LoginScreenProps) => {
 
-    const { appContext, setAppContext } = useContext(localFoodAppContext)
     const [isSigningIn, setIsSigningIn] = useState(false);
-
 
     function goRegister() {
         props.navigation.navigate('registration')
 
     }
 
-    function log() {
-        setAppContext({ ...appContext, isSignedIn: true })
-    }
-
     function goMenu() {
         props.navigation.navigate('mainContainer')
     }
+
     function goHome() {
         props.navigation.navigate('home')
     }
@@ -85,13 +78,12 @@ const LoginScreen = (props: LoginScreenProps) => {
         } catch (error) {
             console.log(error)
         }
-
     }
 
 
     return (
         <>
-            <LoadingModal displayMsg="Veuillez patienter" indicatorColor="tomato" visible={isSigningIn} key="loader"/>
+            <LoadingModal displayMsg="Veuillez patienter" indicatorColor="tomato" visible={isSigningIn} key="loader" />
 
             <ScrollView>
                 <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
@@ -123,12 +115,12 @@ const LoginScreen = (props: LoginScreenProps) => {
                                         <View style={{ marginVertical: 15, marginBottom: 50 }}>
                                             <Text style={{ textAlign: 'center', color: '#ff5353', fontSize: 30, fontWeight: 'bold' }}>Local <Text style={{ color: "black" }}>Food</Text> App</Text>
                                         </View>
-                                        <View style={{}}>
-                                            <View style={{ marginBottom: 25 }}>
+                                        <View>
+                                            <View style={{ marginBottom: 15 }}>
                                                 <TextInput
                                                     value={values.email}
                                                     placeholder="Adresse e-mail"
-                                                    style={[styles.inputText]}
+                                                    style={globalStyles.inputText}
                                                     keyboardType='email-address'
                                                     inputMode='email'
                                                     placeholderTextColor='darkgray'
@@ -137,15 +129,15 @@ const LoginScreen = (props: LoginScreenProps) => {
                                                     onChangeText={handleChange('email')}
                                                     editable={!isSubmitting}
                                                 />
-                                                {touched.email && errors.email ? <Text style={[styles.error, { marginBottom: 2, marginStart: 8, fontSize: 12 }]}>{errors.email}</Text> : <></>}
+                                                {touched.email && errors.email ? <Text style={globalStyles.errorLabel}>{errors.email}</Text> : <></>}
 
                                             </View>
 
-                                            <View style={{}}>
+                                            <View>
                                                 <TextInput
                                                     placeholder="Mot de passe"
                                                     placeholderTextColor={'darkgray'}
-                                                    style={[styles.inputText]}
+                                                    style={globalStyles.inputText}
                                                     secureTextEntry={true}
                                                     value={values.password}
                                                     cursorColor='darkblue'
@@ -153,13 +145,13 @@ const LoginScreen = (props: LoginScreenProps) => {
                                                     onChangeText={handleChange('password')}
                                                     editable={!isSubmitting}
                                                 />
-                                                {touched.password && errors.password ? <Text style={[styles.error, { marginBottom: 2, marginStart: 8, fontSize: 12 }]}>{errors.password}</Text> : <></>}
+                                                {touched.password && errors.password ? <Text style={globalStyles.errorLabel}>{errors.password}</Text> : <></>}
 
                                             </View>
 
                                             <View style={{ marginTop: 25, marginBottom: 10 }}>
                                                 {/* @ts-ignore */}
-                                                <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={styles.primaryBtn}>
+                                                <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85} style={globalStyles.primaryBtn}>
                                                     <Text style={{ color: 'white', textAlign: 'center' }}>Se connecter</Text>
                                                 </TouchableOpacity>
                                             </View>
@@ -179,13 +171,13 @@ const LoginScreen = (props: LoginScreenProps) => {
 
                                         </View>
 
-                                        <TouchableOpacity disabled={isSubmitting || isSigningIn} activeOpacity={0.50} style={styles.googleButton}>
+                                        <TouchableOpacity disabled={isSubmitting || isSigningIn} activeOpacity={0.50} style={globalStyles.oAuthButton}>
                                             <Image style={{ width: 20.03, height: 20.44, left: 14 }} source={require('../assets/images/face.png')} />
-                                            <Text onPress={goMenu} style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>S'inscrire Via Facebook</Text>
+                                            <Text onPress={() => { Alert.alert("Info", "Non disponible") }} style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>S'inscrire Via Facebook</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity disabled={isSubmitting || isSigningIn} style={styles.googleButton}>
+                                        <TouchableOpacity disabled={isSubmitting || isSigningIn} style={globalStyles.oAuthButton}>
                                             <Image style={{ width: 20.03, height: 20.44, left: 14 }} source={require('../assets/images/google.png')} />
-                                            <Text onPress={goHome} style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>S'inscrire Via Google</Text>
+                                            <Text onPress={() => { Alert.alert("Info", "Non disponible") }} style={{ color: "black", fontSize: 16, fontWeight: "500", flex: 1, textAlign: "center" }}>S'inscrire Via Google</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity disabled={isSubmitting || isSigningIn} style={{ alignSelf: "center", marginTop: 40, }}>
                                             <Text style={{ fontSize: 16, color: "black" }}>
@@ -200,51 +192,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 </ImageBackground>
             </ScrollView>
         </>
-
     )
 }
-
-const styles = StyleSheet.create({
-    primaryBtn: {
-        backgroundColor: 'tomato',
-        width: 'auto',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 15,
-        elevation: 2,
-        marginTop: -10,
-
-    },
-    inputText: {
-        borderRadius: 15,
-        borderColor: 'darkgray',
-        borderWidth: 1,
-        width: "100%",
-        height: 49,
-        color: "black",
-        backgroundColor: "#fff",
-        paddingHorizontal: 15,
-        marginBottom: 5
-
-    },
-    googleButton: {
-        display: 'flex',
-        flexDirection: "row",
-        alignItems: 'center',
-        borderRadius: 15,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: "100%",
-        padding: 8,
-        backgroundColor: "#fff",
-        paddingHorizontal: 15,
-        marginBottom: 20
-
-    },
-    error: {
-        color: 'red',
-    }
-
-})
 
 export default LoginScreen

@@ -51,12 +51,16 @@ const App = () => {
     supabase.auth.getSession().then(({ data: { session }}) =>{
       setSession(session)
     })
+
     supabase.auth.onAuthStateChange(( _event, session) =>{
       setAuthResolved(true);
       setSession(session)
+
+      if(session?.user){
+        setAppContext({ ...appContext, isSignedIn: true })
+      }
     })
     checkIsFirstStart();
-    //fetchSettings();
   }
 )
 
@@ -79,9 +83,7 @@ const [ showCaseSeen, setShowCaseSeen] = useState (false)
 
     <localFoodAppContext.Provider value={defaultContext}>
 
-
       <NavigationContainer>
-
         <AppMainStack.Navigator initialRouteName={ 'showcase'} screenOptions={{ headerShown: false }}>
           {
             appContext.isSignedIn ?
@@ -105,7 +107,6 @@ const [ showCaseSeen, setShowCaseSeen] = useState (false)
               )
           }
         </AppMainStack.Navigator>
-
       </NavigationContainer>
 
     </localFoodAppContext.Provider>

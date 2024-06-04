@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
     primaryBtn: {
         backgroundColor: 'tomato',
         width: 'auto',
@@ -8,8 +8,6 @@ export const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 15,
         elevation: 2,
-        marginTop: -10,
-        
     },
     inputText: {
         borderRadius: 15,
@@ -22,7 +20,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginBottom: 10
     },
-    googleButton: {
+    oAuthButton: {
         display: 'flex',
         flexDirection: "row",
         alignItems: 'center',
@@ -33,7 +31,12 @@ export const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: "#fff",
         paddingHorizontal: 15,
-        marginBottom: 10,
-        marginTop: -5
-    }
+        marginBottom: 20,
+    },
+    errorLabel: {
+        color: 'red',
+        marginBottom: 2,
+        marginStart: 8,
+        fontSize: 12
+    },
 });
