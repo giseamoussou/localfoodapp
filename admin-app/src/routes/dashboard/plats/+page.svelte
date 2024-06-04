@@ -3,10 +3,7 @@
     import Icon from '@iconify/svelte';
     import type { PageData } from './$types';
     import Button from '$lib/components/ui/button/button.svelte';
-    import * as Table from "$lib/components/ui/table"
-    import * as AlertDialog from "$lib/components/ui/alert-dialog"
     import { Badge } from "$lib/components/ui/badge"
-    import { toast } from 'svelte-sonner';
     import { invalidateAll } from '$app/navigation';
     import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
@@ -14,6 +11,7 @@
     import SelectionCombo from '$lib/components/SelectionCombo/SelectionCombo.svelte';
     import Textarea from '$lib/components/ui/textarea/textarea.svelte';
     import { PUBLIC_SUPABASE_URL } from '$env/static/public';
+    import calert from 'calerts';
 
     export let data: PageData;
     
@@ -43,7 +41,11 @@
                 if(deletionResponse){
                     if(deletionResponse.count! > 0){
                         invalidateAll();
-                        toast("Plat Supprimé Avec succès");
+                        calert({
+                            icon: 'info',
+                            title: 'Plat Supprimé',
+                            confirmButton: 'Ok',
+                        })
                     }
                 }
             }
@@ -91,7 +93,11 @@
                                 }
                                 else if(platAddResponse.length > 0){
                                     invalidateAll();
-                                    // alert("Plat ajouté avec succès");
+                                    calert({
+                                        icon: 'success',
+                                        title: 'Plat ajouté avec succès',
+                                        confirmButton: 'Ok',
+                                    })
                                     isPlatAddDialogOpened = false;
                                 }
                             }
