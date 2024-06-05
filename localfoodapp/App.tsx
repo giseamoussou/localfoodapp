@@ -15,7 +15,7 @@ import ShowcaseScreen from './screens/ShowcaseScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import ContactScreens from './screens/ContactScreens';
-import MainContainer from './navigation/MainContainer';
+import MainContainer from './screens/MainContainer';
 import { appContextDefaultValues, cartContextDefaultValues, LocalFoodAppContext, ShoppingCartContext } from './contexts/Context'
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './services/supabase-client';

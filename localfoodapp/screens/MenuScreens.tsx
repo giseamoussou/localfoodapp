@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MainContainerParams } from '../navigation/MainContainer';
+import { MainContainerParams } from './MainContainer';
 import { globalStyles } from '../constants/Styles';
 import { ShoppingCartContext } from '../contexts/Context';
 import PlatDisplat from '../components/PlatDisplay';

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackNavigationParams } from '../App';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LocalFoodAppContext } from '../contexts/Context';
 import { PlatCategoryDisplay } from '../components/PlatCategoryDisplay';
@@ -26,7 +26,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     {/* Search Bar */}
                     <View style={globalStyles.searchBar}>
                         <TextInput style={globalStyles.searchInput} placeholderTextColor="lightgray" placeholder="Un plat ou une cuisine..." />
-                        <Icon name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
+                        <Ionicons name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                     </View>
 
                     {/* Discount Banner */}
@@ -73,10 +73,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                             <Image source={require('../assets/images/ice_cream.png')} style={styles.specialImage} />
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
-
             </ScrollView>
             {
                 !appContext.isSignedIn ?
