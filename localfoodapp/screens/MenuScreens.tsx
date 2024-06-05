@@ -132,7 +132,7 @@ function MenuScreens(props: MenuScreensProps) {
                                 data={platsList}
                                 renderItem={({ item }) =>
                                 (
-                                    <PlatDisplat addToCart={addToCart} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
+                                    <PlatDisplat addToCart={() => addToCart(item)} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
                                 )}
                             />
                         )
