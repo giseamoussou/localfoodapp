@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, Easing, Dimensions, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, Easing, Dimensions, ActivityIndicator, AppState, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackNavigationParams } from "../App";
@@ -8,6 +8,7 @@ import { supabase } from '../services/supabase-client';
 import { Database } from '../services/supabase';
 import { SkeletonSimpler } from 'react-native-skeleton-simpler';
 import Config from 'react-native-config';
+import { ICartContextData, ShoppingCartContext } from '../contexts/Context';
 
 
 type ProductDetailsProps = NativeStackScreenProps<StackNavigationParams, 'productDetail'>
@@ -16,18 +17,61 @@ const windowWidth = Dimensions.get('window').width;
 
 function ProductDetailsScreen(props: ProductDetailsProps) {
 
-    const [quantity, setQuantity] = useState(1);
-    const [frenchFries, setFrenchFries] = useState(false);
-    const [burger, setBurger] = useState(false);
+    const { cartContext, setCartContext } = useContext(ShoppingCartContext)
+
+    const [quantity, setQuantity] = useState(cartContext.cart.filter(item => item.id === props.route.params.id).length > 0 ? cartContext.cart.filter(item => item.id === props.route.params.id)[0].quantity : 0);
     const [currentPlat, setCurrentPlat] = useState<Database['public']['Tables']['plat']['Row'] | null>(null)
     const [isLoadingData, setIsLoadingData] = useState(true);
 
     useEffect(() => {
-
         fetchPlatDetails();
+    }, [])
 
-    }, [props.route.params.id,])
+    useEffect(() => {
 
+        console.log("Cart Content " + JSON.stringify(cartContext.cart))
+        setQuantity(cartContext.cart.filter(item => item.id === props.route.params.id).length > 0 ? cartContext.cart.filter(item => item.id === props.route.params.id)[0].quantity : 0)
+
+    }, [cartContext, cartContext.cart, quantity])
+
+    function addToCart(context: ICartContextData, contextSetterFunction: Function, plat: Database['public']['Tables']['plat']['Row'] | null) {
+
+        if (context && plat) {
+
+            if (context.cart.filter((item) => item.id == plat.id).length > 0) {
+                contextSetterFunction({
+                    ...context,
+                    cart: context.cart.map((item) => {
+                        if (item.id === plat.id) {
+                            return {
+                                id: plat.id,
+                                name: plat.nom,
+                                price: plat.prix,
+                                quantity: item.quantity + 1,
+                            }
+                        }
+                        return item
+                    })
+                })
+            }
+            else {
+                contextSetterFunction({
+                    ...context,
+                    cart: [
+                        ...context.cart,
+                        {
+                            id: plat.id,
+                            name: plat.nom,
+                            price: plat.prix,
+                            quantity: 1
+                        }
+                    ]
+                })
+            }
+
+            ToastAndroid.show(plat.nom + " ajouté au panier", ToastAndroid.SHORT)
+        }
+    }
 
     async function fetchPlatDetails() {
 
@@ -64,7 +108,7 @@ function ProductDetailsScreen(props: ProductDetailsProps) {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView style={{ flex: 1, backgroundColor: '#fff',}}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#fff', }}>
 
                 <SkeletonSimpler loading={isLoadingData}
                     layout={[
@@ -85,7 +129,7 @@ function ProductDetailsScreen(props: ProductDetailsProps) {
                     ]}>
 
                     <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginVertical: 10 }}></View>
-                    
+
                     <View style={styles.detailsContainer}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#ff5353', marginTop: 8 }}>{currentPlat?.nom}</Text>
                         <Text style={styles.pizzaDescription}>{currentPlat?.description}</Text>
@@ -96,20 +140,20 @@ function ProductDetailsScreen(props: ProductDetailsProps) {
             </ScrollView>
 
             {
-                isLoadingData ? 
-                (
-                    <ActivityIndicator size={40} style={{ alignSelf: 'center', marginBottom: 25, marginTop: 5 }} color='tomato' />
-                )
-                :
-                (
-                    <View style={{ flexDirection: 'row', backgroundColor: 'floralwhite', marginTop: 15, alignContent: 'center', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, elevation: 2, borderColor: 'lightgray', paddingTop: 15, paddingBottom: 20 }}>
-                        <Text style={{ fontSize: 15, fontWeight: '600', color: 'white', backgroundColor: 'indigo', paddingHorizontal: 35, paddingVertical: 6, borderRadius: 10 }}>Qte: {quantity}</Text>
-                        <TouchableOpacity style={{ backgroundColor: 'tomato', display: 'flex', flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 8, marginTop: 2, }}>
-                            <MaterialComIcon name="cart-plus" color='white' size={20} style={{ textAlignVertical: 'center' }} />
-                            <Text style={{ color: 'white', fontSize: 15 }}> Ajouter </Text>
-                        </TouchableOpacity>
-                    </View>
-                )
+                isLoadingData ?
+                    (
+                        <ActivityIndicator size={40} style={{ alignSelf: 'center', marginBottom: 25, marginTop: 5 }} color='tomato' />
+                    )
+                    :
+                    (
+                        <View style={{ flexDirection: 'row', backgroundColor: 'floralwhite', marginTop: 15, alignContent: 'center', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, elevation: 2, borderColor: 'lightgray', paddingTop: 15, paddingBottom: 20 }}>
+                            <Text style={{ fontSize: 15, fontWeight: '600', color: 'white', backgroundColor: 'indigo', paddingHorizontal: 35, paddingVertical: 6, borderRadius: 10 }}>Qte: {quantity}</Text>
+                            <TouchableOpacity onPress={() => addToCart(cartContext, setCartContext, currentPlat)  } style={{ backgroundColor: 'tomato', display: 'flex', flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 8, marginTop: 2, }}>
+                                <MaterialComIcon name="cart-plus" color='white' size={20} style={{ textAlignVertical: 'center' }} />
+                                <Text style={{ color: 'white', fontSize: 15 }}> Ajouter </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
             }
         </View>
 
