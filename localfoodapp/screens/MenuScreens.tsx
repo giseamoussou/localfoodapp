@@ -1,123 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MainContainerParams } from '../navigation/MainContainer';
 import { globalStyles } from '../constants/Styles';
 import { ShoppingCartContext } from '../contexts/Context';
 import PlatDisplat from '../components/PlatDisplay';
-import { useNavigation } from '@react-navigation/native';
+import { Database } from '../services/supabase';
+import Config from 'react-native-config';
+import { supabase } from '../services/supabase-client';
 
 type MenuScreensProps = NativeStackScreenProps<MainContainerParams, 'menu'>;
 
 
 function MenuScreens(props: MenuScreensProps) {
 
-    const stackNavigator = useNavigation()
     const categories = ['Fast Food', 'Sauces', 'Dessert', 'Boissons'];
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
     const [selectedCategory, setSelectedCategory] = React.useState(categories[0]);
-
-    const menuItems = [
-        {
-            id: '7',
-            name: 'Cheese Burger',
-            price: 199,
-            discount: 19,
-            category: 'Fast Food',
-            isTrending: false,
-            isChefPick: false,
-            isTopSelling: true,
-            image: require('../assets/images/pizza/pizza2.jpg'),
-        },
-        {
-            id: '9',
-            name: 'Cheese Burger',
-            price: 199,
-            discount: 19,
-            category: 'Fast Food',
-            isTrending: false,
-            isChefPick: false,
-            isTopSelling: true,
-            image: require('../assets/images/African/Okra.jpeg'),
-        },
-        {
-            id: '10',
-            name: 'Sauce',
-            price: 199,
-            discount: 19,
-            category: 'Sauces',
-            isTrending: false,
-            isChefPick: false,
-            isTopSelling: true,
-            image: require('../assets/images/African/Orak.jpeg'),
-        },
-        {
-            id: '11',
-            name: 'Sauce Crin-crin',
-            price: 199,
-            discount: 19,
-            category: 'Sauces',
-            isTrending: false,
-            isChefPick: false,
-            isTopSelling: true,
-            image: require('../assets/images/African/Yumceetee.jpeg'),
-        },
-        {
-            id: '4',
-            name: 'Sauce Gombo',
-            price: 299,
-            discount: 14,
-            category: 'Sauces',
-            isTrending: false,
-            isChefPick: true,
-            isTopSelling: false,
-            image: require('../assets/images/African/Okra.jpeg'),
-        },
-        {
-            id: '5',
-            name: 'Sauce Adidon',
-            price: 399,
-            discount: 14,
-            category: 'Sauces',
-            isTrending: true,
-            isChefPick: false,
-            isTopSelling: false,
-            image: require('../assets/images/African/adidon.jpg'),
-        },
-        {
-            id: '6',
-            name: 'Bissap ',
-            price: 399,
-            discount: 14,
-            category: 'Sauces',
-            isTrending: true,
-            isChefPick: false,
-            isTopSelling: false,
-            image: require('../assets/images/Boisssons/jus.jpg')
-        },
-    ];
+    const [platsList, setPlatsList] = useState<Database['public']['Tables']['plat']['Row'][] | null>(null)
 
     const handleCategoryPress = (category: string) => {
         setSelectedCategory(category);
     };
 
-    function addToCart(id: any) {
-        const product = menuItems.filter((item) => item.id === id)[0]
 
-        if (product) {
+    function addToCart(plat: Database['public']['Tables']['plat']['Row'] | null) {
 
-            ToastAndroid.show(product.name + " ajouté au panier", ToastAndroid.SHORT)
+        if (plat) {
 
-            if (cartContext.cart.filter((item) => item.id === id).length > 0) {
+            ToastAndroid.show(plat.nom + " ajouté au panier", ToastAndroid.SHORT)
+
+            if (cartContext.cart.filter((item) => item.id === plat.id).length > 0) {
                 setCartContext({
                     ...cartContext,
                     cart: cartContext.cart.map((item) => {
-                        if (item.id === id) {
+                        if (item.id === plat.id) {
                             return {
-                                id: product.id,
-                                name: product.name,
-                                price: product.price,
+                                id: plat.id,
+                                name: plat.nom ?? "",
+                                price: plat.prix ?? 0,
                                 quantity: item.quantity + 1,
                             }
                         }
@@ -131,9 +53,9 @@ function MenuScreens(props: MenuScreensProps) {
                     cart: [
                         ...cartContext.cart,
                         {
-                            id: product.id,
-                            name: product.name,
-                            price: product.price,
+                            id: plat.id,
+                            name: plat.nom ?? '',
+                            price: plat.prix ?? 0,
                             quantity: 1
                         }
                     ]
@@ -145,6 +67,38 @@ function MenuScreens(props: MenuScreensProps) {
     function viewDetails(id: any) {
         props.navigation.getParent()?.navigate('productDetail', { id: id })
     }
+
+    async function fetchPlats() {
+
+        try {
+
+            const { data, error } = await supabase.from('plat').select('*');
+
+            if (data) {
+                console.log(JSON.stringify(data));
+                setPlatsList(data)
+            }
+
+            if (error || !data) {
+                props.navigation.goBack();
+            }
+
+        } catch (error) {
+
+            Alert.alert("Erreur", "Une erreur s'est produite, Vérifiez votre connexion")
+        }
+
+        // setIsLoadingData(false);
+    }
+
+
+    useEffect(() => {
+
+        fetchPlats();
+
+    }, [])
+
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -170,14 +124,25 @@ function MenuScreens(props: MenuScreensProps) {
                     ))}
                 </ScrollView>
 
-                <FlatList style={{ marginBottom: 10 }}
-                    data={menuItems.filter((item) => item.category === selectedCategory)}
-                    renderItem={({ item }) =>
-                    (
-                        <PlatDisplat addToCart={addToCart} viewDetails={viewDetails} product={item} key={item.id} />
-                    )}
-                    keyExtractor={(item) => item.id}
-                />
+                {
+                    platsList ?
+                        (
+                            <FlatList style={{ marginBottom: 10 }}
+
+                                data={platsList}
+                                renderItem={({ item }) =>
+                                (
+                                    <PlatDisplat addToCart={addToCart} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
+                                )}
+                            />
+                        )
+                        :
+                        (
+                            <>
+                                <ActivityIndicator color="tomato" size={40} />
+                            </>
+                        )
+                }
             </View>
         </View>
     );
@@ -207,9 +172,10 @@ const styles = StyleSheet.create({
     categoryContainer: {
         display: 'flex',
         marginBottom: 5,
-        maxHeight: 60,
+        maxHeight: 70,
         paddingHorizontal: 0,
-        paddingVertical: 5
+        paddingVertical: 5,
+        height: 70
     },
     categoryButton: {
         backgroundColor: '#a855f7',
@@ -227,5 +193,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     }
 });
+
 
 export default MenuScreens;

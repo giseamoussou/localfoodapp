@@ -4,9 +4,9 @@ import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type PlatDisplayProps = {
     product: {
-        id: string,
-        name: string,
-        price: number,
+        id: any,
+        name: string | null,
+        price: number | null,
         category: string,
         image: ImageSourcePropType
     },
