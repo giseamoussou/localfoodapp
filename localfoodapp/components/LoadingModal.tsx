@@ -9,9 +9,9 @@ const LoadingModal: React.FC<{ visible: boolean, displayMsg: string, indicatorCo
 
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginBottom: 15 }}>
 
-                <ActivityIndicator size={50} color={props.indicatorColor ? props.indicatorColor : 'indigo'} style={{ marginEnd: 30 }} />
+                <ActivityIndicator size={40} color={props.indicatorColor ? props.indicatorColor : 'indigo'} style={{ marginEnd: 30 }} />
 
-                <Text style={{ color: 'black', textAlign: 'center', fontSize: 18, textAlignVertical: 'center' }}>{props.displayMsg}</Text>
+                <Text style={{ color: 'black', textAlign: 'center', fontSize: 16, textAlignVertical: 'center' }}>{props.displayMsg}</Text>
             </View>
 
         </Dialog.Container>

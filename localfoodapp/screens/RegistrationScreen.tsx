@@ -4,9 +4,9 @@ import { View, Text, TextInput, Image, ScrollView, ImageBackground, Dimensions, 
 import { StackNavigationParams } from '../App';
 import { globalStyles } from '../constants/Styles';
 import { supabase } from '../services/supabase-client';
+import LoadingModal from '../components/LoadingModal';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import LoadingModal from '../components/LoadingModal';
 
 
 const windowHeight = Dimensions.get('window').height;
@@ -112,9 +112,9 @@ const RegistrationScreen = (props: RegistrationScreenProps) => {
                 <ImageBackground style={{ height: windowHeight }} source={require('../assets/bg/bg-0.png')}>
 
                     <View style={{ display: 'flex', flexDirection: 'column', width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        
+
                         <View style={{ backgroundColor: '#ac6cf6', height: 'auto', width: windowWidth, paddingVertical: 25, borderBottomLeftRadius: 20, borderBottomEndRadius: 20 }}>
-                                <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
+                            <Text style={{ color: 'white', textAlign: 'center', fontSize: 25 }}> Inscription </Text>
                         </View>
 
                         <Formik
