@@ -4,8 +4,9 @@ import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, S
 import { StackNavigationParams } from '../App';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MainContainerParams } from '../navigation/MainContainer';
 
-type MenuScreensProps = NativeStackScreenProps<StackNavigationParams, 'menu'>;
+type MenuScreensProps = NativeStackScreenProps<MainContainerParams, 'menu'>;
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

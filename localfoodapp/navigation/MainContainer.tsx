@@ -28,26 +28,26 @@ export default function MainContainer() {
     <Tab.Navigator initialRouteName="home"
       screenOptions={({ route }) => ({
         tabBarLabel({ focused, color, position, children }) {
-          
+
           let label = 'Tab';
-          if(route.name == 'home'){
+          if (route.name == 'home') {
             label = "Acceuil"
           }
-          if(route.name == 'menu'){
+          if (route.name == 'menu') {
             label = "Menu"
           }
-          if(route.name == 'orders'){
+          if (route.name == 'orders') {
             label = "Commandes"
           }
-          if(route.name == 'shoppingCard'){
+          if (route.name == 'shoppingCard') {
             label = "Panier"
           }
 
-          return <Text style={{ color: focused ? 'white' : 'black', fontSize: 12 }}>{label}</Text>
+          return <Text style={{ color: focused ? 'white' : 'indigo', fontSize: 12 }}>{label}</Text>
         },
         tabBarIcon: ({ focused, color, size }) => {
 
-          color = focused ? 'white' : 'black';
+          color = focused ? 'white' : 'indigo';
           let iconName = "home";
 
           if (route.name === "home") {
