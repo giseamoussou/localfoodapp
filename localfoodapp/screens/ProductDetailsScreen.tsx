@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackNavigationParams } from "../App";
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { supabase } from '../services/supabase-client';
+import { Database } from '../services/supabase';
 
 
 type ProductDetailsProps = NativeStackScreenProps<StackNavigationParams, 'productDetail'>
@@ -14,6 +16,37 @@ function ProductDetailsScreen(props: ProductDetailsProps) {
   const [frenchFries, setFrenchFries] = useState(false);
   const [burger, setBurger] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [currentPlat, setCurrentPlat] = useState<Database['public']['Tables']['plat']['Row'] | null>(null)
+
+  useEffect(() => {
+
+    fetchPlatDetails();
+
+  }, [props.route.params.id,])
+
+
+  async function fetchPlatDetails() {
+
+    console.log("Plat id is " + props.route.params.id)
+
+    try {
+
+      const { data, error } = await supabase.from('plat').select('*').eq('id', props.route.params.id)
+
+      if (data) {
+        setCurrentPlat(data[0])
+        console.log(JSON.stringify(data[0]));
+      }
+
+      if (error || !data) {
+        props.navigation.goBack();
+      }
+
+    } catch (error) {
+
+      Alert.alert("Erreur", "Une erreur s'est produite, Vérifiez votre connexion")
+    }
+  }
 
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -41,123 +74,123 @@ function ProductDetailsScreen(props: ProductDetailsProps) {
 
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
-            <Text style={styles.backButtonText}>{'<'}</Text>
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Dejeuner</Text>
-        </View>
-        <View style={styles.pizzaImageContainer}>
-          <Image
-            source={require('../assets/images/African/banane.jpeg')}
-            style={styles.pizzaImage}
-          />
-          <TouchableOpacity style={styles.heartIcon}>
-            <MaterialComIcon name='cards-heart-outline' style={styles.heartIconText} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.bestsellerText}>BESTSELLER</Text>
-          <Text style={styles.pizzaName}>Bannane</Text>
-          <Text style={styles.pizzaDescription}>
-            Un met absolument exellent pour un repas de l'après-midi... {' '}
-            {showMore ? (
-              <Text>
-                read less{' '}
-                <Text
-                  style={{ color: 'blue', textDecorationLine: 'underline' }}
-                  onPress={() => handleReadMore()}
-                >
-                  read more
-                </Text>
-              </Text>
-            ) : (
-              <Text>
-                read more{' '}
-                <Text
-                  style={{ color: 'blue', textDecorationLine: 'underline' }}
-                  onPress={() => handleReadMore()}
-                >
-                  read less
-                </Text>
-              </Text>
-            )}
+    <View style={{ display: 'flex', flex: 1 }}>
 
-
-
-
-          </Text>
-          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
-          <View style={styles.ratingContainer}>
-            <MaterialComIcon color="#ff5353" name="star-outline" size={35} style={{ marginBottom: 6 }} />
-            <Text style={styles.rating}>5.0(34)</Text>
-            <Text style={styles.ratingLabel}>Plat principal</Text>
-            <View style={styles.chefPickContainer}>
-              <Text style={styles.chefPickText}></Text>
-            </View>
-          </View>
-          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
-          <View style={styles.addOnsContainer}>
-            <Text style={styles.addOnsTitle}>Ajouter</Text>
-            <View style={styles.addOnItemContainer}>
-              <Text style={styles.addOnItemText}>Jus de bissap</Text>
-              <TouchableOpacity
-                style={styles.addOnCheckboxContainer}
-                onPress={() => setFrenchFries(!frenchFries)}
-              >
-                <View
-                  style={[
-                    styles.addOnCheckbox,
-                    frenchFries && styles.addOnCheckboxChecked,
-                  ]}
-                />
-              </TouchableOpacity>
-              <Text style={styles.addOnItemPrice}>500Fcfa</Text>
-            </View>
-            <View style={styles.addOnItemContainer}>
-              <Text style={styles.addOnItemText}>Riz au gras   </Text>
-              <TouchableOpacity
-                style={styles.addOnCheckboxContainer}
-                onPress={() => setBurger(!burger)}
-              >
-                <View
-                  style={[
-                    styles.addOnCheckbox,
-                    burger && styles.addOnCheckboxChecked,
-                  ]}
-                />
-              </TouchableOpacity>
-              <Text style={styles.addOnItemPrice}>500 Fcfa</Text>
-            </View>
-          </View>
-          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 30 }}></View>
-          <View style={styles.quantityContainer}>
-            <TouchableOpacity
-              style={styles.quantityButton}
-              onPress={handleDecreaseQuantity}
-            >
-              <Text style={styles.quantityButtonText}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.quantityText}>{quantity}</Text>
-            <TouchableOpacity
-              style={styles.quantityButton}
-              onPress={handleIncreaseQuantity}
-            >
-              <Text style={styles.quantityButtonText}>+</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.addToCartButton}>
-              <Text style={styles.addToCartButtonText}>
-                <Icon name="bag-handle-outline" style={styles.bagIcon} />
-                Add Card
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-        </View>
+      <View style={{ backgroundColor: 'white', elevation: 2, height: 45, paddingHorizontal: 15, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, marginBottom: 10 }}>
+        <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ display: 'flex', flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', alignContent: 'center' }}>
+          <Icon name="chevron-back-circle-outline" size={25} color="black" />
+          <Text style={{ fontSize: 16, marginStart: 10 }}>Retour</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.container}>
+
+          <View style={styles.platImageContainer}>
+            <Image source={require('../assets/images/African/banane.jpeg')} style={styles.platImage} />
+          </View>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.bestsellerText}>BESTSELLER</Text>
+            <Text style={styles.pizzaName}>Bannane</Text>
+            <Text style={styles.pizzaDescription}>
+              Un met absolument exellent pour un repas de l'après-midi... {' '}
+              {showMore ? (
+                <Text>
+                  read less{' '}
+                  <Text
+                    style={{ color: 'blue', textDecorationLine: 'underline' }}
+                    onPress={() => handleReadMore()}
+                  >
+                    read more
+                  </Text>
+                </Text>
+              ) : (
+                <Text>
+                  read more{' '}
+                  <Text
+                    style={{ color: 'blue', textDecorationLine: 'underline' }}
+                    onPress={() => handleReadMore()}
+                  >
+                    read less
+                  </Text>
+                </Text>
+              )}
+
+
+
+
+            </Text>
+            <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
+            <View style={styles.ratingContainer}>
+              <MaterialComIcon color="#ff5353" name="star-outline" size={35} style={{ marginBottom: 6 }} />
+              <Text style={styles.rating}>5.0(34)</Text>
+              <Text style={styles.ratingLabel}>Plat principal</Text>
+              <View style={styles.chefPickContainer}>
+                <Text style={styles.chefPickText}></Text>
+              </View>
+            </View>
+            <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
+            <View style={styles.addOnsContainer}>
+              <Text style={styles.addOnsTitle}>Ajouter</Text>
+              <View style={styles.addOnItemContainer}>
+                <Text style={styles.addOnItemText}>Jus de bissap</Text>
+                <TouchableOpacity
+                  style={styles.addOnCheckboxContainer}
+                  onPress={() => setFrenchFries(!frenchFries)}
+                >
+                  <View
+                    style={[
+                      styles.addOnCheckbox,
+                      frenchFries && styles.addOnCheckboxChecked,
+                    ]}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.addOnItemPrice}>500Fcfa</Text>
+              </View>
+              <View style={styles.addOnItemContainer}>
+                <Text style={styles.addOnItemText}>Riz au gras   </Text>
+                <TouchableOpacity
+                  style={styles.addOnCheckboxContainer}
+                  onPress={() => setBurger(!burger)}
+                >
+                  <View
+                    style={[
+                      styles.addOnCheckbox,
+                      burger && styles.addOnCheckboxChecked,
+                    ]}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.addOnItemPrice}>500 Fcfa</Text>
+              </View>
+            </View>
+            <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 30 }}></View>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity
+                style={styles.quantityButton}
+                onPress={handleDecreaseQuantity}
+              >
+                <Text style={styles.quantityButtonText}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.quantityText}>{quantity}</Text>
+              <TouchableOpacity
+                style={styles.quantityButton}
+                onPress={handleIncreaseQuantity}
+              >
+                <Text style={styles.quantityButtonText}>+</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.addToCartButton}>
+                <Text style={styles.addToCartButtonText}>
+                  <Icon name="bag-handle-outline" style={styles.bagIcon} />
+                  Add Card
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+
   );
 };
 
@@ -166,50 +199,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  header: {
+  platImageContainer: {
+    alignItems: 'center',
+    backgroundColor: "#fee",
+    paddingVertical: 0,
+    paddingHorizontal: 2,
+    borderRadius: 10,
+    elevation: 3
+  },
+  platImage: {
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 16,
-  },
-  backButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  pizzaImageContainer: {
-    alignItems: 'center',
-
-    backgroundColor: "#fee"
-
-
-  },
-  pizzaImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 12,
-  },
-  heartIcon: {
-    position: 'absolute',
-    top: 16,
-    right: 16,
-    padding: 8,
-    borderRadius: 50,
-    backgroundColor: '#fff',
-  },
-  heartIconText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ff0000',
+    flex: 1,
+    width: '100%',
+    height: 200,
+    borderRadius: 10
   },
   detailsContainer: {
     padding: 16,

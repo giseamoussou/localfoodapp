@@ -13,14 +13,11 @@ type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
 
 const HomeScreen = (props: HomeScreenProps) => {
 
-
     const { appContext, setAppContext } = useContext(LocalFoodAppContext)
-
 
     function goToLogin() {
         props.navigation.navigate('login')
     }
-
 
     return (
         <>

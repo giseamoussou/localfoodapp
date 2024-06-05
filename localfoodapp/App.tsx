@@ -106,13 +106,14 @@ const App = () => {
                       headerShown: true,
                       header: (props) => <AppMainStackHeader {...props} />
                     }
-                  }>
+                  }
+                >
                   {
                     appContext.isSignedIn ?
                       (
                         <>
                           <AppMainStack.Screen name="mainContainer" component={MainContainer} />
-                          <AppMainStack.Screen name="productDetail" component={ProductDetails} />
+                          <AppMainStack.Screen name="productDetail" component={ProductDetails} options={{ headerShown: false }} />
                           <AppMainStack.Screen name="contact" component={ContactScreens} />
                         </>
                       )
@@ -145,7 +146,7 @@ const App = () => {
         }
 
       </LocalFoodAppContext.Provider>
-      
+
     </ShoppingCartContext.Provider>
   )
 };
@@ -167,7 +168,7 @@ function AppMainStackHeader(props: NativeStackHeaderProps) {
                 <FeatherIcon name='map-pin' color="white" size={20} />
                 <Text style={{ color: "floralwhite", marginLeft: 8, fontWeight: 'bold' }}>Porto-Novo</Text>
               </View>
-              <TouchableOpacity activeOpacity={0.7} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'blue', padding: 5, borderRadius: 15 }}>
+              <TouchableOpacity activeOpacity={0.7} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'darkslateblue', padding: 5, borderRadius: 15 }}>
                 {userNameLength && (userNameLength < 20) && <Text style={{ color: 'white', marginEnd: 5, textTransform: 'capitalize', }}>{appContext.user.fullname}</Text>}
                 <Fa5Icon name='user-circle' size={28} color="white" />
               </TouchableOpacity>

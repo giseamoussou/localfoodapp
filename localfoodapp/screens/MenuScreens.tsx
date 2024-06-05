@@ -1,15 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MainContainerParams } from '../navigation/MainContainer';
 import { globalStyles } from '../constants/Styles';
 import { ShoppingCartContext } from '../contexts/Context';
 import PlatDisplat from '../components/PlatDisplay';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationParams } from '../App';
-import { NativeStackNavigatorProps } from 'react-native-screens/lib/typescript/native-stack/types';
 
 type MenuScreensProps = NativeStackScreenProps<MainContainerParams, 'menu'>;
 
@@ -23,7 +20,7 @@ function MenuScreens(props: MenuScreensProps) {
 
     const menuItems = [
         {
-            id: '1',
+            id: '7',
             name: 'Cheese Burger',
             price: 199,
             discount: 19,
@@ -34,7 +31,7 @@ function MenuScreens(props: MenuScreensProps) {
             image: require('../assets/images/pizza/pizza2.jpg'),
         },
         {
-            id: '8',
+            id: '9',
             name: 'Cheese Burger',
             price: 199,
             discount: 19,
@@ -45,7 +42,7 @@ function MenuScreens(props: MenuScreensProps) {
             image: require('../assets/images/African/Okra.jpeg'),
         },
         {
-            id: '2',
+            id: '10',
             name: 'Sauce',
             price: 199,
             discount: 19,
@@ -56,7 +53,7 @@ function MenuScreens(props: MenuScreensProps) {
             image: require('../assets/images/African/Orak.jpeg'),
         },
         {
-            id: '3',
+            id: '11',
             name: 'Sauce Crin-crin',
             price: 199,
             discount: 19,
@@ -145,7 +142,7 @@ function MenuScreens(props: MenuScreensProps) {
         }
     }
 
-    function viewDetails(id: any){
+    function viewDetails(id: any) {
         props.navigation.getParent()?.navigate('productDetail', { id: id })
     }
 
@@ -177,32 +174,6 @@ function MenuScreens(props: MenuScreensProps) {
                     data={menuItems.filter((item) => item.category === selectedCategory)}
                     renderItem={({ item }) =>
                     (
-
-                        // <TouchableOpacity activeOpacity={0.8} style={styles.menuItemContainer}>
-
-                        //     <Image source={item.image} style={styles.menuItemImage} />
-
-                        //     <View style={styles.menuItemDetails}>
-
-                        //         <Text style={styles.menuItemName}>{item.name}</Text>
-                        //         <Text style={styles.menuItemPrice}>{item.price} Fcfa</Text>
-
-                        //         {item.discount > 0 && (<Text style={styles.menuItemDiscount}>{item.discount}% OFF</Text>)}
-
-                        //         <View style={styles.menuItemTagsContainer}>
-                        //             {item.category && (<Text style={styles.menuItemTag}>{item.category}</Text>)}
-                        //             {item.isTopSelling && (<Text style={styles.menuItemTag}>TOP VENDUE</Text>)}
-                        //             {item.isChefPick && (<Text style={styles.menuItemTag}>CHEF PICK</Text>)}
-                        //             {item.isTrending && (<Text style={styles.menuItemTag}>TENDANCE</Text>)}
-                        //         </View>
-                        //     </View>
-
-                        //     <TouchableOpacity onPress={() => addToCart(item.id)} activeOpacity={0.6} style={{ backgroundColor: 'tomato', paddingVertical: 8, paddingHorizontal: 22, borderRadius: 20, }}>
-                        //         <MaterialComIcon name='cart-plus' color='white' size={25} />
-                        //     </TouchableOpacity>
-
-                        // </TouchableOpacity>
-
                         <PlatDisplat addToCart={addToCart} viewDetails={viewDetails} product={item} key={item.id} />
                     )}
                     keyExtractor={(item) => item.id}
@@ -224,18 +195,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 16,
-    },
-    searchInput: {
-        backgroundColor: 'white',
-        color: 'black',
-        flex: 1,
-        height: 40,
-        borderWidth: 2,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        marginBottom: 16,
-        marginTop: 16,
     },
     categoryTitle: {
         fontSize: 20,
@@ -266,45 +225,6 @@ const styles = StyleSheet.create({
     categoryButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-    },
-    menuItemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 6,
-    },
-    menuItemImage: {
-        width: 80,
-        height: 80,
-        borderRadius: 8,
-        marginRight: 16,
-    },
-    menuItemDetails: {
-        flex: 1,
-    },
-    menuItemName: {
-        color: "black",
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 4,
-    },
-    menuItemPrice: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 4,
-    },
-    menuItemDiscount: {
-        fontSize: 12,
-        color: 'white',
-        marginBottom: 4,
-    },
-    menuItemTagsContainer: {
-        flexDirection: 'row',
-    },
-    menuItemTag: {
-        fontSize: 12,
-        color: '#666',
-        marginRight: 8,
     }
 });
 

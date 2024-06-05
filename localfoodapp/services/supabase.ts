@@ -59,23 +59,32 @@ export type Database = {
       }
       paiement: {
         Row: {
-          date_paie: string
+          createdAt: string
           id: number
           montant: number | null
+          processeurPaiement: string | null
+          referenceExterne: string | null
+          referenceInterne: string | null
         }
         Insert: {
-          date_paie: string
+          createdAt?: string
           id?: number
           montant?: number | null
+          processeurPaiement?: string | null
+          referenceExterne?: string | null
+          referenceInterne?: string | null
         }
         Update: {
-          date_paie?: string
+          createdAt?: string
           id?: number
           montant?: number | null
+          processeurPaiement?: string | null
+          referenceExterne?: string | null
+          referenceInterne?: string | null
         }
         Relationships: []
       }
-      parametre: {
+      parametres: {
         Row: {
           created_at: string
           id: number
