@@ -10,15 +10,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackHeaderProps } from "@react-navigation/native-stack";
 import Home from './screens/Home';
 import ProductDetails from './screens/ProductDetails';
-import { ActivityIndicator, Dimensions, ImageBackground, Text, TouchableOpacity, useAnimatedValue, View } from 'react-native';
+import { ActivityIndicator, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import ShowcaseScreen from './screens/ShowcaseScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
-import MenuScreens from './screens/MenuScreens';
 import ContactScreens from './screens/ContactScreens';
 import MainContainer from './navigation/MainContainer';
-import ShoppingCartScreen from './screens/ShoppingCartScreen';
-import { appContextDefaultValues, localFoodAppContext, ILocalFoodAppContextData } from './contexts/Context'
+import { appContextDefaultValues, localFoodAppContext } from './contexts/Context'
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './services/supabase-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -60,7 +58,15 @@ const App = () => {
       setSession(session)
 
       if (session?.user) {
-        setAppContext({ ...appContext, isSignedIn: true })
+        setAppContext({
+          ...appContext,
+          isSignedIn: true,
+          user: {
+            email: session.user.email,
+            fullname: session.user.user_metadata.fullname,
+            phone: session.user.user_metadata.phone
+          }
+        })
       }
     })
 
@@ -85,7 +91,6 @@ const App = () => {
   return (
 
     <localFoodAppContext.Provider value={defaultContext}>
-
       {
         authResolved ?
           (
@@ -135,27 +140,28 @@ const App = () => {
       }
 
     </localFoodAppContext.Provider>
-
   )
 };
 
 
 
 function AppMainStackHeader(props: NativeStackHeaderProps) {
-  
+
   const { appContext } = useContext(localFoodAppContext)
-  
+  const userNameLength = appContext.user.fullname?.length
+
   return (
     <>
       {
         appContext.isSignedIn == true ?
-        (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 15, backgroundColor: 'tomato', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, elevation: 2 }}>
+          (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 15, backgroundColor: 'tomato', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, elevation: 2 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <FeatherIcon name='map-pin' color="white" size={20} />
                 <Text style={{ color: "floralwhite", marginLeft: 8, fontWeight: 'bold' }}>Porto-Novo</Text>
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'blue', padding: 5, borderRadius: 15 }}>
+                {userNameLength && (userNameLength < 20) && <Text style={{ color: 'white', marginEnd: 5, textTransform: 'capitalize', }}>{appContext.user.fullname}</Text>}
                 <Fa5Icon name='user-circle' size={28} color="white" />
               </TouchableOpacity>
             </View>

@@ -1,12 +1,22 @@
 import { createContext } from "react";
 
 export interface ILocalFoodAppContextData {
-    isSignedIn: boolean
+    isSignedIn: boolean,
+    user: {
+        fullname: string | undefined,
+        email: string | undefined,
+        phone: string | undefined,
+    }
     
 }
 
  export const appContextDefaultValues: ILocalFoodAppContextData = {
-    isSignedIn: false
+    isSignedIn: false,
+    user: {
+        fullname: '',
+        email: '',
+        phone: '',
+    }
 }
 
 export const localFoodAppContext = createContext({
