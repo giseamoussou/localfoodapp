@@ -6,7 +6,7 @@ import MaIcons from 'react-native-vector-icons/MaterialIcons'
 
 import HomeScreen from './Home';
 import MenuScreens from './MenuScreens';
-import OrdersScreen from './ShoppingCartScreen';
+import OrdersScreen from './OrdersScreen';
 import { Text, View } from 'react-native';
 import ShoppingCartScreen from './ShoppingCartScreen';
 
