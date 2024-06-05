@@ -10,7 +10,7 @@ function EmailConfirmationScreen(props: LoginScreenProps){
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Un Mail de confirmation vous a été envoyé</Text>
+            <Text style={{ fontSize:12, color:"Blue" }} >Un Mail de confirmation vous a été envoyé</Text>
 
 
             <Button title='Me Connecter' color='tomato' onPress={() => props.navigation.navigate('login') } />
