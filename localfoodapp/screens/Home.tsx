@@ -25,27 +25,6 @@ const HomeScreen = (props: HomeScreenProps) => {
         <>
             <ScrollView>
                 <View style={styles.container}>
-                    {/* Location and Profile */}
-                    {
-                        appContext.isSignedIn == true ?
-                            (
-                                <View style={styles.header}>
-                                    <View style={styles.location}>
-                                        <Image source={require('../assets/images/loca.png')} style={styles.icon} />
-                                        <Text style={styles.locationText}>Porto-Novo</Text>
-                                    </View>
-                                    <TouchableOpacity>
-                                        <Image source={require('../assets/images/prof.png')} style={styles.profile} />
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                            :
-                            (
-                                <>
-                                </>
-                            )
-                    }
-
                     {/* Search Bar */}
                     <View style={styles.searchBar}>
                         <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Un plat ou une cuisine..." />
@@ -125,30 +104,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5F5F5',
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor: '#FFFFFF',
-    },
-    location: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
     icon: {
         width: 20,
         height: 20,
-    },
-    locationText: {
-        color: "black",
-        marginLeft: 8,
-        fontWeight: 'bold',
-    },
-    profile: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
     },
     searchBar: {
         display: 'flex',

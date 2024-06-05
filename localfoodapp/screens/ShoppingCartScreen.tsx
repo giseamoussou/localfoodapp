@@ -4,7 +4,7 @@ import React from 'react'
 export default function ShoppingCartScreen() {
   return (
     <View>
-      <Text>CardScreen</Text>
+      <Text>Panier </Text>
     </View>
   )
 }
