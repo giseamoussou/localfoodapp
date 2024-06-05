@@ -22,7 +22,6 @@ function ShowcaseScreen(props: ShowcaseScreenNavigationProps) {
 
         return () => {
             clearTimeout(timeOut)
-
             AsyncStorage.setItem('showCase', 'true')
         }
     }, [])
