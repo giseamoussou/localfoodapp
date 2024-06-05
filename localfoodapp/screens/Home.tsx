@@ -4,8 +4,9 @@ import { StackNavigationParams } from '../App';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { localFoodAppContext } from '../contexts/Context';
+import { LocalFoodAppContext } from '../contexts/Context';
 import { PlatCategoryDisplay } from '../components/PlatCategoryDisplay';
+import { globalStyles } from '../constants/Styles';
 
 
 type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
@@ -13,7 +14,7 @@ type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
 const HomeScreen = (props: HomeScreenProps) => {
 
 
-    const { appContext, setAppContext } = useContext(localFoodAppContext)
+    const { appContext, setAppContext } = useContext(LocalFoodAppContext)
 
 
     function goToLogin() {
@@ -26,8 +27,8 @@ const HomeScreen = (props: HomeScreenProps) => {
             <ScrollView>
                 <View style={styles.container}>
                     {/* Search Bar */}
-                    <View style={styles.searchBar}>
-                        <TextInput style={styles.searchInput} placeholderTextColor="lightgray" placeholder="Un plat ou une cuisine..." />
+                    <View style={globalStyles.searchBar}>
+                        <TextInput style={globalStyles.searchInput} placeholderTextColor="lightgray" placeholder="Un plat ou une cuisine..." />
                         <Icon name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                     </View>
 
@@ -108,29 +109,6 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
     },
-    searchBar: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignContent: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        backgroundColor: '#FFFFFF',
-    },
-    searchInput: {
-        backgroundColor: 'white',
-        color: 'black',
-        flex: 1,
-        height: 40,
-        borderWidth: 2,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        marginBottom: 16,
-        marginTop: 16,
-    },
-
     primary: {
         backgroundColor: 'tomato',
         width: 'auto',
@@ -141,10 +119,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         shadowColor: "green"
     },
-
-
     searchText: {
-
         marginLeft: 8,
         flex: 1,
     },

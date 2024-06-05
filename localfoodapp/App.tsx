@@ -9,14 +9,14 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackHeaderProps } from "@react-navigation/native-stack";
 import Home from './screens/Home';
-import ProductDetails from './screens/ProductDetails';
+import ProductDetails from './screens/ProductDetailsScreen';
 import { ActivityIndicator, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import ShowcaseScreen from './screens/ShowcaseScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import ContactScreens from './screens/ContactScreens';
 import MainContainer from './navigation/MainContainer';
-import { appContextDefaultValues, localFoodAppContext } from './contexts/Context'
+import { appContextDefaultValues, cartContextDefaultValues, LocalFoodAppContext, ShoppingCartContext } from './contexts/Context'
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './services/supabase-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -43,10 +43,13 @@ const App = () => {
   const [session, setSession] = useState<Session | null>(null);
 
   const [appContext, setAppContext] = useState(appContextDefaultValues)
+  const [cartContext, setCartContext] = useState(cartContextDefaultValues)
 
   const [authResolved, setAuthResolved] = useState(false)
 
   const defaultContext = useMemo(() => ({ appContext, setAppContext }), [appContext])
+  const cartDefaultContext = useMemo(() => ({ cartContext, setCartContext }), [cartContext])
+
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -90,56 +93,60 @@ const App = () => {
 
   return (
 
-    <localFoodAppContext.Provider value={defaultContext}>
-      {
-        authResolved ?
-          (
-            <NavigationContainer>
-              <AppMainStack.Navigator initialRouteName='showcase'
-                screenOptions={
+    <ShoppingCartContext.Provider value={cartDefaultContext}>
+
+      <LocalFoodAppContext.Provider value={defaultContext}>
+        {
+          authResolved ?
+            (
+              <NavigationContainer>
+                <AppMainStack.Navigator initialRouteName='showcase'
+                  screenOptions={
+                    {
+                      headerShown: true,
+                      header: (props) => <AppMainStackHeader {...props} />
+                    }
+                  }>
                   {
-                    headerShown: true,
-                    header: (props) => <AppMainStackHeader {...props} />
+                    appContext.isSignedIn ?
+                      (
+                        <>
+                          <AppMainStack.Screen name="mainContainer" component={MainContainer} />
+                          <AppMainStack.Screen name="productDetail" component={ProductDetails} />
+                          <AppMainStack.Screen name="contact" component={ContactScreens} />
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          {showCaseSeen && <AppMainStack.Screen name="showcase" component={ShowcaseScreen} />}
+
+                          <AppMainStack.Screen name="home" component={Home} />
+                          <AppMainStack.Screen name="login" component={LoginScreen} />
+                          <AppMainStack.Screen name="emailConfirmation" component={EmailConfirmationScreen} />
+                          <AppMainStack.Screen name="registration" component={RegistrationScreen} />
+                        </>
+                      )
                   }
-                }>
-                {
-                  appContext.isSignedIn ?
-                    (
-                      <>
-                        <AppMainStack.Screen name="mainContainer" component={MainContainer} />
-                        <AppMainStack.Screen name="productDetail" component={ProductDetails} />
-                        <AppMainStack.Screen name="contact" component={ContactScreens} />
-                      </>
-                    )
-                    :
-                    (
-                      <>
-                        {showCaseSeen && <AppMainStack.Screen name="showcase" component={ShowcaseScreen} />}
+                </AppMainStack.Navigator>
+              </NavigationContainer>
 
-                        <AppMainStack.Screen name="home" component={Home} />
-                        <AppMainStack.Screen name="login" component={LoginScreen} />
-                        <AppMainStack.Screen name="emailConfirmation" component={EmailConfirmationScreen} />
-                        <AppMainStack.Screen name="registration" component={RegistrationScreen} />
-                      </>
-                    )
-                }
-              </AppMainStack.Navigator>
-            </NavigationContainer>
+            )
+            :
+            (
+              <ImageBackground source={require('./assets/bg/bg-3.jpg')} style={{ flex: 1 }}>
+                <View style={{ backgroundColor: 'transparent', flex: 1, flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: 30 }}>
+                  <ActivityIndicator color='tomato' size={40} style={{ marginBottom: 15 }} />
+                  <Text style={{ color: 'white', textAlign: 'center', fontSize: 15, fontFamily: 'mono' }}>Patientez</Text>
+                  <Text style={{ color: 'white', textAlign: 'center', fontSize: 15, fontFamily: 'mono' }}>Nous vérifions votre Session</Text>
+                </View>
+              </ImageBackground>
+            )
+        }
 
-          )
-          :
-          (
-            <ImageBackground source={require('./assets/bg/bg-3.jpg')} style={{ flex: 1 }}>
-              <View style={{ backgroundColor: 'transparent', flex: 1, flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: 30 }}>
-                <ActivityIndicator color='tomato' size={40} style={{ marginBottom: 15 }} />
-                <Text style={{ color: 'white', textAlign: 'center', fontSize: 15, fontFamily: 'mono' }}>Patientez</Text>
-                <Text style={{ color: 'white', textAlign: 'center', fontSize: 15, fontFamily: 'mono' }}>Nous vérifions votre Session</Text>
-              </View>
-            </ImageBackground>
-          )
-      }
-
-    </localFoodAppContext.Provider>
+      </LocalFoodAppContext.Provider>
+      
+    </ShoppingCartContext.Provider>
   )
 };
 
@@ -147,7 +154,7 @@ const App = () => {
 
 function AppMainStackHeader(props: NativeStackHeaderProps) {
 
-  const { appContext } = useContext(localFoodAppContext)
+  const { appContext } = useContext(LocalFoodAppContext)
   const userNameLength = appContext.user.fullname?.length
 
   return (

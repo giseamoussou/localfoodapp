@@ -14,7 +14,7 @@ export type MainContainerParams = {
   home: undefined,
   menu: undefined,
   orders: undefined,
-  shoppingCard: undefined
+  shoppingCard: undefined,
 }
 
 const Tab = createBottomTabNavigator<MainContainerParams>();

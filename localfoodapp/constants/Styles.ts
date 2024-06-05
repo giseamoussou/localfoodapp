@@ -20,6 +20,28 @@ export const globalStyles = StyleSheet.create({
         paddingHorizontal: 15,
         marginBottom: 10
     },
+    searchInput: {
+        backgroundColor: 'white',
+        color: 'black',
+        flex: 1,
+        height: 40,
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        marginBottom: 16,
+        marginTop: 16,
+    },
+    searchBar: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        backgroundColor: '#FFFFFF',
+    },
     oAuthButton: {
         display: 'flex',
         flexDirection: "row",

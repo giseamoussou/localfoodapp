@@ -6,9 +6,10 @@ import { StackNavigationParams } from "../App";
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-type ProductDetailsProps = NativeStackScreenProps<StackNavigationParams, 'details'>
+type ProductDetailsProps = NativeStackScreenProps<StackNavigationParams, 'productDetail'>
 
-const FastFood = () => {
+function ProductDetailsScreen(props: ProductDetailsProps) {
+
   const [quantity, setQuantity] = useState(1);
   const [frenchFries, setFrenchFries] = useState(false);
   const [burger, setBurger] = useState(false);
@@ -42,30 +43,30 @@ const FastFood = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerText}>Dejeuner</Text>
-      </View>
-      <View style={styles.pizzaImageContainer}>
-        <Image
-          source={require('../assets/images/African/banane.jpeg')}
-          style={styles.pizzaImage}
-        />
-        <TouchableOpacity style={styles.heartIcon}>
-          <MaterialComIcon name='cards-heart-outline' style={styles.heartIconText}/>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.bestsellerText}>BESTSELLER</Text>
-        <Text style={styles.pizzaName}>Bannane</Text>   
-        <Text style={styles.pizzaDescription}>
-          Un met absolument exellent pour un repas de l'après-midi... {' '}    
-          {showMore? (
-            <Text>
-              read less{' '}
-              <Text
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton}>
+            <Text style={styles.backButtonText}>{'<'}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Dejeuner</Text>
+        </View>
+        <View style={styles.pizzaImageContainer}>
+          <Image
+            source={require('../assets/images/African/banane.jpeg')}
+            style={styles.pizzaImage}
+          />
+          <TouchableOpacity style={styles.heartIcon}>
+            <MaterialComIcon name='cards-heart-outline' style={styles.heartIconText} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.bestsellerText}>BESTSELLER</Text>
+          <Text style={styles.pizzaName}>Bannane</Text>
+          <Text style={styles.pizzaDescription}>
+            Un met absolument exellent pour un repas de l'après-midi... {' '}
+            {showMore ? (
+              <Text>
+                read less{' '}
+                <Text
                   style={{ color: 'blue', textDecorationLine: 'underline' }}
                   onPress={() => handleReadMore()}
                 >
@@ -84,78 +85,78 @@ const FastFood = () => {
               </Text>
             )}
 
-              
 
 
-        </Text>
-        <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
-        <View style={styles.ratingContainer}>
-        <MaterialComIcon color="#ff5353" name="star-outline" size={35} style={{ marginBottom: 6 }} />
-          <Text style={styles.rating}>5.0(34)</Text>
-          <Text style={styles.ratingLabel}>Plat principal</Text>
-          <View style={styles.chefPickContainer}>
-            <Text style={styles.chefPickText}></Text>
-          </View>
-        </View>
-        <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
-        <View style={styles.addOnsContainer}>
-          <Text style={styles.addOnsTitle}>Ajouter</Text>
-          <View style={styles.addOnItemContainer}>
-            <Text style={styles.addOnItemText}>Jus de bissap</Text>
-            <TouchableOpacity
-              style={styles.addOnCheckboxContainer}
-              onPress={() => setFrenchFries(!frenchFries)}
-            >
-              <View
-                style={[
-                  styles.addOnCheckbox,
-                  frenchFries && styles.addOnCheckboxChecked,
-                ]}
-              />
-            </TouchableOpacity>
-            <Text style={styles.addOnItemPrice}>500Fcfa</Text>
-          </View>
-          <View style={styles.addOnItemContainer}>
-            <Text style={styles.addOnItemText}>Riz au gras   </Text>
-            <TouchableOpacity
-              style={styles.addOnCheckboxContainer}
-              onPress={() => setBurger(!burger)}
-            >
-              <View
-                style={[
-                  styles.addOnCheckbox,
-                  burger && styles.addOnCheckboxChecked,
-                ]}
-              />
-            </TouchableOpacity>
-            <Text style={styles.addOnItemPrice}>500 Fcfa</Text>
-          </View>
-        </View>
-        <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 30 }}></View>
-        <View style={styles.quantityContainer}>
-          <TouchableOpacity
-            style={styles.quantityButton}
-            onPress={handleDecreaseQuantity}
-          >
-            <Text style={styles.quantityButtonText}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantityText}>{quantity}</Text>
-          <TouchableOpacity
-            style={styles.quantityButton}
-            onPress={handleIncreaseQuantity}
-          >
-            <Text style={styles.quantityButtonText}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.addToCartButton}>
-          <Text style={styles.addToCartButtonText}>
-            <Icon name="bag-handle-outline" style={styles.bagIcon} />
-            Add Card  
+
           </Text>
-        </TouchableOpacity>
+          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
+          <View style={styles.ratingContainer}>
+            <MaterialComIcon color="#ff5353" name="star-outline" size={35} style={{ marginBottom: 6 }} />
+            <Text style={styles.rating}>5.0(34)</Text>
+            <Text style={styles.ratingLabel}>Plat principal</Text>
+            <View style={styles.chefPickContainer}>
+              <Text style={styles.chefPickText}></Text>
+            </View>
+          </View>
+          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 10 }}></View>
+          <View style={styles.addOnsContainer}>
+            <Text style={styles.addOnsTitle}>Ajouter</Text>
+            <View style={styles.addOnItemContainer}>
+              <Text style={styles.addOnItemText}>Jus de bissap</Text>
+              <TouchableOpacity
+                style={styles.addOnCheckboxContainer}
+                onPress={() => setFrenchFries(!frenchFries)}
+              >
+                <View
+                  style={[
+                    styles.addOnCheckbox,
+                    frenchFries && styles.addOnCheckboxChecked,
+                  ]}
+                />
+              </TouchableOpacity>
+              <Text style={styles.addOnItemPrice}>500Fcfa</Text>
+            </View>
+            <View style={styles.addOnItemContainer}>
+              <Text style={styles.addOnItemText}>Riz au gras   </Text>
+              <TouchableOpacity
+                style={styles.addOnCheckboxContainer}
+                onPress={() => setBurger(!burger)}
+              >
+                <View
+                  style={[
+                    styles.addOnCheckbox,
+                    burger && styles.addOnCheckboxChecked,
+                  ]}
+                />
+              </TouchableOpacity>
+              <Text style={styles.addOnItemPrice}>500 Fcfa</Text>
+            </View>
+          </View>
+          <View style={{ borderColor: 'lightgray', width: '100%', borderWidth: 0.5, backgroundColor: 'red', marginBottom: 30 }}></View>
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity
+              style={styles.quantityButton}
+              onPress={handleDecreaseQuantity}
+            >
+              <Text style={styles.quantityButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>{quantity}</Text>
+            <TouchableOpacity
+              style={styles.quantityButton}
+              onPress={handleIncreaseQuantity}
+            >
+              <Text style={styles.quantityButtonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.addToCartButton}>
+              <Text style={styles.addToCartButtonText}>
+                <Icon name="bag-handle-outline" style={styles.bagIcon} />
+                Add Card
+              </Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
-        
       </View>
-    </View>
     </ScrollView>
   );
 };
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   },
   pizzaImageContainer: {
     alignItems: 'center',
-    
+
     backgroundColor: "#fee"
 
 
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
   },
   chefPickContainer: {
     top: -3,
-    right: -90, 
+    right: -90,
     marginTop: 8,
     padding: 8,
     borderRadius: 10,
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     right: -160,
     marginStart: 30,
-    
+
   },
   addOnCheckbox: {
     width: 20,
@@ -294,13 +295,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 4,
-    
+
   },
   addOnCheckboxChecked: {
     backgroundColor: '#000',
   },
   addOnItemPrice: {
-    position:'relative',
+    position: 'relative',
     fontSize: 14,
     color: '#000',
     right: -160,
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 2,
     right: -100,
-    
+
   },
   addToCartButtonText: {
     fontSize: 18,
@@ -353,4 +354,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FastFood;
+export default ProductDetailsScreen;
