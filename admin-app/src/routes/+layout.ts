@@ -1,9 +1,8 @@
 import { createBrowserClient, createServerClient, isBrowser, parse } from '@supabase/ssr'
-
 import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
-
 import type { LayoutLoad } from './$types'
 import type { Database } from '$lib/supabase'
+import 'url-polyfill'
 
 export const load: LayoutLoad = async ({ data, depends, fetch }) => {
     /**
