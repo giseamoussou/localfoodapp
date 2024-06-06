@@ -166,8 +166,8 @@ function AppMainStackHeader(props: NativeStackHeaderProps) {
           (
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 15, backgroundColor: 'tomato', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, elevation: 2 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <FeatherIcon name='map-pin' color="white" size={20} />
-                <Text style={{ color: "floralwhite", marginLeft: 8, fontWeight: 'bold' }}>Porto-Novo</Text>
+                {/* <FeatherIcon name='map-pin' color="white" size={20} /> */}
+                <Text style={{ color: "floralwhite", marginLeft: 8, fontWeight: 'bold' }}>Local Food App</Text>
               </View>
               <TouchableOpacity activeOpacity={0.7} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: 'darkslateblue', padding: 5, borderRadius: 15 }}>
                 {userNameLength && (userNameLength < 20) && <Text style={{ color: 'white', marginEnd: 5, textTransform: 'capitalize', }}>{appContext.user.fullname}</Text>}
