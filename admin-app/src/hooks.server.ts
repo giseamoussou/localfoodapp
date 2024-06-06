@@ -1,3 +1,4 @@
+import 'url-polyfill'
 import { createServerClient } from '@supabase/ssr'
 import { error, type Handle, redirect } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
@@ -6,11 +7,9 @@ import { createClient } from '@supabase/supabase-js';
 import { env } from '$env/dynamic/private';
 
 
-// console.log(PUBLIC_SUPABASE_URL, env.SUPABASE_SECRET_KEY)
-
 async function createAdminUser() {
 
-    const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, env.SUPABASE_SECRET_KEY, {
+    const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14b3R4bml3b2J4Z3N5anFkZ3FrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxNjIxMjMzMywiZXhwIjoyMDMxNzg4MzMzfQ.O7Wcp6-gza6mXogHBix4YvwAcoTNrcG8dD57F_Mi_Cg", {
 
         auth: {
             persistSession: false,
