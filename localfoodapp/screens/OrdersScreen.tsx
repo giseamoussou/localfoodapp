@@ -5,7 +5,7 @@ import { supabase } from "../services/supabase-client";
 import { LocalFoodAppContext } from "../contexts/Context";
 
 
-function OrdersScreen(){
+function OrdersScreen() {
 
     const [orders, setOrders] = useState<Database['public']['Tables']['commande']['Row'][] | null>(null)
     const { appContext } = useContext(LocalFoodAppContext)
@@ -16,25 +16,25 @@ function OrdersScreen(){
 
     }, [])
 
-    async function fetchOrders(){
+    async function fetchOrders() {
 
         try {
-            
-            const { data, error } = await supabase.from('commande').select("*")
-            .eq('userId', appContext.user.id)
-            .order('createdAt', { ascending: false });
 
-            if(error){
+            const { data, error } = await supabase.from('commande').select("*")
+                .eq('userId', appContext.user.id)
+                .order('createdAt', { ascending: false });
+
+            if (error) {
 
             }
-            if(data){
+            if (data) {
                 console.log("Commandes", JSON.stringify(data));
-                
+
                 setOrders(data);
             }
 
         } catch (error) {
-            
+
         }
 
     }
