@@ -117,7 +117,6 @@
 
     }
 
-    // $: isDeletionAlertOpened = isDeletionAlertOpened;
     $: {
         if(!isPlatAddDialogOpened){
             platAddData = {
