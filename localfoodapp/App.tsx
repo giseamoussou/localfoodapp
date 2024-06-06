@@ -65,6 +65,7 @@ const App = () => {
           ...appContext,
           isSignedIn: true,
           user: {
+            id: session.user.id,
             email: session.user.email,
             fullname: session.user.user_metadata.fullname,
             phone: session.user.user_metadata.phone

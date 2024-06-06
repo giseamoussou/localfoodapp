@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MainContainerParams } from './MainContainer';
 import { globalStyles } from '../constants/Styles';
@@ -19,6 +19,7 @@ function MenuScreens(props: MenuScreensProps) {
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
     const [selectedCategory, setSelectedCategory] = React.useState(categories[0]);
     const [platsList, setPlatsList] = useState<Database['public']['Tables']['plat']['Row'][] | null>(null)
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const handleCategoryPress = (category: string) => {
         setSelectedCategory(category);
@@ -69,13 +70,13 @@ function MenuScreens(props: MenuScreensProps) {
     }
 
     async function fetchPlats() {
+        setIsRefreshing(true);
 
         try {
 
             const { data, error } = await supabase.from('plat').select('*');
 
             if (data) {
-                console.log(JSON.stringify(data));
                 setPlatsList(data)
             }
 
@@ -88,15 +89,19 @@ function MenuScreens(props: MenuScreensProps) {
             Alert.alert("Erreur", "Une erreur s'est produite, Vérifiez votre connexion")
         }
 
-        // setIsLoadingData(false);
+        setIsRefreshing(false);
     }
 
+    async function onRefresh() {
+        await fetchPlats();
+    }
 
     useEffect(() => {
 
         fetchPlats();
 
     }, [])
+
 
 
 
@@ -125,16 +130,19 @@ function MenuScreens(props: MenuScreensProps) {
                 </ScrollView>
 
                 {
-                    platsList ?
+                    !isRefreshing ?
                         (
-                            <FlatList style={{ marginBottom: 10 }}
-
-                                data={platsList}
-                                renderItem={({ item }) =>
-                                (
-                                    <PlatDisplat addToCart={() => addToCart(item)} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
-                                )}
-                            />
+                            platsList ?
+                                (<FlatList style={{ marginBottom: 10 }}
+                                    bounces={true} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+                                    data={platsList}
+                                    renderItem={({ item }) =>
+                                    (
+                                        <PlatDisplat addToCart={() => addToCart(item)} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
+                                    )}
+                                />)
+                                :
+                                <Text style={{ textAlign: 'center', color: 'black', fontSize: 20 }}>Aucun Plat à Afficher</Text>
                         )
                         :
                         (
