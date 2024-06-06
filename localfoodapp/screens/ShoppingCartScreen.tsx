@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, Button, Image, StyleSheet } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { ShoppingCartContext } from '../contexts/Context'
 import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated'
@@ -29,6 +29,7 @@ function ShoppingCartScreen() {
                 <View style={styles.cartList}>
                     {cartContext.cart.map((item) => (
                         <View key={item.id} style={styles.cartItem}>
+    
                             <Text style={styles.cartItemText}>{item.name}</Text>
                             <Text style={styles.cartItemText}>Qte: {item.quantity}</Text>
                             <Text style={styles.cartItemText}>Prix: {item.price}</Text>
@@ -71,6 +72,14 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
+    cartItemImage: {
+        width: 50,
+        height: 50,
+        marginRight: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+      },
     cartItem: {
         color: "tomato",
         padding: 10,

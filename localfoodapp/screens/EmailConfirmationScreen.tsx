@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button,  } from 'react-native';
 import { StackNavigationParams } from '../App';
 import { globalStyles } from '../constants/Styles';
 
