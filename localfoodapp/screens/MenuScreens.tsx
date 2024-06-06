@@ -15,13 +15,13 @@ type MenuScreensProps = NativeStackScreenProps<MainContainerParams, 'menu'>;
 
 function MenuScreens(props: MenuScreensProps) {
 
-    const categories = ['Fast Food', 'Sauces', 'Dessert', 'Boissons'];
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
-    const [selectedCategory, setSelectedCategory] = React.useState(categories[0]);
     const [platsList, setPlatsList] = useState<Database['public']['Tables']['plat']['Row'][] | null>(null)
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [categories, setCategories] = useState<Database['public']['Tables']['categories']['Row'][] | null>(null)
+    const [selectedCategory, setSelectedCategory] = React.useState<Database['public']['Tables']['categories']['Row'] | null>(null);
 
-    const handleCategoryPress = (category: string) => {
+    const handleCategoryPress = (category: Database['public']['Tables']['categories']['Row']) => {
         setSelectedCategory(category);
     };
 
@@ -92,15 +92,47 @@ function MenuScreens(props: MenuScreensProps) {
         setIsRefreshing(false);
     }
 
+    async function fetchCategories() {
+
+        try {
+
+            const { data, error } = await supabase.from('categories').select("*")
+
+            if (error) {
+
+            }
+            if (data) {
+                setCategories(data);
+            }
+
+        } catch (error) {
+
+        }
+    }
+
     async function onRefresh() {
         await fetchPlats();
     }
 
     useEffect(() => {
 
+        fetchCategories();
         fetchPlats();
 
     }, [])
+
+    useEffect(() => {
+
+        if (categories) {
+            if (props.route.params.categoryId) {
+                const category = categories.find((category) => category.id === props.route.params.categoryId);
+                if (category) {
+                    setSelectedCategory(category)
+                }
+            }
+        }
+
+    }, [props.route.params?.categoryId])
 
 
 
@@ -116,15 +148,15 @@ function MenuScreens(props: MenuScreensProps) {
                     <Icon name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                 </View>
 
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
-                    {categories.map((category) => (
+                <ScrollView horizontal scrollEnabled={true} automaticallyAdjustsScrollIndicatorInsets={true} bounces={true} showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
+                    {categories && categories.map((category) => (
                         <TouchableOpacity
                             activeOpacity={0.80}
-                            key={category}
+                            key={category.id}
                             style={[styles.categoryButton, category === selectedCategory && styles.selectedCategoryButton,
                             ]}
                             onPress={() => handleCategoryPress(category)}>
-                            <Text style={styles.categoryButtonText}>{category}</Text>
+                            <Text style={styles.categoryButtonText}>{category.nom}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>

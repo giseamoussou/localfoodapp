@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StackNavigationParams } from '../App';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, ImageSourcePropType, RefreshControl } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +10,7 @@ import { Database } from '../services/supabase';
 import { supabase } from '../services/supabase-client';
 import { CategoriesUrls } from '../constants/Urls';
 import { MainContainerParams } from './MainContainer';
+
 
 
 type HomeScreenProps = NativeStackScreenProps<MainContainerParams, 'home'>
@@ -40,7 +40,7 @@ const HomeScreen = (props: HomeScreenProps) => {
     }, [])
 
     function goToLogin() {
-        props.navigation.getParent()?.navigate('login')
+        props.navigation.navigate('login')
     }
 
     function getRandomImage(): ImageSourcePropType {
@@ -102,7 +102,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     </View>
 
                     <View style={styles.categoryRow}>
-                        {categories?.map((category) => <PlatCategoryDisplay onPress={() => { props.navigation.navigate('menu') }} key={category.id} title={category.nom} imageSource={getRandomImage()} />)}
+                        {categories?.map((category) => <PlatCategoryDisplay onPress={() => { props.navigation.navigate('menu', { categoryId: category.id }) }} key={category.id} title={category.nom} imageSource={getRandomImage()} />)}
                     </View>
 
                     {/* Today's Special */}
