@@ -4,6 +4,7 @@ import { Image } from "react-native-reanimated/lib/typescript/Animated";
 export interface ILocalFoodAppContextData {
     isSignedIn: boolean,
     user: {
+        id: any,
         fullname: string | undefined,
         email: string | undefined,
         phone: string | undefined,
@@ -13,6 +14,7 @@ export interface ILocalFoodAppContextData {
 export const appContextDefaultValues: ILocalFoodAppContextData = {
     isSignedIn: false,
     user: {
+        id: '',
         fullname: '',
         email: '',
         phone: '',

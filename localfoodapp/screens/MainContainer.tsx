@@ -12,7 +12,7 @@ import ShoppingCartScreen from './ShoppingCartScreen';
 
 export type MainContainerParams = {
     home: undefined,
-    menu: undefined,
+    menu: { categoryId: number | undefined },
     orders: undefined,
     shoppingCart: undefined,
 }

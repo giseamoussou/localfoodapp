@@ -1,27 +1,79 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StackNavigationParams } from '../App';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, ImageSourcePropType, RefreshControl } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LocalFoodAppContext } from '../contexts/Context';
 import { PlatCategoryDisplay } from '../components/PlatCategoryDisplay';
 import { globalStyles } from '../constants/Styles';
+import { Database } from '../services/supabase';
+import { supabase } from '../services/supabase-client';
+import { CategoriesUrls } from '../constants/Urls';
+import { MainContainerParams } from './MainContainer';
 
 
-type HomeScreenProps = NativeStackScreenProps<StackNavigationParams, 'home'>
+
+type HomeScreenProps = NativeStackScreenProps<MainContainerParams, 'home'>
 
 const HomeScreen = (props: HomeScreenProps) => {
 
     const { appContext, setAppContext } = useContext(LocalFoodAppContext)
+    const [categories, setCategories] = useState<Database['public']['Tables']['categories']['Row'][] | null>(null)
+    const [isPromoVisible, setIsPromoVisible] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+
+    useEffect(() => {
+
+        const tmout = setTimeout(() => {
+            setIsPromoVisible(false);
+        }, 20000);
+
+        return () => {
+            clearTimeout(tmout);
+        }
+
+    }, [])
+
+    useEffect(() => {
+        fetchCategories();
+    }, [])
 
     function goToLogin() {
         props.navigation.navigate('login')
     }
 
+    function getRandomImage(): ImageSourcePropType {
+        const selectedNumber = Number.parseInt(Math.floor(Math.random() * CategoriesUrls.length).toString())
+        return { uri: CategoriesUrls[selectedNumber] }
+    }
+
+    async function fetchCategories() {
+
+        try {
+
+            const { data, error } = await supabase.from('categories').select("*")
+
+            if (error) {
+
+            }
+            if (data) {
+                setCategories(data);
+            }
+
+        } catch (error) {
+
+        }
+    }
+
+    async function onRefresh() {
+
+        await fetchCategories();
+    }
+
     return (
         <>
-            <ScrollView>
+            <ScrollView bounces={true} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
                 <View style={styles.container}>
                     {/* Search Bar */}
                     <View style={globalStyles.searchBar}>
@@ -29,14 +81,16 @@ const HomeScreen = (props: HomeScreenProps) => {
                         <Ionicons name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                     </View>
 
-                    {/* Discount Banner */}
-                    <View style={styles.discountBanner}>
-                        <Text style={styles.discountText}>Jusqu'à 20% de réduction</Text>
-                        <Text style={styles.discountSubtext}>SUR VOTRE PREMIÈRE COMMANDE</Text>
-                        <TouchableOpacity activeOpacity={0.8} style={styles.orderButton}>
-                            <Text style={styles.orderButtonText}>Commander maintenant</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {
+                        isPromoVisible &&
+                        <View style={styles.discountBanner}>
+                            <Text style={styles.discountText}>Jusqu'à 20% de réduction</Text>
+                            <Text style={styles.discountSubtext}>SUR VOTRE PREMIÈRE COMMANDE</Text>
+                            <TouchableOpacity activeOpacity={0.8} style={styles.orderButton}>
+                                <Text style={styles.orderButtonText}>Commander maintenant</Text>
+                            </TouchableOpacity>
+                        </View>
+                    }
 
                     {/* Popular Categories */}
                     <View style={styles.categories}>
@@ -48,10 +102,7 @@ const HomeScreen = (props: HomeScreenProps) => {
                     </View>
 
                     <View style={styles.categoryRow}>
-                        <PlatCategoryDisplay title='Gombo' imageSource={require('../assets/images/African/Okra.jpeg')} onPress={() => { }} />
-                        <PlatCategoryDisplay title='Monyo' imageSource={require('../assets/images/African/akpa.jpeg')} onPress={() => { }} />
-                        <PlatCategoryDisplay title='Haricot' imageSource={require('../assets/images/African/gnonmli.jpg')} onPress={() => { }} />
-                        <PlatCategoryDisplay title='Viande de Porc' imageSource={require('../assets/images/African/porc.jpeg')} onPress={() => { }} />
+                        {categories?.map((category) => <PlatCategoryDisplay onPress={() => { props.navigation.navigate('menu', { categoryId: category.id }) }} key={category.id} title={category.nom} imageSource={getRandomImage()} />)}
                     </View>
 
                     {/* Today's Special */}

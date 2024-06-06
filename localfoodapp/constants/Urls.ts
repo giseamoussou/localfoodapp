@@ -1,0 +1,17 @@
+export const CategoriesUrls = [
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/1.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/2.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/3.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/4.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/5.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/6.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/7.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/8.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/9.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/10.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/11.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/12.jpg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/13.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/14.jpeg',
+    'https://mxotxniwobxgsyjqdgqk.supabase.co/storage/v1/object/public/plats-images/categories/15.jpeg',
+]

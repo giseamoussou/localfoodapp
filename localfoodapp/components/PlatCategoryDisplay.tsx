@@ -4,7 +4,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity } from "
 
 type PlatCategoryDisplayProps = {
     imageSource?: ImageSourcePropType,
-    title: string,
+    title: string | null,
     onPress?: Function
 }
 

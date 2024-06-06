@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Alert, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MainContainerParams } from './MainContainer';
 import { globalStyles } from '../constants/Styles';
@@ -15,12 +15,13 @@ type MenuScreensProps = NativeStackScreenProps<MainContainerParams, 'menu'>;
 
 function MenuScreens(props: MenuScreensProps) {
 
-    const categories = ['Fast Food', 'Sauces', 'Dessert', 'Boissons'];
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
-    const [selectedCategory, setSelectedCategory] = React.useState(categories[0]);
     const [platsList, setPlatsList] = useState<Database['public']['Tables']['plat']['Row'][] | null>(null)
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [categories, setCategories] = useState<Database['public']['Tables']['categories']['Row'][] | null>(null)
+    const [selectedCategory, setSelectedCategory] = React.useState<Database['public']['Tables']['categories']['Row'] | null>(null);
 
-    const handleCategoryPress = (category: string) => {
+    const handleCategoryPress = (category: Database['public']['Tables']['categories']['Row']) => {
         setSelectedCategory(category);
     };
 
@@ -69,13 +70,13 @@ function MenuScreens(props: MenuScreensProps) {
     }
 
     async function fetchPlats() {
+        setIsRefreshing(true);
 
         try {
 
             const { data, error } = await supabase.from('plat').select('*');
 
             if (data) {
-                console.log(JSON.stringify(data));
                 setPlatsList(data)
             }
 
@@ -88,15 +89,51 @@ function MenuScreens(props: MenuScreensProps) {
             Alert.alert("Erreur", "Une erreur s'est produite, Vérifiez votre connexion")
         }
 
-        // setIsLoadingData(false);
+        setIsRefreshing(false);
     }
 
+    async function fetchCategories() {
+
+        try {
+
+            const { data, error } = await supabase.from('categories').select("*")
+
+            if (error) {
+
+            }
+            if (data) {
+                setCategories(data);
+            }
+
+        } catch (error) {
+
+        }
+    }
+
+    async function onRefresh() {
+        await fetchPlats();
+    }
 
     useEffect(() => {
 
+        fetchCategories();
         fetchPlats();
 
     }, [])
+
+    useEffect(() => {
+
+        if (categories) {
+            if (props.route.params.categoryId) {
+                const category = categories.find((category) => category.id === props.route.params.categoryId);
+                if (category) {
+                    setSelectedCategory(category)
+                }
+            }
+        }
+
+    }, [props.route.params?.categoryId])
+
 
 
 
@@ -111,30 +148,33 @@ function MenuScreens(props: MenuScreensProps) {
                     <Icon name="search" size={22} color="blue" style={{ position: 'absolute', left: 'auto', right: 25 }} />
                 </View>
 
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
-                    {categories.map((category) => (
+                <ScrollView horizontal scrollEnabled={true} automaticallyAdjustsScrollIndicatorInsets={true} bounces={true} showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
+                    {categories && categories.map((category) => (
                         <TouchableOpacity
                             activeOpacity={0.80}
-                            key={category}
+                            key={category.id}
                             style={[styles.categoryButton, category === selectedCategory && styles.selectedCategoryButton,
                             ]}
                             onPress={() => handleCategoryPress(category)}>
-                            <Text style={styles.categoryButtonText}>{category}</Text>
+                            <Text style={styles.categoryButtonText}>{category.nom}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
 
                 {
-                    platsList ?
+                    !isRefreshing ?
                         (
-                            <FlatList style={{ marginBottom: 10 }}
-
-                                data={platsList}
-                                renderItem={({ item }) =>
-                                (
-                                    <PlatDisplat addToCart={() => addToCart(item)} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
-                                )}
-                            />
+                            platsList ?
+                                (<FlatList style={{ marginBottom: 10 }}
+                                    bounces={true} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+                                    data={platsList}
+                                    renderItem={({ item }) =>
+                                    (
+                                        <PlatDisplat addToCart={() => addToCart(item)} viewDetails={viewDetails} product={{ category: '', id: item.id, image: { uri: `${Config.SUPABASE_URL}/storage/v1/object/public/plats-images/${item.image}` }, name: item.nom, price: item.prix }} key={item.id} />
+                                    )}
+                                />)
+                                :
+                                <Text style={{ textAlign: 'center', color: 'black', fontSize: 20 }}>Aucun Plat à Afficher</Text>
                         )
                         :
                         (
