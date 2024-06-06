@@ -7,26 +7,15 @@
 
     let widget: HTMLElement | null = null;
 
-    function openWidget(){
-
-        
-
-    }
-
-    onMount(() => {
-        
-        if(browser){
-            const btn = document.getElementsByTagName('button')
-            console.log(btn)
-        }
-    })
 </script>
 
 
-<kkiapay-widget amount={1500} bind:this={widget}
-    key="33cfa930242211efa9251f24b794956e"
-    position="center"
-    sandbox={true}
-    data="nothing"
-    callback="">
-</kkiapay-widget>
+<center class="flex flex-col justify-center content-center items-center h-1/2">
+    <kkiapay-widget amount={1500} bind:this={widget}
+        key="33cfa930242211efa9251f24b794956e"
+        position="center"
+        sandbox={true}
+        data="nothing"
+        callback="">
+    </kkiapay-widget>
+</center>
