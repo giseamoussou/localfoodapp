@@ -9,6 +9,24 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string
+          id: number
+          nom: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          nom?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          nom?: string | null
+        }
+        Relationships: []
+      }
       commande: {
         Row: {
           createdAt: string
@@ -110,6 +128,7 @@ export type Database = {
       }
       plat: {
         Row: {
+          categorieId: number | null
           description: string | null
           id: number
           image: string | null
@@ -118,6 +137,7 @@ export type Database = {
           restauratriceId: number | null
         }
         Insert: {
+          categorieId?: number | null
           description?: string | null
           id?: number
           image?: string | null
@@ -126,6 +146,7 @@ export type Database = {
           restauratriceId?: number | null
         }
         Update: {
+          categorieId?: number | null
           description?: string | null
           id?: number
           image?: string | null
@@ -133,7 +154,15 @@ export type Database = {
           prix?: number | null
           restauratriceId?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "plat_categorieId_fkey"
+            columns: ["categorieId"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       "plat-commande": {
         Row: {

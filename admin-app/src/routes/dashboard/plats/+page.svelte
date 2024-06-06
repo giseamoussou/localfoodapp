@@ -19,6 +19,7 @@
     let platImageFormField: HTMLInputElement | null = null;
 
     let platAddData = {
+        categorieId: '',
         restauratriceId: '',
         nom: '',
         prix: 500,
@@ -87,7 +88,7 @@
                                 platAddData.image = returnData.path;
 
                                 //add plat
-                                const { data: platAddResponse, error: platAddError } = await data.supabase.from('plat').insert({ prix: platAddData.prix, nom: platAddData.nom, image: platAddData.image, description: platAddData.description, restauratriceId: Number(platAddData.restauratriceId) }, { count: 'exact' }).select("*");
+                                const { data: platAddResponse, error: platAddError } = await data.supabase.from('plat').insert({ prix: platAddData.prix, nom: platAddData.nom, image: platAddData.image, description: platAddData.description, restauratriceId: Number(platAddData.restauratriceId), categorieId: Number(platAddData.categorieId) }, { count: 'exact' }).select("*");
                                 if(platAddError){
                                     alert("Erreur lors de l'ajout du plat :" +  platAddError.message);
                                 }
@@ -116,10 +117,11 @@
 
     }
 
-    $: isDeletionAlertOpened = isDeletionAlertOpened;
+    // $: isDeletionAlertOpened = isDeletionAlertOpened;
     $: {
         if(!isPlatAddDialogOpened){
             platAddData = {
+                categorieId: '',
                 restauratriceId: '',
                 nom: '',
                 image: '',
@@ -211,55 +213,66 @@
             </Dialog.Header>
 
             {#if !isAddingPlat}
-                 {#await data.restaurantsTask}
-                     <div class="text-center w-full flex flex-row justify-center items-center content-center">
-                         <Icon icon='eos-icons:loading' height={35} width={35} class="animate-spin self-center" />
-                     </div>
-                 {:then { data: restaurants }}
-                     <form bind:this={platAddForm} class="flex flex-col space-y-3">
-     
-                         <div class="items-center flex flex-row space-x-4">
-                             <Label for="plat-image" class="text-left w-28">Fichier</Label>
-                             <input id="plat-image" required bind:this={platImageFormField} placeholder="Ajoutez un Visuel pour le Plat" accept=".jpg, .jpeg, .png" type="file" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" />
-                         </div>
-     
-                         <div class="items-center flex w-full flex-row space-x-4">
-                             <Label for="restauratrice" class="text-left w-28">Restauratrice</Label>
-                             <div class="w-full">
-                                {#if restaurants}
-                                     <SelectionCombo bind:value={platAddData.restauratriceId} dataArray={restaurants.map((u)=> { return { value: u.id.toString(), label: `${u.id}- ${u.nom}` } })} displayText="Sélectionner Restauratrice" noDataText="Aucune Restauratrice trouvée" />
-                                {:else}
-                                     <SelectionCombo bind:value={platAddData.restauratriceId} dataArray={[]} displayText="Sélectionner Restauratrice" noDataText="Aucune Restauratrice trouvée" />
-                                {/if}
-                             </div>
-                         </div>
-     
-                         <div class="items-center flex flex-row space-x-4">
-                             <Label for="name" class="text-left w-28">Nom</Label>
-                             <Input id="name" type="text" required minlength={3} maxlength={512} placeholder="Nom du Plat" bind:value={platAddData.nom} class="" />
-                         </div>
-                         <div class="items-center flex flex-row space-x-4">
-                             <Label for="price" class="text-left w-28">Prix</Label>
-                             <Input id="price" type="number" required step={1} min={200} max={1000000} placeholder="Auteur" bind:value={platAddData.prix} class="" />
-                         </div>
-                         <div class="items-center flex flex-row space-x-4">
-                             <Label for="description" class="text-left w-28">Présentation</Label>
-                             <Textarea id="description" required minlength={10} maxlength={4096} placeholder="Une brève présentation du plat" bind:value={platAddData.description} class="" />                        
-                         </div>
-                     </form>
-                 {:catch error}
-                     <div class="text-center flex flex-col">
-                         <span>Impossible de Charger les Données nécessairees</span>
-                     </div>
-                 {/await}
-                 <Dialog.Footer>
-                     <Button on:click={()=> { addPlat(); }} class="bg-teal-800">
-                         <div class="flex flex-row content-center items-center justify-center space-x-2">
-                             <Icon icon="fluent:ribbon-add-20-regular" height={20} width={20} />
-                             <span>Ajouter</span>
-                         </div>
-                     </Button>
-                 </Dialog.Footer>
+                {#await Promise.all([data.restaurantsTask, data.categoriesTask])}
+                    <div class="text-center w-full flex flex-row justify-center items-center content-center">
+                        <Icon icon='eos-icons:loading' height={35} width={35} class="animate-spin self-center" />
+                    </div>
+                {:then [ { data: restaurants }, { data: categories } ] }
+                    <form bind:this={platAddForm} class="flex flex-col space-y-3">
+    
+                        <div class="items-center flex flex-row space-x-4">
+                            <Label for="plat-image" class="text-left w-28">Fichier</Label>
+                            <input id="plat-image" required bind:this={platImageFormField} placeholder="Ajoutez un Visuel pour le Plat" accept=".jpg, .jpeg, .png" type="file" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" />
+                        </div>
+    
+                        <div class="items-center flex w-full flex-row space-x-4">
+                            <Label for="restauratrice" class="text-left w-28">Restauratrice</Label>
+                            <div class="w-full">
+                            {#if restaurants}
+                                <SelectionCombo bind:value={platAddData.restauratriceId} dataArray={restaurants.map((u)=> { return { value: u.id.toString(), label: `${u.id}- ${u.nom} ${u.prenom}` } })} displayText="Sélectionner Restauratrice" noDataText="Aucune Restauratrice trouvée" />
+                            {:else}
+                                <SelectionCombo bind:value={platAddData.restauratriceId} dataArray={[]} displayText="Sélectionner Restauratrice" noDataText="Aucune Restauratrice trouvée" />
+                            {/if}
+                            </div>
+                        </div>
+
+                        <div class="items-center flex w-full flex-row space-x-4">
+                            <Label for="categorie" class="text-left w-28">Catégorie</Label>
+                            <div class="w-full">
+                            {#if categories}
+                                <SelectionCombo bind:value={platAddData.categorieId} dataArray={categories.map((u)=> { return { value: u.id.toString(), label: `${u.id}- ${u.nom}` } })} displayText="Sélectionner Catégorie" noDataText="Aucune Catégorie trouvée" />
+                            {:else}
+                                <SelectionCombo bind:value={platAddData.categorieId} dataArray={[]} displayText="Sélectionner Une Catgéorie" noDataText="Aucune Catégorie trouvée" />
+                            {/if}
+                            </div>
+                        </div>
+    
+                        <div class="items-center flex flex-row space-x-4">
+                            <Label for="name" class="text-left w-28">Nom</Label>
+                            <Input id="name" type="text" required minlength={3} maxlength={512} placeholder="Nom du Plat" bind:value={platAddData.nom} class="" />
+                        </div>
+                        <div class="items-center flex flex-row space-x-4">
+                            <Label for="price" class="text-left w-28">Prix</Label>
+                            <Input id="price" type="number" required step={1} min={200} max={1000000} placeholder="Auteur" bind:value={platAddData.prix} class="" />
+                        </div>
+                        <div class="items-center flex flex-row space-x-4">
+                            <Label for="description" class="text-left w-28">Présentation</Label>
+                            <Textarea id="description" required minlength={10} maxlength={4096} placeholder="Une brève présentation du plat" bind:value={platAddData.description} class="" />                        
+                        </div>
+                    </form>
+                {:catch error}
+                    <div class="text-center flex flex-col">
+                        <span>Impossible de Charger les Données nécessairees</span>
+                    </div>
+                {/await}
+                <Dialog.Footer>
+                    <Button on:click={()=> { addPlat(); }} class="bg-teal-800">
+                        <div class="flex flex-row content-center items-center justify-center space-x-2">
+                            <Icon icon="fluent:ribbon-add-20-regular" height={20} width={20} />
+                            <span>Ajouter</span>
+                        </div>
+                    </Button>
+                </Dialog.Footer>
             {:else}
                 <div class="flex flex-col justify-center content-center items-center space-x-3">
                     <Icon icon='eos-icons:spinner' height={35} width={35} class="animate-spin self-center" />
