@@ -23,13 +23,61 @@ function ShoppingCartScreen() {
 
     }, [cartContext, cartContext.cart])
 
-    useEffect(() =>  {
+    useEffect(() => {
 
+        console.log("Latest commande changed to", latestCommande?.reference)
         //add real-time subscription on commande paiement followup
+        const channel = subscribeToPaimentChangesForCommand(latestCommande);
 
-
+        return () => {
+            if (channel) {
+                channel.unsubscribe();
+                console.log("Channel disposed")
+            }
+        }
 
     }, [latestCommande])
+
+    function subscribeToPaimentChangesForCommand(command: Database['public']['Tables']['commande']['Row'] | null) {
+
+        if (command) {
+
+            console.log("Suivi de la commande " + command.reference)
+
+            const channels = supabase.channel('localfood-app')
+                .on(
+                    'postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'paiement', filter: `id=eq.${command.paiementId}` },
+                    async (payload) => {
+                        console.log(JSON.stringify(payload))
+                        // await fetchEvents();
+                        if (payload.errors == null && payload.new && payload.old) {
+
+                            console.log('Paiement Update received!')
+                            const paiement = (payload.new as Database['public']['Tables']['paiement']['Row']);
+                            if (paiement) {
+                                if (paiement.statut == 'paid') {
+                                    setCartContext({ cart: [] })
+                                    setLatestCommande(null)
+                                    ToastAndroid.show("Votre commande a été approuvée et vous sera livrée à votre adresse.", ToastAndroid.LONG)
+                                    setTimeout(() => {
+                                        Alert.alert("Succès!", "Votre commande a été approuvée et vous sera livrée à votre adresse.")
+                                    }, 5000);
+                                }
+                                else if (paiement.statut == 'unpaid') {
+                                    setTimeout(() => {
+                                        Alert.alert("Echec!", "Votre commande n'a pas aboutie. Réessayez svp!")
+                                    }, 6000);
+                                }
+                            }
+                        }
+                    }
+                )
+                .subscribe()
+
+            return channels;
+        }
+    }
 
     async function orderCommand() {
 
@@ -64,16 +112,14 @@ function ShoppingCartScreen() {
 
                 console.log("commande", commande)
 
-                // let platCommande: Database['public']['Tables']['plat-commande']['Row'][] = []
                 const platCommandes = cartContext.cart.map(plat => {
                     return { commandeId: commande.id, platId: Number(plat.id), platName: plat.name, Qte: plat.quantity }
                 })
 
                 const { data: pc, error: pcError } = await supabase.from('plat-commande').insert(platCommandes, { count: 'exact' }).select('*')
-                
-                if(pc){
-                    console.log("plat commande", pc)
-                    setLatestCommande(latestCommande);
+
+                if (pc) {
+                    setLatestCommande(commande);
                 }
                 if (pcError) {
                     console.log("pc error", pcError)
@@ -114,13 +160,13 @@ function ShoppingCartScreen() {
                     enableDefaultShare: false,
                     forceCloseOnRedirection: true,
                 })
-                .then((result) => {
+                    .then((result) => {
 
-                    if (result.type == "cancel") {
-                        ToastAndroid.show("Opération Discontinuée", ToastAndroid.SHORT);
-                        //TODO: add realtime observer for payment
-                    }
-                });
+                        if (result.type == "cancel") {
+                            ToastAndroid.show("Opération Discontinuée", ToastAndroid.SHORT);
+                            //TODO: add realtime observer for payment
+                        }
+                    });
             }
             else {
                 try {
@@ -229,7 +275,7 @@ const styles = StyleSheet.create({
     itemPrice: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'darkgray', 
+        color: 'darkgray',
         left: 170
 
     },
@@ -266,10 +312,10 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     totalContainer: {
-        color:"#red",
-        borderColor:"#fef",
+        color: "#red",
+        borderColor: "#fef",
         borderTopWidth: 9,
-        borderBottomRightRadius:15,
+        borderBottomRightRadius: 15,
         borderBottomLeftRadius: 15,
     },
     totalText: {
@@ -308,10 +354,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 5,
         paddingBottom: 60
-      },
-      totalLabel: {
+    },
+    totalLabel: {
         fontSize: 16,
         color: '#888',
-      },
+    },
 });
 export default ShoppingCartScreen;
