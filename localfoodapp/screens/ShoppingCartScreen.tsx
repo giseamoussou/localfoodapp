@@ -1,13 +1,21 @@
 import { View, Text, Button, StyleSheet, TouchableOpacity, ToastAndroid, Linking, Alert, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { ShoppingCartContext } from '../contexts/Context'
+import { LocalFoodAppContext, ShoppingCartContext } from '../contexts/Context'
 import { ScrollView } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
+import { supabase } from '../services/supabase-client';
+import uuid from 'react-native-uuid'
+import { Database } from '../services/supabase';
+import LoadingModal from '../components/LoadingModal';
 
 function ShoppingCartScreen() {
-    const { cartContext, setCartContext } = useContext(ShoppingCartContext)
+
     const [total, setTotal] = useState(0);
+    const [isCommandePreparing, setIsCommandePreparing] = useState(false);
+    const { cartContext, setCartContext } = useContext(ShoppingCartContext)
+    const { appContext } = useContext(LocalFoodAppContext)
+    const [latestCommande, setLatestCommande] = useState<Database['public']['Tables']['commande']['Row'] | null>(null);
 
     useEffect(() => {
 
@@ -15,17 +23,82 @@ function ShoppingCartScreen() {
 
     }, [cartContext, cartContext.cart])
 
+    useEffect(() =>  {
+
+        //add real-time subscription on commande paiement followup
+
+
+
+    }, [latestCommande])
+
     async function orderCommand() {
 
-        const paymentLink = new URL("https://localfoodapp.onrender.com/pay").toString();
+        setIsCommandePreparing(true);
+
+        if (cartContext.cart.length == 0) {
+            ToastAndroid.show("Aucun plat dans le panier", ToastAndroid.SHORT);
+            return;
+        }
+
+        //Create payment record
+        const { data: paiement, error: paiementError } = await supabase.from('paiement').insert({
+            montant: total,
+            processeurPaiement: 'kkiapay',
+            referenceInterne: uuid.v4().toString(),
+        }, { count: 'exact' }).select("*").single();
+
+        console.log("Paiement", paiement)
+
+        if (paiement) {
+            //create commande record
+            const { data: commande, error: commandeError } = await supabase.from('commande').insert({
+                livraisonId: null,
+                paiementId: paiement.id,
+                userId: appContext.user.id,
+                reference: `CMD-000${paiement.id}`,
+                userName: appContext.user.fullname,
+            }).select('*').single();
+
+            //add plats to command
+            if (commande) {
+
+                console.log("commande", commande)
+
+                // let platCommande: Database['public']['Tables']['plat-commande']['Row'][] = []
+                const platCommandes = cartContext.cart.map(plat => {
+                    return { commandeId: commande.id, platId: Number(plat.id), platName: plat.name, Qte: plat.quantity }
+                })
+
+                const { data: pc, error: pcError } = await supabase.from('plat-commande').insert(platCommandes, { count: 'exact' }).select('*')
+                
+                if(pc){
+                    console.log("plat commande", pc)
+                    setLatestCommande(latestCommande);
+                }
+                if (pcError) {
+                    console.log("pc error", pcError)
+                    return;
+                }
+            }
+            else {
+                console.log("commandeError", commandeError)
+                return;
+            }
+        }
+        else {
+            return;
+        }
+
+
+        const paymentLink = new URL("https://localfoodapp.onrender.com/pay");
+        paymentLink.searchParams.append("reference", paiement.referenceInterne!);
 
         ToastAndroid.show("Redirection vers la page de paiement", ToastAndroid.LONG);
-
 
         //Open In Browser
         try {
             const isAvailable = await InAppBrowser.isAvailable()
-            const url = paymentLink
+            const url = paymentLink.toString()
             if (isAvailable) {
                 InAppBrowser.open(url, {
                     // iOS Properties
@@ -41,12 +114,13 @@ function ShoppingCartScreen() {
                     enableDefaultShare: false,
                     forceCloseOnRedirection: true,
                 })
-                    .then((result) => {
+                .then((result) => {
 
-                        if (result.type == "cancel") {
-                            ToastAndroid.show("Opération Annulée", ToastAndroid.SHORT);
-                        }
-                    });
+                    if (result.type == "cancel") {
+                        ToastAndroid.show("Opération Discontinuée", ToastAndroid.SHORT);
+                        //TODO: add realtime observer for payment
+                    }
+                });
             }
             else {
                 try {
@@ -60,7 +134,8 @@ function ShoppingCartScreen() {
         catch (error) {
 
         }
-        //End
+
+        setIsCommandePreparing(false);
     }
 
     function removeFromCart(id: any) {
@@ -79,6 +154,7 @@ function ShoppingCartScreen() {
 
     return (
         <>
+            <LoadingModal indicatorColor='tomato' displayMsg='Préparation de la commande' visible={isCommandePreparing} />
             <View style={styles.container}>
                 {/* <View style={styles.header}>
                     <Text style={styles.headerText}>Mon Panier</Text>
@@ -87,22 +163,11 @@ function ShoppingCartScreen() {
                 <ScrollView style={styles.cartList}>
                     {cartContext.cart && cartContext.cart.length > 0 && cartContext.cart.map((item) => (
                         <View key={item.id} style={styles.cartItem}>
-                            {/* <Image source={require('../assets/images/pizza.png')} style={styles.cartIcon} /> */}
-                            <View style={styles.itemDetails}>
-                                <Text style={styles.itemname}>{item.name}</Text>
-                                <Text style={styles.itemPrice}>Prix: {item.price}</Text>
-                            </View>
-
-                            <View style={styles.quantityContainer}>
-                                <Text style={styles.quantityContainerText}>Qte: {item.quantity}</Text>
-                                <Text style={styles.cartItemText}>Total: {item.price * item.quantity}</Text>
-                                <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteButton}>
-                                    <Image source={require('../assets/images/supp.png')} style={styles.deleteIcon} />
-                                </TouchableOpacity>
-                            </View>
-
-
-
+                            <Text style={styles.cartItemText}>{item.name}</Text>
+                            <Text style={styles.cartItemText}>Qte: {item.quantity}</Text>
+                            <Text style={styles.cartItemText}>Prix: {item.price}</Text>
+                            <Text style={styles.cartItemText}>Total: {item.price * item.quantity}</Text>
+                            <Button title="Supprimer" onPress={() => removeFromCart(item.id)} />
                         </View>
                     ))}
                     {
@@ -117,12 +182,7 @@ function ShoppingCartScreen() {
                 {
                     (total > 0) &&
                     <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total: </Text>
-                        <View style={styles.totalRow}>
-                            <Text style={styles.totalLabel}>Somme Totale</Text>
-                            <Text style={{ color: 'tomato', fontSize:25 }}>{cartContext.cart.reduce((total, item) => total + item.price * item.quantity, 0)} Fcfa</Text>
-                        </View>
-
+                        <Text style={styles.totalText}>Total: <Text style={{ color: 'tomato' }}>{cartContext.cart.reduce((total, item) => total + item.price * item.quantity, 0)}</Text></Text>
                         <TouchableOpacity activeOpacity={0.75} style={{ marginHorizontal: 30, paddingVertical: 12, backgroundColor: 'black', borderRadius: 12, elevation: 5 }} onPress={orderCommand}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Commander</Text>
                         </TouchableOpacity>
@@ -169,7 +229,7 @@ const styles = StyleSheet.create({
     itemPrice: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'darkgray', // Couleur de texte foncé
+        color: 'darkgray', 
         left: 170
 
     },
