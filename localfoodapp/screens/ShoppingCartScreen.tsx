@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
       },
       totalLabel: {
         fontSize: 16,
-        color: '#888', // Couleur de texte grise
+        color: '#888',
       },
 });
 export default ShoppingCartScreen;
