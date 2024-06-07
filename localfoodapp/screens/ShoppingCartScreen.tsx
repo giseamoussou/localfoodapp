@@ -8,6 +8,7 @@ import { supabase } from '../services/supabase-client';
 import uuid from 'react-native-uuid'
 import { Database } from '../services/supabase';
 import LoadingModal from '../components/LoadingModal';
+import { CartItemDisplay } from '../components/CartItemDisplay';
 
 function ShoppingCartScreen() {
 
@@ -25,7 +26,6 @@ function ShoppingCartScreen() {
 
     useEffect(() => {
 
-        console.log("Latest commande changed to", latestCommande?.reference)
         //add real-time subscription on commande paiement followup
         const channel = subscribeToPaimentChangesForCommand(latestCommande);
 
@@ -200,21 +200,10 @@ function ShoppingCartScreen() {
 
     return (
         <>
-            <LoadingModal indicatorColor='tomato' displayMsg='Préparation de la commande' visible={isCommandePreparing} />
             <View style={styles.container}>
-                {/* <View style={styles.header}>
-                    <Text style={styles.headerText}>Mon Panier</Text>
-                </View> */}
-
                 <ScrollView style={styles.cartList}>
                     {cartContext.cart && cartContext.cart.length > 0 && cartContext.cart.map((item) => (
-                        <View key={item.id} style={styles.cartItem}>
-                            <Text style={styles.cartItemText}>{item.name}</Text>
-                            <Text style={styles.cartItemText}>Qte: {item.quantity}</Text>
-                            <Text style={styles.cartItemText}>Prix: {item.price}</Text>
-                            <Text style={styles.cartItemText}>Total: {item.price * item.quantity}</Text>
-                            <Button title="Supprimer" onPress={() => removeFromCart(item.id)} />
-                        </View>
+                        <CartItemDisplay key={item.id} item={item} removeFromCart={removeFromCart} />
                     ))}
                     {
                         cartContext.cart && cartContext.cart.length <= 0 &&
@@ -243,8 +232,8 @@ function ShoppingCartScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
+        paddingHorizontal: 15,
+        paddingBottom: 10
     },
     header: {
         borderBottomRightRadius: 15,
@@ -260,104 +249,31 @@ const styles = StyleSheet.create({
     },
     cartList: {
         flex: 1,
-        paddingHorizontal: 5,
+        paddingHorizontal: 0,
+        paddingVertical: 15,
         marginBottom: 3
     },
     cartItem: {
         color: "tomato",
-        padding: 0,
+        padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-        alignItems: 'center',
-        marginBottom: 16,
-        flexDirection: 'row',
     },
-    itemPrice: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: 'darkgray',
-        left: 170
-
-    },
-
-    quantityContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingTop: 80
-    },
-
     cartItemText: {
-        color: "tomato",
+        color: "black",
         fontSize: 16,
-        flexDirection: "row",
-        marginBottom: 5,
-        fontWeight: 'bold',
-        marginHorizontal: 8,
-        right: 100
-
-
-
-    },
-
-    itemDetails: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 50,
-    },
-
-    itemname: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: '#333',
+        marginBottom: 5
     },
     totalContainer: {
-        color: "#red",
-        borderColor: "#fef",
-        borderTopWidth: 9,
-        borderBottomRightRadius: 15,
-        borderBottomLeftRadius: 15,
+        borderTopWidth: 1,
     },
     totalText: {
-        fontSize: 30,
+        fontSize: 16,
         fontWeight: 'bold',
-        textAlign: 'left',
-        marginBottom: 55,
-        color: "darkslateblue",
-
-    },
-    deleteButton: {
-        marginLeft: 12,
-        padding: 4,
-
-    },
-    deleteIcon: {
-        width: 30,
-        height: 30,
-
-    },
-
-    cartIcon: {
-        width: 24,
-        height: 24,
-        marginRight: 8,
-        tintColor: '#ff5722', // Couleur orange de l'icône
-    },
-    quantityContainerText: {
-        fontSize: 16,
-        marginHorizontal: 8,
-        color: "darkgray",
-        right: 129
-    },
-    totalRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        textAlign: 'center',
         marginBottom: 5,
-        paddingBottom: 60
-    },
-    totalLabel: {
-        fontSize: 16,
-        color: '#888',
+        color: "darkslateblue"
     },
 });
+
 export default ShoppingCartScreen;
