@@ -7,10 +7,12 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import { supabase } from '../services/supabase-client';
 import uuid from 'react-native-uuid'
 import { Database } from '../services/supabase';
+import LoadingModal from '../components/LoadingModal';
 
 function ShoppingCartScreen() {
 
     const [total, setTotal] = useState(0);
+    const [isCommandePreparing, setIsCommandePreparing] = useState(false);
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
     const { appContext } = useContext(LocalFoodAppContext)
 
@@ -21,6 +23,8 @@ function ShoppingCartScreen() {
     }, [cartContext, cartContext.cart])
 
     async function orderCommand() {
+
+        setIsCommandePreparing(true);
 
         if (cartContext.cart.length == 0) {
             ToastAndroid.show("Aucun plat dans le panier", ToastAndroid.SHORT);
@@ -34,6 +38,8 @@ function ShoppingCartScreen() {
             referenceInterne: uuid.v4().toString(),
         }, { count: 'exact' }).select("*").single();
 
+        console.log("Paiement", paiement)
+
         if (paiement) {
             //create commande record
             const { data: commande, error: commandeError } = await supabase.from('commande').insert({
@@ -46,17 +52,26 @@ function ShoppingCartScreen() {
 
             //add plats to command
             if (commande) {
-                // let platCommandes: Database['public']['Tables']['plat-commande']['Row'][] = []
+
+                console.log("commande", commande)
+
+                // let platCommande: Database['public']['Tables']['plat-commande']['Row'][] = []
                 const platCommandes = cartContext.cart.map(plat => {
-                    return { commandeId: commande.id, platId: Number(plat.id), platName: plat.name, platPrice: plat.price, Qte: plat.quantity }
+                    return { commandeId: commande.id, platId: Number(plat.id), platName: plat.name, Qte: plat.quantity }
                 })
 
                 const { data: pc, error: pcError } = await supabase.from('plat-commande').insert(platCommandes, { count: 'exact' }).select('*')
+                
+                if(pc){
+                    console.log("plat commande", pc)
+                }
                 if (pcError) {
+                    console.log("pc error", pcError)
                     return;
                 }
             }
             else {
+                console.log("commandeError", commandeError)
                 return;
             }
         }
@@ -109,7 +124,8 @@ function ShoppingCartScreen() {
         catch (error) {
 
         }
-        //End
+
+        setIsCommandePreparing(false);
     }
 
     function removeFromCart(id: any) {
@@ -128,6 +144,7 @@ function ShoppingCartScreen() {
 
     return (
         <>
+            <LoadingModal indicatorColor='tomato' displayMsg='Préparation de la commande' visible={isCommandePreparing} />
             <View style={styles.container}>
                 {/* <View style={styles.header}>
                     <Text style={styles.headerText}>Mon Panier</Text>
