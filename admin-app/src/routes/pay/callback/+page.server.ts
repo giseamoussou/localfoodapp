@@ -22,6 +22,9 @@ export const load = (async ({ request }) => {
                     success: true
                 }
             }
+            if(updatedPaiementError) {
+                console.log('updatedPaiementError', updatedPaiementError)
+            }
         }
     }
 

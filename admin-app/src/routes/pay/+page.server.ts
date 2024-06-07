@@ -40,7 +40,7 @@ export const load = (async ({ request }) => {
 
                     const userData = user!
 
-                    const callbackUrl = new URL(`/pay/callback?reference=${referencePaiement}}`, new URL(request.url).origin).toString()
+                    const callbackUrl = new URL(`/pay/callback?reference=${referencePaiement}`, new URL(request.url).origin).toString()
 
                     return {
                         success: true,
