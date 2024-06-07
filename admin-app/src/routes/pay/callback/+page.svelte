@@ -7,7 +7,8 @@
     export let data: PageData;
 
     onMount(() => {
-        
+        // Empêcher l'utilisateur de naviguer en arrière en définissant la page actuelle comme première page
+        history.replaceState(null, '', location.href);
     })
 </script>
 
