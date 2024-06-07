@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import { Image } from "react-native-reanimated/lib/typescript/Animated";
 
 export interface ILocalFoodAppContextData {
     isSignedIn: boolean,

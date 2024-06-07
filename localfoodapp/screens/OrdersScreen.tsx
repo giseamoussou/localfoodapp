@@ -1,94 +1,112 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
+import { Database } from '../services/supabase';
+import { LocalFoodAppContext, ShoppingCartContext } from '../contexts/Context';
+import { supabase } from '../services/supabase-client';
+import { Commande } from '../models/LocalFoodAppModels';
+import { SkeletonSimpler } from 'react-native-skeleton-simpler';
 
-const TransactionHistory = () => {
-  const transactions = [
-    {
-      date: '14/11/2023',
-      items: [
-        { from: 'User3 example', to: 'EXAMPLE USER', amount: 19, balance: 1059, time: '12:18:04' },
-        { from: 'User3 example', to: 'EXAMPLE USER', amount: 15, balance: 1040, time: '12:15:57' },
-        { from: 'User3 example', to: 'EXAMPLE USER', amount: 25, balance: 1025, time: '12:13:07' },
-      ],
-    },
-    {
-      date: '10/11/2023',
-      items: [
-        { from: 'User3 example', to: 'User3 example', amount: 10, balance: 1060, time: '12:31:33' },
-        { from: 'User3 example', to: 'User3 example', amount: 50, balance: 1050, time: '12:31:33' },
-      ],
-    },
-  ];
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        {/* <Text style={styles.balance}>Solde: 1801 Fcfa</Text>
-        <Text style={styles.transferButton}>TRANSFÉRER</Text> */}
-        <Text style={styles.transferButton}>Liste de vos commandes</Text>
-      </View>
-      <ScrollView>
-        {transactions.map((group, index) => (
-          <View key={index}>
-            <Text style={styles.dateHeader}>{group.date}</Text>
-            {group.items.map((item, itemIndex) => (
-              <View key={itemIndex} style={styles.transaction}>
-                <Text>De: {item.from}</Text>
-                <Text>A: {item.to}</Text>
-                <Text>Date: {group.date}</Text>
-                <Text>Heure: {item.time}</Text>
-                <Text style={styles.amount}>{item.amount} F</Text>
-              </View>
-            ))}
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
+type OrderView = {
+    ref: string,
+    amount: number,
+    paymentMethod: string,
+    status: 'paid' | 'unpaid',
+    createdOn: Date
+}
+
+function OrdersScreen() {
+
+    const [commandes, setCommandes] = useState<Array<Database['public']['Tables']['commande']['Row']>>([]);
+    const { appContext } = useContext(LocalFoodAppContext)
+    const { cartContext } = useContext(ShoppingCartContext)
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [orderViews, setOrderViews] = useState<Array<OrderView>>([])
+
+    useEffect(() => {
+
+        fetchCommandes();
+
+    }, [])
+
+    async function fetchCommandes() {
+
+        const { data: commandes, error: errorCommandes } = await supabase.from('commande').select('*')
+            .eq('userId', String(appContext.user.id)).limit(25)
+
+        if (commandes) {
+
+            console.log("commandes", commandes)
+
+            let oViews: Array<OrderView> = [];
+
+            for (let index = 0; index < commandes.length; index++) {
+
+                const { data: paiement, error: errorPaiement } = await supabase.from('paiement').select('*')
+                    .eq('id', Number(commandes[index].paiementId)).single()
+
+                if (paiement) {
+
+                    const view: OrderView = {
+                        ref: commandes[index].reference!,
+                        amount: paiement.montant!,
+                        paymentMethod: paiement.processeurPaiement!,
+                        status: paiement.statut,
+                        createdOn: new Date(commandes[index].createdAt)
+                    };
+
+                    oViews.push(view)
+                }
+            }
+
+            setOrderViews(oViews);
+        }
+
+    }
+
+    async function onRefresh() {
+        setIsRefreshing(true)
+        await fetchCommandes();
+        setIsRefreshing(false)
+    }
+
+    return (
+        <View style={{ flex: 1, backgroundColor: 'white', paddingVertical: 10, paddingHorizontal: 5 }}>
+            <ScrollView bounces refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+                {orderViews.map((orderView, index) => (
+
+                    <TouchableOpacity activeOpacity={0.65} key={index} style={{ backgroundColor: 'whitesmoke', elevation: 2.5, borderRadius: 10, margin: 5, paddingVertical: 10, paddingHorizontal: 8, shadowColor: 'tomato' }}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text style={{ color: 'darkslategray', fontWeight: '500' }}>ref: {orderView.ref}</Text>
+                            <View>
+                                <Text style={{ color: 'black', textAlign: 'right', fontSize: 13 }}>{orderView.createdOn.toLocaleDateString('fr')}</Text>
+                                <Text style={{ color: 'black', textAlign: 'right', fontSize: 13 }}>{orderView.createdOn.toLocaleTimeString('fr')}</Text>
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
+                            <Text style={{ color: 'black', fontSize: 13 }}>Montant: <Text style={{ color: 'tomato' }}>{orderView.amount} Fcfa</Text></Text>
+                        </View>
+
+                        {
+                            orderView.status == "paid" &&
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={{ color: 'black', fontSize: 13 }}>Livraison: </Text>
+                                    <Text style={{ color: 'white', backgroundColor: 'darkslategray', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 2, textAlignVertical: 'center', fontSize: 12, textAlign: 'center' }}>en cours</Text>
+                                </View>
+                                <View>
+                                    <Text style={{ color: 'white', backgroundColor: orderView.status == 'paid' ? 'tomato' : 'darkslategray', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 2, textAlignVertical: 'center', fontSize: 12, textAlign: 'center' }}>{orderView.status == "paid" ? "payé" : "non payé"}</Text>
+                                </View>
+                            </View>
+                        }
+
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+        </View>
+    );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#f0f0f0',
-  },
-  balance: {
-    fontWeight: 'bold',
-    color: "black"
-  },
-  transferButton: {
-    color: 'tomato',
-    fontWeight:'bold',
-    left: 70,
-    fontSize: 20
-  
-  },
-  dateHeader: {
-    fontWeight: 'bold',
-    padding: 10,
-    backgroundColor: '#f0f0f0',
-    color:"black"
-  },
-  transaction: {
-    color:"black",
-    backgroundColor: "white",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    
-  },
-  amount: {
-    fontWeight: 'bold',
-    flexDirection:'row'
-    
-    },
-});
-
-export default TransactionHistory;
+export default OrdersScreen;
