@@ -34,7 +34,7 @@ export type Database = {
           livraisonId: number | null
           paiementId: number | null
           reference: string | null
-          userId: number | null
+          userId: string | null
           userName: string | null
         }
         Insert: {
@@ -43,7 +43,7 @@ export type Database = {
           livraisonId?: number | null
           paiementId?: number | null
           reference?: string | null
-          userId?: number | null
+          userId?: string | null
           userName?: string | null
         }
         Update: {
@@ -52,7 +52,7 @@ export type Database = {
           livraisonId?: number | null
           paiementId?: number | null
           reference?: string | null
-          userId?: number | null
+          userId?: string | null
           userName?: string | null
         }
         Relationships: []

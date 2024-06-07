@@ -15,12 +15,21 @@ function ShoppingCartScreen() {
     const [isCommandePreparing, setIsCommandePreparing] = useState(false);
     const { cartContext, setCartContext } = useContext(ShoppingCartContext)
     const { appContext } = useContext(LocalFoodAppContext)
+    const [latestCommande, setLatestCommande] = useState<Database['public']['Tables']['commande']['Row'] | null>(null);
 
     useEffect(() => {
 
         setTotal(cartContext.cart.reduce((total, item) => total + item.price * item.quantity, 0));
 
     }, [cartContext, cartContext.cart])
+
+    useEffect(() =>  {
+
+        //add real-time subscription on commande paiement followup
+
+
+
+    }, [latestCommande])
 
     async function orderCommand() {
 
@@ -64,6 +73,7 @@ function ShoppingCartScreen() {
                 
                 if(pc){
                     console.log("plat commande", pc)
+                    setLatestCommande(latestCommande);
                 }
                 if (pcError) {
                     console.log("pc error", pcError)
