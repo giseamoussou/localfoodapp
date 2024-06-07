@@ -33,6 +33,10 @@ export interface ICartContextData {
     cart: Array<{ id: any, name: string, price: number, quantity: number }>
 }
 
+export interface IComdContextData {
+    comd: Array<{ id: any, name: string, price: number, quantity: number }>
+}
+
 export const cartContextDefaultValues: ICartContextData = {
     cart: []
 }
