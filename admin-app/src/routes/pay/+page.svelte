@@ -8,12 +8,15 @@
 <center class="flex flex-col justify-center content-center items-center h-1/2">
     
     {#if data.success}
-        <kkiapay-widget amount={1500}
+        <kkiapay-widget 
             key="33cfa930242211efa9251f24b794956e"
+            amount="{data.amount}"
             position="center"
             sandbox={true}
-            data="nothing"
-            callback="">
+            email="{data.email}"
+            name="{data.fullname}"
+            data="{data.fullname} - {data.email}"
+            callback={data.callbackUrl}>
         </kkiapay-widget>
     {:else}
         <div>

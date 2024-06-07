@@ -47,10 +47,9 @@ export const load = (async ({ request }) => {
                         userId: commande.userId,
                         paymentId: paiement.referenceInterne,
                         amount: Number.parseFloat(paiement.montant!.toString()),
-                        isDemo: true,
                         callbackUrl: callbackUrl,
-                        email: userData.user,
-                        fullname: userData.user.user_metadata?.fullname
+                        email: userData.user.email,
+                        fullname: userData.user.user_metadata?.fullname.toLowerCase()
                     };
                 }
             }
