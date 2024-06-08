@@ -12,6 +12,7 @@ export const load = (async ({ parent, data }) => {
         platsCountTask,
         commandesCountTask,
         restaurantsCountTask,
-        usersCountTask: data.usersCountTask
+        usersCountTask: data.usersCountTask,
+        commandesTask: data.commandesTask
     };
 }) satisfies PageLoad;
