@@ -11,11 +11,12 @@
 
 <div class="flex flex-col w-full px-5 py-3">
 
-    <div class="flex flex-row content-center items-center justify-between border shadow-md bg-gray-50 border-gray-300 px-5 py-3">
-       <div class="flex flex-row content-center items-center justify-start space-x-2">
+    <div
+        class="flex flex-row content-center items-center justify-between border shadow-md bg-gray-50 border-gray-300 px-5 py-3">
+        <div class="flex flex-row content-center items-center justify-start space-x-2">
             <Icon icon="arcticons:foodora" color="darkorange" height={35} width={35} />
             <span class="block text-2xl">Commandes</span>
-       </div>
+        </div>
 
         <!-- <div>
             <div class="flex flex-col w-full content-center items-start justify-center">
@@ -27,46 +28,52 @@
         </div> -->
     </div>
 
-  
+
     <div class="w-full mt-10">
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.Head class="w-[80px]">Référence</Table.Head>
-              <Table.Head>Statut</Table.Head>
-              <Table.Head>Methode</Table.Head>
-              <Table.Head class="text-right">Montant</Table.Head>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell class="font-medium">CMD0162</Table.Cell>
-              <Table.Cell>
-                <Badge class="bg-green-500">Payé</Badge>
-              </Table.Cell>
-              <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
-              <Table.Cell class="text-right italic">1235.00</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-                <Table.Cell class="font-medium">CMD0168</Table.Cell>
-                <Table.Cell>
-                  <Badge class="bg-gray-500">Non Payé</Badge>
-                </Table.Cell>
-                <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
-                <Table.Cell class="text-right italic">3100.00</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-                <Table.Cell class="font-medium">CMD0170</Table.Cell>
-                <Table.Cell>
-                  <Badge class="bg-red-500">Rejeté</Badge>
-                </Table.Cell>
-                <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge></Table.Cell>
-                <Table.Cell class="text-right italic">850.00</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table.Root>
+        {#await data.commandes}
+            <div class="flex text-center w-full flex-col justify-center items-center content-center space-y-3">
+                <Icon icon='eos-icons:loading' class="animate-spin" height={35} width={35} />
+                <div>Veuillez patienter</div>
+            </div>
+        {:then commandes}
+            <Table.Root>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.Head class="w-[185px]">Référence</Table.Head>
+                        <Table.Head>Statut</Table.Head>
+                        <Table.Head>Methode</Table.Head>
+                        <Table.Head>Créée le</Table.Head>
+                        <Table.Head class="text-right">Montant</Table.Head>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {#each commandes as commande}
+                    <Table.Row>
+                        <Table.Cell class="font-medium">{commande.ref}</Table.Cell>
+                        <Table.Cell>
+                            {#if commande.status == "paid"}
+                            <Badge class="bg-green-500">Payé</Badge>
+                            {:else if commande.createdOn < (new Date(Date.now() - 24 * 60 * 60 * 1000))} <Badge
+                                class="bg-red-500">Rejeté</Badge>
+                                {:else}
+                                <Badge class="bg-gray-500">Non Payé</Badge>
+                                {/if}
+                        </Table.Cell>
+                        <Table.Cell>Kkiapay <Badge class="bg-blue-500">Momo</Badge>
+                        </Table.Cell>
+                        <Table.Cell>{commande.createdOn.toLocaleString('fr')}</Table.Cell>
+                        <Table.Cell class="text-right italic">{commande.amount}</Table.Cell>
+                    </Table.Row>
+                    {:else}
+                    <div>Aucune Commande</div>
+                    {/each}
+                </Table.Body>
+            </Table.Root>
+        {:catch error}
+            <div class="flex text-center w-full flex-row justify-center items-center content-center">
+                <div class="text-red-500">Une erreur s'est produite lors de la récupération des commandes</div>
+            </div>
+        {/await}
     </div>
-    
+
 </div>
-
-
