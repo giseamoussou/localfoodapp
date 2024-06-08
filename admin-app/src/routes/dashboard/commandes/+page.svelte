@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
     import type { PageData } from './$types';
     import * as Table from "$lib/components/ui/table"
     import Badge from '$lib/components/ui/badge/badge.svelte';
@@ -18,14 +19,14 @@
             <span class="block text-2xl">Commandes</span>
         </div>
 
-        <!-- <div>
+        <div>
             <div class="flex flex-col w-full content-center items-start justify-center">
-                <Button class="px-7 py-5 space-x-2">
-                    <Icon icon="icon-park-outline:send-email" color="white" height={15} width={15} />
-                    <span>Inviter</span>
+                <Button on:click={() => invalidateAll()} class="px-7 py-5 space-x-2">
+                    <Icon icon="icon-park-outline:refresh" color="white" height={15} width={15} />
+                    <span>Actualiser</span>
                 </Button>
             </div>
-        </div> -->
+        </div>
     </div>
 
 
