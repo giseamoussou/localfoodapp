@@ -8,7 +8,7 @@ export const load = (async () => {
         let orderViews: Array<OrderView> = [];
 
         const { data: commandes, error: errorCommandes } = await supabase.from('commande').select('*')
-            .order('createdAt', { ascending: false }).limit(50)
+            .order('createdAt', { ascending: false }).limit(20)
 
         if (commandes) {
 
